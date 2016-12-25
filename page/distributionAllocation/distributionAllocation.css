@@ -1,0 +1,310 @@
+.wrapper {
+    padding: 10px 20px 0;
+}
+
+.step {
+    margin: 0 auto;
+    padding: 8px 0 2px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+
+.step-item {
+    position: relative;
+    width: 25%;
+    height: 50px;
+    padding-top: 25px;
+}
+
+.step-item .step-icon {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 10px);
+    z-index: 9;
+    width: 24px;
+    height: 24px;
+    border: 5px solid #ddd;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.step-item:first-of-type::before {
+    display: none;
+}
+
+.step-item:last-of-type::after {
+    display: none;
+}
+
+.step-item::before, .step-item::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    z-index: 8;
+    width: 50%;
+    height: 5px;
+    background-color: #ddd;
+}
+
+.step-item::before {
+    left: 0;
+}
+
+.step-item::after {
+    right: 0;
+}
+
+.step-item .step-title {
+    height: 25px;
+    line-height: 25px;
+    color: #ddd;
+    text-align: center;
+}
+
+.step-item.current .step-icon {
+    border-color: #b1cc00;
+}
+
+.step-item.current::before, .step-item.current::after {
+    background-color: #b1cc00;
+}
+
+.step-item.current .step-title {
+    color: #b1cc00;
+}
+
+.step-wrapper {
+}
+
+.step-content {
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.datepicker-input {
+    position: relative;
+    width: 45%;
+}
+
+.datepicker-text {
+    width: 10%;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+}
+
+.icon_time {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #ffb366;
+    cursor: pointer;
+}
+
+.result-header {
+    height: 37px;
+    margin: 0;
+    background-color: #f5fafa;
+    line-height: 32px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+.result-header .title {
+    position: relative;
+    padding-top: 4px;
+    padding-left: 32px;
+    line-height: 16px;
+}
+.result-header .title img {
+    position: absolute;
+    top: 4px;
+    left: 0;
+}
+.result-header .title .title-cn {
+    color: #4c9ef5;
+    font-size: 14px;
+}
+.result-header .title .title-en {
+    color: #ddd;
+    font-size: 12px;
+}
+.btn-set {
+    margin-left: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #ffc619;
+    border-color: #ffc619;
+    color: #fff;
+    font-size: 12px;
+    margin-top: 2px;
+}
+.btn-set:focus, .btn-set.focus {
+    background-color: #e4ae0c;
+    border-color: #e4ae0c;
+    color: #fff;
+}
+.btn-set:hover {
+    background-color: #e4ae0c;
+    border-color: #e4ae0c;
+    color: #fff;
+}
+.result-table table th {
+    background-color: #f5fafa;
+    border-bottom-width: 1px !important;
+    color: #333;
+    font-weight: 800;
+    text-align: center;
+}
+.result-table table td {
+    padding: 2px !important;
+    text-align: center;
+}
+.result-table table td p {
+    height: 25px;
+    line-height: 25px;
+}
+.btn-edit {
+    background-color: #b1cc00;
+    color: #fff;
+}
+.btn-edit:focus, .btn-edit.focus {
+    background-color: #a4bc04;
+    color: #fff;
+}
+.btn-edit:hover {
+    background-color: #a4bc04;
+    color: #fff;
+}
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+    padding: 5px 0;
+}
+
+/* input 百分比 */
+.form-group {
+    position: relative;
+    width: 100% !important;
+    padding-left: 80px;
+}
+.form-group label {
+    position: absolute;
+    left: 0;
+    width: 80px !important;
+    line-height: 25px;
+    text-align: right;
+}
+.form-group input[type="text"] {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+.form-group select {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+.form-group textarea {
+    width: 100% !important;
+}
+
+/* 分页 */
+.page {
+    position: relative;
+    height: 26px;
+    margin-bottom: 10px;
+}
+.page-num {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 16px;
+    color: #4c4c4c;
+    line-height: 16px;
+}
+.page-num .number {
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    margin: 0 3px;
+    padding: 0 4px;
+    background-color: #ff9f19;
+    border-radius: 5px;
+    color: #fff;
+}
+
+/* ng-cloak修复闪跳 */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
+    display: none !important;
+}
+
+/* select */
+.select-box {
+    width: 100%;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff url('../../images/select_bg.jpg') no-repeat 98% center;
+    overflow: hidden;
+}
+
+.form-group select {
+    width: calc(100% + 32px) !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+.form-group select::-ms-expand {
+    display: none;
+}
+
+/* 日历 */
+.dropdown-menu {
+    padding: 1px;
+}
+
+/* 表单提示 */
+.prompt {
+    position: absolute;
+    right: -100px;
+    top: 0;
+    width: 100px;
+    height: 25px;
+    line-height: 25px;
+    color: #ff0000;
+}
+
+/* select2 */
+.ui-select-multiple.ui-select-bootstrap {
+    width: 100%;
+    height: 25px;
+    padding: 0 5px;
+    border-radius: 4px;
+}
+
+.ui-select-multiple.ui-select-bootstrap>div {
+    height: 23px;
+    line-height: 23px;
+    overflow: hidden;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+    line-height: 18px;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+    height: 20px;
+    margin-right: 4px;
+    line-height: 20px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #333;
+    border-radius: 2px;
+}

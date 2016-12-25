@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理平台-员工管理</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link href="../../resources/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="distributionAllocation.css">
+</head>
+
+<body ng-app="distributionAllocationModule">
+    <div class="wrapper" ng-controller="firstStepCtrl">
+        <!-- step select -->
+        <div class="step fn-clear">
+            <li class="step-item fn-left" ng-class="{current: stepNum === 0}">
+                <div class="step-icon"></div>
+                <p class="step-title">1.活动信息填写</p>
+            </li>
+            <li class="step-item fn-left" ng-class="{current: stepNum === 1}">
+                <div class="step-icon"></div>
+                <p class="step-title">2.厅店发放配置</p>
+            </li>
+            <li class="step-item fn-left" ng-class="{current: stepNum === 2}">
+                <div class="step-icon"></div>
+                <p class="step-title">3.活动商户</p>
+            </li>
+            <li class="step-item fn-left" ng-class="{current: stepNum === 3}">
+                <div class="step-icon"></div>
+                <p class="step-title">4.确认发放</p>
+            </li>
+        </div>
+        <!-- step0 -->
+        <div class="step-wrapper" ng-cloak ng-show="stepNum === 0">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_staffList.png">
+                        <p class="title-cn">活动信息配置</p>
+                        <p class="title-en">Activity information configuration</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step-content">
+                <form name="activityInformationForm" class="form-inline" role="form">
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动名称：</label>
+                                <input type="text" class="form-control" ng-model="activityInformation.activityName">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动编码：</label>
+                                <input type="text" class="form-control" ng-model="activityInformation.activityCode">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动周期：</label>
+                                <div class="datepicker-input fn-left">
+                                    <input type="text" id="createStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createStartDt" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="startOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                                <div class="datepicker-text fn-left">至</div>
+                                <div class="datepicker-input fn-left">
+                                    <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createEndDt" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="endOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动类型：</label>
+                                <input type="text" class="form-control" ng-model="activityInformation.activityType">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-controller="selectMultipleCtrl as $ctrl">
+                                <label class="control-label">活动地区：</label>
+                                <ui-select multiple limit="5" ng-model="checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                    <ui-select-match>{{$item.name}}</ui-select-match>
+                                    <ui-select-choices repeat="area in areaList | filter:$select.search">
+                                        {{area.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="prompt"><i class="iconfont">&#xe692;</i>可多选城市</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">活动描述：</label>
+                                <textarea col="" row="10" class="form-control" ng-model="activityInformation.activityDesc"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="text-center" ng-controller="stepCtrl">
+                    <button ng-click="goBack(stepNum)" class="btn btn-submit">返回</button>
+                    <button ng-click="forward(stepNum)" class="btn btn-submit">下一步</button>
+                    <button ng-click="giveoutActivityCommit()" class="btn btn-submit">确定</button>
+                    <button class="btn btn-cancel">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="distributionAllocation.js"></script>
+</body>
+
+</html>
