@@ -104,6 +104,25 @@ angular
             return defer.promise;
         };
 
+        //商户查询
+        httpMethod.qryMerchant = function(param) {
+            var defer = $q.defer();
+            $http({
+                url: httpConfig.siteUrl + '/pub/qryMerchant',
+                method: 'POST',
+                headers: httpConfig.requestHeader,
+                data: 'param=' + JSON.stringify(param)
+            }).success(function(data, header, config, status) {
+                if (status != 200) {
+                    //跳转403页面
+                }
+                defer.resolve(data);
+            }).error(function(data, status, headers, config) {
+                defer.reject(data);
+            });
+            return defer.promise;
+        };
+
         if (httpConfig.isMock) {
             //地区查询
             Mock.mock(httpConfig.siteUrl + '/common/qryCommonRegion', {
@@ -146,10 +165,27 @@ angular
                 'code': null,
                 'msg': null, //失败信息
                 'data': {
-                    'halls|10': [{
+                    'halls|5': [{
                         'hallId': '@id', //厅店ID
                         'name': '@cword(5)', //厅店名称
                         'orgName': '@cword(8)' //归属分支局
+                    }],
+                    'total|1-100': 10 //总条数
+                },
+                'errors': null
+            });
+
+            //商户查询
+            Mock.mock(httpConfig.siteUrl + '/pub/qryMerchant', {
+                'rsphead': 's',
+                'success': true, //是否成功
+                'code': null,
+                'msg': null, //失败信息
+                'data': {
+                    'merchants|5': [{
+                        'merchantId': '@id', //商户ID
+                        'name': '@cword(10)', //商户名称
+                        'sName': '@cword(4)', //商户简称
                     }],
                     'total|1-100': 10 //总条数
                 },
@@ -237,9 +273,9 @@ angular
         $scope.lineList = []; //发放单代金券明细列表
         $scope.currentPageList = []; //当前分页数据列表
         //分页
-        $scope.currentPage = 1; // 当前页
-        $scope.rowNumPerPage = 10; // 每页显示行数
-        $scope.totalNum = 0; // 总条数
+        $scope.currentPage = 1; //当前页
+        $scope.rowNumPerPage = 10; //每页显示行数
+        $scope.totalNum = 0; //总条数
         $scope.maxSize = 8; //最大显示页码数
         //切换页
         $scope.pageChanged = function() {
@@ -262,6 +298,22 @@ angular
             $scope.totalNum = _.size($scope.lineList);
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
         };
+        //数据update同步paramData
+        $scope.$watch('lineList', function(newValue) {
+            var middleData = [],
+                obj = {
+                    hallId: '',
+                    resId: '',
+                    num: ''
+                };
+            _.map(newValue, function(item, index) {
+                obj.hallId = item.hall.hallId;
+                obj.resId = item.resources.resId;
+                obj.num = item.num;
+                middleData.push(obj);
+            });
+            paramData.hallResources = middleData;
+        }, true);
         //添加资源
         $scope.addResources = function(item) {
             var modalInstance = $uibModal.open({
@@ -301,9 +353,9 @@ angular
         var $ctrl = this;
         $ctrl.keyword = ''; //关键字
         $ctrl.resourceList = []; //资源信息列表
-        $ctrl.currentPage = 1; // 当前页
-        $ctrl.rowNumPerPage = 10; // 每页显示行数
-        $ctrl.totalNum = 0; // 总条数
+        $ctrl.currentPage = 1; //当前页
+        $ctrl.rowNumPerPage = 10; //每页显示行数
+        $ctrl.totalNum = 0; //总条数
         $ctrl.maxSize = 4; //最大显示页码数
         //切换页
         $ctrl.pageChanged = function() {
@@ -346,14 +398,42 @@ angular
         $ctrl.cityId = ''; //地市ID
         $ctrl.districtId = ''; //区县ID
         $ctrl.hallsList = []; //厅店信息列表
-        $ctrl.currentPage = 1; // 当前页
-        $ctrl.rowNumPerPage = 10; // 每页显示行数
-        $ctrl.totalNum = 0; // 总条数
+        $ctrl.currentPage = 1; //当前页
+        $ctrl.rowNumPerPage = 10; //每页显示行数
+        $ctrl.totalNum = 0; //总条数
         $ctrl.maxSize = 4; //最大显示页码数
         //切换页
         $ctrl.pageChanged = function() {
             $ctrl.conditionQuery($ctrl.currentPage);
         };
+
+        $ctrl.cityList = []; //所有地区列表
+        var param = {
+            level: '3'
+        };
+        httpMethod.qryCommonRegion(param).then(function(rsp) {
+            $ctrl.cityList = rsp.data.area;
+            $log.log('获取州/市列表成功.');
+        }, function() {
+            $log.log('获取州/市列表失败.');
+        });
+
+        $scope.$watch('$ctrl.cityId', function(newValue) {
+            $log.log(newValue, 'newValue');
+            if (newValue) {
+                var param = {
+                    level: '4',
+                    parentCommonRegionId: $ctrl.cityId
+                };
+                httpMethod.qryCommonRegion(param).then(function(rsp) {
+                    $ctrl.districtList = rsp.data.area;
+                    $log.log('获取区/县列表成功.');
+                }, function() {
+                    $log.log('获取区/县列表失败.');
+                });
+            };
+        });
+
         //条件查询
         $ctrl.conditionQuery = function() {
             var param = {
@@ -381,6 +461,146 @@ angular
 
         $ctrl.ok = function() {
             items.hall = $ctrl.todoChecked;
+            $uibModalInstance.close();
+        };
+        $ctrl.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }])
+    .controller('thirdStepCtrl', ['$scope', '$rootScope', '$uibModal', '$log', 'paramData', function($scope, $rootScope, $uibModal, $log, paramData) {
+        $scope.lineList = []; //活动商户明细列表
+        $scope.currentPageList = []; //当前分页数据列表
+        //分页
+        $scope.currentPage = 1; //当前页
+        $scope.rowNumPerPage = 10; //每页显示行数
+        $scope.totalNum = 0; //总条数
+        $scope.maxSize = 8; //最大显示页码数
+        //切换页
+        $scope.pageChanged = function() {
+            $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
+        };
+        //增加一行
+        $scope.addNewLine = function() {
+            var obj = {
+                merchantId: '', //商户ID
+                merchantName: '', //商户名称
+                merchantSName: '' //商户简称
+            };
+            $scope.lineList.push(obj);
+            $scope.totalNum = _.size($scope.lineList);
+            $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
+            $log.log($scope.currentPageList, '$scope.currentPageList');
+        };
+        //删除
+        $scope.delLine = function(index) {
+            $scope.lineList.splice(index, 1);
+            $scope.totalNum = _.size($scope.lineList);
+            $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
+            $log.log($scope.currentPageList, '$scope.currentPageList');
+        };
+        //数据update同步paramData
+        $scope.$watch('lineList', function(newValue) {
+            $log.log(newValue, 'newValue11');
+            var middleData = [],
+                obj = {
+                    merchantId: '',
+                    merchantName: ''
+                };
+            _.map(newValue, function(item, index) {
+                obj.merchantId = item.merchantId;
+                obj.merchantName = item.name;
+                middleData.push(obj);
+            });
+            paramData.merchants = middleData;
+        }, true);
+        //添加商户
+        $scope.addMerchant = function(item) {
+            var modalInstance = $uibModal.open({
+                animation: 'true',
+                ariaLabelledBy: 'merchant-modal-title',
+                ariaDescribedBy: 'merchant-modal-body',
+                templateUrl: 'merchantModal.html',
+                controller: 'merchantModalCtrl',
+                controllerAs: '$ctrl',
+                size: 'lg',
+                resolve: {
+                    items: function() {
+                        return item;
+                    }
+                }
+            });
+        };
+    }])
+    .controller('merchantModalCtrl', ['$uibModalInstance', '$scope', '$log', 'items', 'httpMethod', function($uibModalInstance, $scope, $log, items, httpMethod) {
+        var $ctrl = this;
+        $ctrl.merchantName = ''; //商户名称
+        $ctrl.merchantId = ''; //商户ID
+        $ctrl.cityId = ''; //地市ID
+        $ctrl.districtId = ''; //区县ID
+        $ctrl.merchantsList = []; //商户信息列表
+        $ctrl.currentPage = 1; //当前页
+        $ctrl.rowNumPerPage = 10; //每页显示行数
+        $ctrl.totalNum = 0; //总条数
+        $ctrl.maxSize = 4; //最大显示页码数
+        //切换页
+        $ctrl.pageChanged = function() {
+            $ctrl.conditionQuery($ctrl.currentPage);
+        };
+
+        $ctrl.cityList = []; //所有地区列表
+        var param = {
+            level: '3'
+        };
+        httpMethod.qryCommonRegion(param).then(function(rsp) {
+            $ctrl.cityList = rsp.data.area;
+            $log.log('获取州/市列表成功.');
+        }, function() {
+            $log.log('获取州/市列表失败.');
+        });
+
+        $scope.$watch('$ctrl.cityId', function(newValue) {
+            $log.log(newValue, 'newValue');
+            if (newValue) {
+                var param = {
+                    level: '4',
+                    parentCommonRegionId: $ctrl.cityId
+                };
+                httpMethod.qryCommonRegion(param).then(function(rsp) {
+                    $ctrl.districtList = rsp.data.area;
+                    $log.log('获取区/县列表成功.');
+                }, function() {
+                    $log.log('获取区/县列表失败.');
+                });
+            };
+        });
+
+        //条件查询
+        $ctrl.conditionQuery = function() {
+            var param = {
+                merchantName: $ctrl.merchantName, //名称
+                merchantId: $ctrl.merchantId, //商户ID
+                cityId: $ctrl.cityId, //地市ID
+                districtId: $ctrl.districtId, //区县ID
+                pageSize: $ctrl.rowNumPerPage, //每页条数
+                curPage: $ctrl.currentPage //当前页
+            };
+            httpMethod.qryMerchant(param).then(function(rsp) {
+                $ctrl.merchantsList = rsp.data.merchants;
+                $ctrl.totalNum = rsp.data.total;
+                $log.log('获取商户列表成功.');
+            }, function() {
+                $log.log('获取商户列表失败.');
+            });
+        };
+
+        $ctrl.todoChecked = {}; //待确认的选项
+        //单选框选择
+        $ctrl.check = function(item) {
+            $ctrl.todoChecked = item;
+        };
+
+        $ctrl.ok = function() {
+            items = $ctrl.todoChecked;
             $uibModalInstance.close();
         };
         $ctrl.cancel = function() {
