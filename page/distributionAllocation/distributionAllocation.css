@@ -132,6 +132,122 @@
     font-size: 12px;
 }
 
+.add-new-btn {
+    display: inline-block;
+    width: 35px;
+    height: 20px;
+    margin-top: 3px;
+    background-color: #ffefce;
+    line-height: 20px;
+    border: 1px solid #ffcc00;
+    border-radius: 4px;
+    color: #ffb319;
+    cursor: pointer;
+}
+
+.edit-num-input {
+    width: 80%;
+    height: 25px;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.query-keyword-box {
+    margin: 10px;
+}
+
+.btn-keyword {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 25px;
+    padding: 0;
+    background-color: #ffb319;
+    border-color: #ffb319;
+    border-radius: 15px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    line-height: 25px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+}
+
+.btn-keyword:focus,
+.btn-keyword.focus {
+    background-color: #ffb319;
+    border-color: #ffb319;
+    color: #fff;
+}
+
+.btn-keyword:hover {
+    background-color: #ffb319;
+    border-color: #ffb319;
+    color: #fff;
+}
+
+.label-keyword {
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+}
+
+.form-keyword {
+    position: relative;
+    display: inline-block;
+    width: 350px;
+}
+
+.form-keyword input[type="text"] {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+    border-radius: 14px;
+}
+
+.model-header {
+    height: 25px;
+    line-height: 25px;
+}
+
+.model-img {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 2px 4px;
+}
+
+.model-title {
+    color: #3cc250;
+    font-size: 14px;
+}
+
+.modal-title .iconfont {
+    margin-right: 6px;
+}
+
+.modal-title .icon {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+
+.result-list {
+    padding: 0 5px;
+}
+
+.result-modal-header {
+    height: 28px;
+    padding: 2px 0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+
 .result-header {
     height: 37px;
     margin: 0;
