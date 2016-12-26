@@ -341,28 +341,31 @@ angular
     }])
     .controller('hallModalCtrl', ['$uibModalInstance', '$scope', '$log', 'items', 'httpMethod', function($uibModalInstance, $scope, $log, items, httpMethod) {
         var $ctrl = this;
-        $ctrl.keyword = ''; //关键字
-        $ctrl.resourceList = []; //资源信息列表
+        $ctrl.hallName = ''; //厅店名称
+        $ctrl.hallId = ''; //厅店ID
+        $ctrl.cityId = ''; //地市ID
+        $ctrl.districtId = ''; //区县ID
+        $ctrl.hallsList = []; //厅店信息列表
         $ctrl.currentPage = 1; // 当前页
         $ctrl.rowNumPerPage = 10; // 每页显示行数
         $ctrl.totalNum = 0; // 总条数
         $ctrl.maxSize = 4; //最大显示页码数
         //切换页
         $ctrl.pageChanged = function() {
-            $ctrl.keywordQuery($ctrl.currentPage);
+            $ctrl.conditionQuery($ctrl.currentPage);
         };
         //条件查询
         $ctrl.conditionQuery = function() {
             var param = {
-                hallName: '', //厅店名称
-                hallId: '', //厅店ID
-                cityId: '', //地市ID
-                districtId: '', //区县ID
+                hallName: $ctrl.hallName, //厅店名称
+                hallId: $ctrl.hallId, //厅店ID
+                cityId: $ctrl.cityId, //地市ID
+                districtId: $ctrl.districtId, //区县ID
                 pageSize: $ctrl.rowNumPerPage, //每页条数
                 curPage: $ctrl.currentPage //当前页
             };
             httpMethod.qryHall(param).then(function(rsp) {
-                $ctrl.resourceList = rsp.data.hall;
+                $ctrl.hallsList = rsp.data.halls;
                 $ctrl.totalNum = rsp.data.total;
                 $log.log('获取厅店列表成功.');
             }, function() {

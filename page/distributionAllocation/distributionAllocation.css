@@ -396,7 +396,7 @@
     height: 25px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background: #fff url('../../images/select_bg.jpg') no-repeat 98% center;
+    background: #fff url('../../resources/images/select_bg.jpg') no-repeat 98% center;
     overflow: hidden;
 }
 
