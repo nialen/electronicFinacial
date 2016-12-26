@@ -5,19 +5,15 @@
 angular
     .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select'])
     .run(['$rootScope', function($rootScope) {
-        $rootScope.stepNum = 0; // 当前显示的step索引值（Number类型）
-        $rootScope.goBack = function(num) { // 返回（num-1）
+        $rootScope.stepNum = 0; //当前显示的step索引值（Number类型）
+        $rootScope.goBack = function(num) { //返回（num-1）
             $rootScope.stepNum = num - 1;
         };
-        $rootScope.forward = function(num) { // 返回（num+1）
+        $rootScope.forward = function(num) { //返回（num+1）
             $rootScope.stepNum = num + 1;
         };
-
-        $rootScope.checkedAreaList = [{
-            name: 'xx778'
-        }]; //已选择地区
     }])
-    // 活动确认保存入参
+    //活动确认保存入参
     .factory('paramData', [function() {
         var paramData = {
             'activityName': '', //活动名称
@@ -48,10 +44,10 @@ angular
             'requestHeader': {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            'isMock': true // 是否开启测试数据
+            'isMock': true //是否开启测试数据
         };
         var httpMethod = {};
-        // 获取地区列表
+        //获取地区列表
         httpMethod.qryCommonRegion = function(param) {
             var defer = $q.defer();
             $http({
@@ -61,7 +57,7 @@ angular
                 data: 'param=' + JSON.stringify(param)
             }).success(function(data, header, config, status) {
                 if (status != 200) {
-                    // 跳转403页面
+                    //跳转403页面
                 }
                 defer.resolve(data);
             }).error(function(data, status, headers, config) {
@@ -71,7 +67,7 @@ angular
         };
 
         if (httpConfig.isMock) {
-            // 地区查询
+            //地区查询
             Mock.mock(httpConfig.siteUrl + '/common/qryCommonRegion', {
                 'rsphead': 's',
                 'success': true, //是否成功
@@ -93,16 +89,15 @@ angular
         $scope.activityInformation = {
             'activityName': '', //活动名称
             'activityCode': '', //活动编码
-            'activityType': '', //活动类型
+            'activityType': '用户领券', //活动类型
             'activityDesc': '' //活动描述
         };
 
         $scope.$watch('activityInformation', function(newValue) {
             _.assign(paramData, newValue);
-            $log.log(paramData, 'paramData');
         }, true);
 
-        // 时间控件
+        //时间控件
         $scope.createStartDt = ''; //制单日期开始
         $scope.createEndDt = ''; //制单日期结束
         $scope.startDateOptions = {
@@ -138,27 +133,60 @@ angular
         $scope.startPopupOpened = false;
         $scope.endPopupOpened = false;
     }])
-    .controller('selectMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', function($scope, $rootScope, $log, httpMethod) {
-        $scope.areaList = []; //所有地区列表
+    .controller('selectMultipleCtrl', ['$log', 'httpMethod', 'paramData', function($log, httpMethod, paramData) {
+        var vm = this;
+        vm.checkedAreaList = [];
+        vm.areaList = []; //所有地区列表
         var param = {
             'level': '3'
         };
         httpMethod.qryCommonRegion(param).then(function(rsp) {
-            $scope.areaList = rsp.data.area;
+            vm.areaList = rsp.data.area;
             $log.log('获取地区列表成功.');
         }, function() {
             $log.log('获取地区列表失败.');
         });
+        vm.changeCallback = function(item, model) {
+            paramData.areasId = [];
+            _.map(vm.checkedAreaList, function(item, index) {
+                _.set(paramData, ['areasId', index, 'areaId'], item.commonRegionId);
+            });
+        };
     }])
-    .controller('lastStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
+    .controller('secondStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 1) {
+                $scope.startDt = paramData.activityStartDate || '----';
+                $scope.endDt = paramData.activityEndDate || '----';
+            }
+        });
 
+        $scope.addHallResources = function() {
+            debugger
+        };
+
+        $scope.lineList = [{
+            'hallResources': [], //厅店发放明细列表
+            'merchants': [] //商户列表
+        }]; //行列表
+
+        // 'hallResources': [{
+        //     'hallId': '111', //厅店ID
+        //     'resId': '213', //资源ID
+        //     'num': 500 //资源数量
+        // }], //厅店发放明细列表
+        // 'merchants': [{
+        //     'merchantId': '12321', //商户ID
+        //     'merchantName': 'xx商户' //商户名称
+        // }] //商户列表
     }])
+    .controller('lastStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {}])
     .controller('stepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
         $scope.giveoutActivityCommit = function() {
             $log.log($rootScope.checkedAreaList, 'checkedAreaList');
         }
     }])
-    // 分页控制器
+    //分页控制器
     .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function($scope, $rootScope, $log) {
         $scope.$on('pageChange', function() {
             $scope.currentPage = 1;

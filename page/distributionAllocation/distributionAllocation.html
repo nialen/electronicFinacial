@@ -13,7 +13,7 @@
 </head>
 
 <body ng-app="distributionAllocationModule">
-    <div class="wrapper" ng-controller="firstStepCtrl">
+    <div class="wrapper">
         <!-- step select -->
         <div class="step fn-clear">
             <li class="step-item fn-left" ng-class="{current: stepNum === 0}">
@@ -34,8 +34,8 @@
             </li>
         </div>
         <!-- step0 -->
-        <div class="step-wrapper" ng-cloak ng-show="stepNum === 0">
-            <div class="row result-header">
+        <div class="step-wrapper" ng-controller="firstStepCtrl" ng-cloak ng-show="stepNum === 0">
+            <div class="row result-title">
                 <div class="col-xs-4">
                     <div class="title">
                         <img src="../../resources/images/icon_staffList.png">
@@ -82,7 +82,7 @@
                         <div class="col-xs-6">
                             <div class="form-group">
                                 <label class="control-label">活动类型：</label>
-                                <input type="text" class="form-control" ng-model="activityInformation.activityType">
+                                <input type="text" class="form-control" ng-model="activityInformation.activityType" disabled>
                             </div>
                         </div>
                     </div>
@@ -90,9 +90,9 @@
                         <div class="col-xs-6">
                             <div class="form-group" ng-controller="selectMultipleCtrl as $ctrl">
                                 <label class="control-label">活动地区：</label>
-                                <ui-select multiple limit="5" ng-model="checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
                                     <ui-select-match>{{$item.name}}</ui-select-match>
-                                    <ui-select-choices repeat="area in areaList | filter:$select.search">
+                                    <ui-select-choices repeat="area in $ctrl.areaList | filter:$select.search">
                                         {{area.name}}
                                     </ui-select-choices>
                                 </ui-select>
@@ -100,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb10">
+                    <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label class="control-label">活动描述：</label>
@@ -109,13 +109,91 @@
                         </div>
                     </div>
                 </form>
-                <div class="text-center" ng-controller="stepCtrl">
-                    <button ng-click="goBack(stepNum)" class="btn btn-submit">返回</button>
-                    <button ng-click="forward(stepNum)" class="btn btn-submit">下一步</button>
-                    <button ng-click="giveoutActivityCommit()" class="btn btn-submit">确定</button>
-                    <button class="btn btn-cancel">取消</button>
+            </div>
+        </div>
+        <!-- step1 -->
+        <div class="step-wrapper" ng-controller="secondStepCtrl" ng-cloak ng-show="stepNum === 1">
+            <div class="row result-title">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_staffList.png">
+                        <p class="title-cn">基本信息</p>
+                        <p class="title-en">Essential information</p>
+                    </div>
                 </div>
             </div>
+            <div class="step-content">
+                <form name="essentialInformationForm" class="form-inline" role="form">
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">发放时间：</label>
+                                <p class="detail-input"><span ng-bind="startDt"></span> 至 <span ng-bind="endDt"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="staff-man-result">
+                    <div class="row result-header">
+                        <div class="col-xs-4">
+                            <div class="title">
+                                <img src="../../resources/images/icon_typeSetup.png">
+                                <p class="title-cn">发放单代金券明细</p>
+                                <p class="title-en">Single payment voucher details</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <button ng-click="addOneLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 增加一行</button>
+                            <button ng-click="" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
+                        </div>
+                    </div>
+                    <div class="result-table">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="15%">资源编码</th>
+                                    <th width="20%">资源名称</th>
+                                    <th width="15%">厅店编码</th>
+                                    <th width="20%">厅店名称</th>
+                                    <th width="15%">发放个数</th>
+                                    <th width="15%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in lineList">
+                                    <td>
+                                        <p ng-bind="item.staffId"></p><span ng-click="addHallResources()">...</span>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.staffNumber"></p>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.areaName"></p>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.staffNumber"></p>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.areaName"></p>
+                                    </td>
+                                    <td>
+                                        <button ng-click="" class="btn btn-xs btn-edit"><i class="iconfont">&#xe610;</i> 删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-controller="paginationCtrl" class="text-center page">
+                        <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                        <div class="page-num">共<span class="number" ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-bind="currentPage || 1"></span>页</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step-ctrl text-center" ng-controller="stepCtrl">
+            <button ng-click="goBack(stepNum)" ng-if="stepNum !== 0" ng-cloak class="btn btn-cancel">上一步</button>
+            <button ng-click="forward(stepNum)" ng-if="stepNum !== 3" class="btn btn-cancel">下一步</button>
+            <button ng-click="giveoutActivityCommit()" ng-if="stepNum === 3" ng-cloak class="btn btn-submit">确定</button>
         </div>
     </div>
     <script src="../../resources/js/angular.min.js"></script>

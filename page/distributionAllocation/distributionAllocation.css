@@ -1,12 +1,11 @@
 .wrapper {
-    padding: 10px 20px 0;
+    margin: 10px 20px 0;
+    border: 1px solid #ddd;
 }
 
 .step {
     margin: 0 auto;
     padding: 8px 0 2px;
-    border: 1px solid #ddd;
-    border-bottom: none;
 }
 
 .step-item {
@@ -77,8 +76,12 @@
 }
 
 .step-content {
-    padding: 20px;
-    border: 1px solid #ddd;
+    padding: 10px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+.step-ctrl {
+    padding: 10px 0;
 }
 
 .datepicker-input {
@@ -101,10 +104,37 @@
     cursor: pointer;
 }
 
-.result-header {
+.result-title {
     height: 37px;
     margin: 0;
     background-color: #f5fafa;
+    line-height: 32px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.result-title .title {
+    position: relative;
+    padding-top: 4px;
+    padding-left: 32px;
+    line-height: 16px;
+}
+.result-title .title img {
+    position: absolute;
+    top: 4px;
+    left: 0;
+}
+.result-title .title .title-cn {
+    color: #4c9ef5;
+    font-size: 14px;
+}
+.result-title .title .title-en {
+    color: #ddd;
+    font-size: 12px;
+}
+
+.result-header {
+    height: 37px;
+    margin: 0;
     line-height: 32px;
     border: 1px solid #ddd;
     border-bottom: none;
@@ -128,6 +158,7 @@
     color: #ddd;
     font-size: 12px;
 }
+
 .btn-set {
     margin-left: 5px;
     padding-left: 15px;
@@ -206,6 +237,11 @@
 }
 .form-group textarea {
     width: 100% !important;
+}
+
+.form-group .detail-input {
+    height: 25px;
+    line-height: 25px;
 }
 
 /* 分页 */
