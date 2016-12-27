@@ -236,9 +236,21 @@
     margin-right: 5px;
 }
 
-
 .result-list {
     padding: 0 5px;
+}
+
+.query-hall-box {
+    padding: 20px;
+}
+
+.reduce {
+    display: inline-block;
+    width: calc(100% - 70px) !important;
+}
+
+.btn-query {
+    height: 24px;
 }
 
 .result-modal-header {
