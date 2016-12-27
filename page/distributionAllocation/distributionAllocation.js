@@ -483,8 +483,8 @@ angular
         $scope.addNewLine = function() {
             var obj = {
                 merchantId: '', //商户ID
-                merchantName: '', //商户名称
-                merchantSName: '' //商户简称
+                name: '', //商户名称
+                sName: '' //商户简称
             };
             $scope.lineList.push(obj);
             $scope.totalNum = _.size($scope.lineList);
@@ -600,7 +600,9 @@ angular
         };
 
         $ctrl.ok = function() {
-            items = $ctrl.todoChecked;
+            items.merchantId = $ctrl.todoChecked.merchantId;
+            items.name = $ctrl.todoChecked.name;
+            items.sName = $ctrl.todoChecked.sName;
             $uibModalInstance.close();
         };
         $ctrl.cancel = function() {
