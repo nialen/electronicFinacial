@@ -162,7 +162,7 @@
                             <tbody>
                                 <tr ng-repeat="item in currentPageList">
                                     <td>
-                                        <span ng-bind="item.resources.resId"></span>
+                                        <span ng-bind="item.resources.rscId"></span>
                                         <span class="add-new-btn" ng-click="addResources(item)">...</span>
                                     </td>
                                     <td>
@@ -315,7 +315,7 @@
             </div>
             <div class="step-content">
                 <div class="res-hall-list" ng-cloak ng-repeat="obj in resHallList">
-                    <span class="res-name" ng-bind="obj.resName"></span>: <span class="hall-name-num" ng-repeat="item in obj.list"><em class="hall-name" ng-bind="item.hallName"></em><em class="hall-num" ng-bind="item.num"></em></span>
+                    <span class="res-name" ng-bind="obj.rscName"></span>: <span class="hall-name-num" ng-repeat="item in obj.list"><em class="hall-name" ng-bind="item.hallName"></em><em class="hall-num" ng-bind="item.num"></em></span>
                 </div>
             </div>
             <div class="row result-title">
@@ -382,7 +382,7 @@
                                     <input type="radio" name="radio" ng-click="$ctrl.check(item)">
                                 </td>
                                 <td>
-                                    <p ng-bind="item.resId"></p>
+                                    <p ng-bind="item.rscId"></p>
                                 </td>
                                 <td>
                                     <p ng-bind="item.name"></p>
@@ -440,7 +440,7 @@
                                 <div class="select-box">
                                     <select class="form-control" ng-model="$ctrl.cityId">
                                         <option value="">请选择州/市</option>
-                                        <option ng-repeat="item in $ctrl.cityList" value="{{item.commonRegionId}}">{{item.name}}</option>
+                                        <option ng-repeat="item in $ctrl.cityList" value="{{item.areaId}}">{{item.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -451,7 +451,7 @@
                                 <div class="select-box reduce">
                                     <select class="form-control" ng-model="$ctrl.districtId">
                                         <option value="">请选择区/县</option>
-                                        <option ng-repeat="item in $ctrl.districtList" value="{{item.commonRegionId}}">{{item.name}}</option>
+                                        <option ng-repeat="item in $ctrl.districtList" value="{{item.areaId}}">{{item.name}}</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-query fn-right"><i class="iconfont">&#xe600;</i> 查询</button>
@@ -540,7 +540,7 @@
                                 <div class="select-box">
                                     <select class="form-control" ng-model="$ctrl.cityId">
                                         <option value="">请选择州/市</option>
-                                        <option ng-repeat="item in $ctrl.cityList" value="{{item.commonRegionId}}">{{item.name}}</option>
+                                        <option ng-repeat="item in $ctrl.cityList" value="{{item.areaId}}">{{item.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -551,7 +551,7 @@
                                 <div class="select-box reduce">
                                     <select class="form-control" ng-model="$ctrl.districtId">
                                         <option value="">请选择区/县</option>
-                                        <option ng-repeat="item in $ctrl.districtList" value="{{item.commonRegionId}}">{{item.name}}</option>
+                                        <option ng-repeat="item in $ctrl.districtList" value="{{item.areaId}}">{{item.name}}</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-query fn-right"><i class="iconfont">&#xe600;</i> 查询</button>

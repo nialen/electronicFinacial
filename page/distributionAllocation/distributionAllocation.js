@@ -27,8 +27,8 @@ angular
             'hallResources': [{ //厅店发放明细列表
                 'hallId': '', //厅店ID
                 'hallName': '', //厅店名称
-                'resId': '', //资源ID
-                'resName': '', //资源名称
+                'rscId': '', //资源ID
+                'rscName': '', //资源名称
                 'num': null //资源数量
             }],
             'merchants': [{ //商户列表
@@ -49,10 +49,10 @@ angular
         };
         var httpMethod = {};
         //获取地区列表
-        httpMethod.qryCommonRegion = function(param) {
+        httpMethod.qryArea = function(param) {
             var defer = $q.defer();
             $http({
-                url: httpConfig.siteUrl + '/common/qryCommonRegion',
+                url: httpConfig.siteUrl + '/common/qryArea',
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
@@ -71,7 +71,7 @@ angular
         httpMethod.qryResource = function(param) {
             var defer = $q.defer();
             $http({
-                url: httpConfig.siteUrl + '/res/qryResource',
+                url: httpConfig.siteUrl + '/rsc/qryResource',
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
@@ -145,14 +145,14 @@ angular
 
         if (httpConfig.isMock) {
             //地区查询
-            Mock.mock(httpConfig.siteUrl + '/common/qryCommonRegion', {
+            Mock.mock(httpConfig.siteUrl + '/common/qryArea', {
                 'rsphead': 's',
                 'success': true, //是否成功
                 'code': null,
                 'msg': null, //失败信息
                 'data': {
                     'area|21': [{
-                        'commonRegionId': '@id', //地区ID
+                        'areaId': '@id', //地区ID
                         'name': '@city' //地区名称
                     }]
                 },
@@ -160,14 +160,14 @@ angular
             });
 
             //资源查询
-            Mock.mock(httpConfig.siteUrl + '/res/qryResource', {
+            Mock.mock(httpConfig.siteUrl + '/rsc/qryResource', {
                 'rsphead': 's',
                 'success': true, //是否成功
                 'code': null,
                 'msg': null, //失败信息
                 'data': {
                     'resources|5': [{
-                        'resId': '@id', //资源ID
+                        'rscId': '@id', //资源ID
                         'name': '@cword(4)', //资源名称
                         'value': '', //面值
                         'templet': '', //模板(类型)
@@ -327,7 +327,7 @@ angular
         var param = {
             level: '3'
         };
-        httpMethod.qryCommonRegion(param).then(function(rsp) {
+        httpMethod.qryArea(param).then(function(rsp) {
             vm.areaList = rsp.data.area;
             $log.log('获取地区列表成功.');
         }, function() {
@@ -336,7 +336,7 @@ angular
         vm.changeCallback = function(item, model) {
             paramData.areasId = [];
             _.map(vm.checkedAreaList, function(item, index) {
-                _.set(paramData, ['areasId', index, 'areaId'], item.commonRegionId);
+                _.set(paramData, ['areasId', index, 'areaId'], item.areaId);
                 _.set(paramData, ['areasId', index, 'name'], item.name);
             });
         };
@@ -386,14 +386,14 @@ angular
                     var obj = {
                         hallId: '',
                         hallName: '',
-                        resId: '',
-                        resName: '',
+                        rscId: '',
+                        rscName: '',
                         num: null
                     };
                     obj.hallId = item.hall.hallId;
                     obj.hallName = item.hall.name;
-                    obj.resId = item.resources.resId;
-                    obj.resName = item.resources.name;
+                    obj.rscId = item.resources.rscId;
+                    obj.rscName = item.resources.name;
                     obj.num = item.num;
                     middleData.push(obj);
                 });
@@ -402,7 +402,7 @@ angular
                 $rootScope.isNotAllowNext = true;
                 if (_.size(newValue)) {
                     var isNotAllow = _.every(newValue, function(item, index) {
-                        return item.hall.hallId !== '' && item.resources.resId !== '' && item.num !== null;
+                        return item.hall.hallId !== '' && item.resources.rscId !== '' && item.num !== null;
                     });
                     if (isNotAllow) {
                         $rootScope.isNotAllowNext = false;
@@ -518,7 +518,7 @@ angular
         var param = {
             level: '3'
         };
-        httpMethod.qryCommonRegion(param).then(function(rsp) {
+        httpMethod.qryArea(param).then(function(rsp) {
             $ctrl.cityList = rsp.data.area;
             $log.log('获取州/市列表成功.');
         }, function() {
@@ -529,9 +529,9 @@ angular
             if (newValue) {
                 var param = {
                     level: '4',
-                    parentCommonRegionId: $ctrl.cityId
+                    parentAreaId: $ctrl.cityId
                 };
-                httpMethod.qryCommonRegion(param).then(function(rsp) {
+                httpMethod.qryArea(param).then(function(rsp) {
                     $ctrl.districtList = rsp.data.area;
                     $log.log('获取区/县列表成功.');
                 }, function() {
@@ -675,7 +675,7 @@ angular
         var param = {
             level: '3'
         };
-        httpMethod.qryCommonRegion(param).then(function(rsp) {
+        httpMethod.qryArea(param).then(function(rsp) {
             $ctrl.cityList = rsp.data.area;
             $log.log('获取州/市列表成功.');
         }, function() {
@@ -686,9 +686,9 @@ angular
             if (newValue) {
                 var param = {
                     level: '4',
-                    parentCommonRegionId: $ctrl.cityId
+                    parentAreaId: $ctrl.cityId
                 };
-                httpMethod.qryCommonRegion(param).then(function(rsp) {
+                httpMethod.qryArea(param).then(function(rsp) {
                     $ctrl.districtList = rsp.data.area;
                     $log.log('获取区/县列表成功.');
                 }, function() {
@@ -750,8 +750,8 @@ angular
                     _.map($scope.hallResourcesList, function(item, index) {
                         if (!_.size($scope.resHallList)) {
                             var obj = {
-                                resId: item.resId,
-                                resName: item.resName,
+                                rscId: item.rscId,
+                                rscName: item.rscName,
                                 list: [{
                                     hallId: item.hallId,
                                     hallName: item.hallName,
@@ -761,7 +761,7 @@ angular
                             $scope.resHallList.push(obj);
                         } else {
                             _.map($scope.resHallList, function(it, index) {
-                                if (it.resId === item.resId) {
+                                if (it.rscId === item.rscId) {
                                     var o = {
                                         hallId: item.hallId,
                                         hallName: item.hallName,
@@ -770,8 +770,8 @@ angular
                                     it.list.push(o);
                                 } else {
                                     var obj = {
-                                        resId: item.resId,
-                                        resName: item.resName,
+                                        rscId: item.rscId,
+                                        rscName: item.rscName,
                                         list: [{
                                             hallId: item.hallId,
                                             hallName: item.hallName,
