@@ -3,7 +3,7 @@
  * Date 2016-12-24
  */
 angular
-    .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select'])
+    .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select', 'ui.uploader'])
     .run(['$rootScope', function($rootScope) {
         $rootScope.stepNum = 0; //当前显示的step索引值（Number类型）
         $rootScope.goBack = function(num) { //返回（num-1）
@@ -12,6 +12,7 @@ angular
         $rootScope.forward = function(num) { //返回（num+1）
             $rootScope.stepNum = num + 1;
         };
+        $rootScope.isNotAllowNext = true; //允许下一步 true:不允许；false:允许；
     }])
     //活动确认保存入参
     .factory('paramData', [function() {
@@ -21,20 +22,20 @@ angular
             'activityType': '', //活动类型
             'activityStartDate': '', //活动开始时间
             'activityEndDate': '', //活动结束时间
-            'areasId': [{ //活动地区ID列表
-                'areaId': '' //地区ID
-            }],
+            'areasId': [], //活动地区ID列表
             'activityDesc': '', //活动描述
             'hallResources': [{ //厅店发放明细列表
-                'hallId': '111', //厅店ID
-                'resId': '213', //资源ID
-                'num': 500 //资源数量
+                'hallId': '', //厅店ID
+                'hallName': '', //厅店名称
+                'rscId': '', //资源ID
+                'rscName': '', //资源名称
+                'num': null //资源数量
             }],
             'merchants': [{ //商户列表
-                'merchantId': '12321', //商户ID
-                'merchantName': 'xx商户' //商户名称
+                'merchantId': '', //商户ID
+                'merchantName': '' //商户名称
             }]
-        }
+        };
 
         return paramData;
     }])
@@ -48,10 +49,10 @@ angular
         };
         var httpMethod = {};
         //获取地区列表
-        httpMethod.qryCommonRegion = function(param) {
+        httpMethod.qryArea = function(param) {
             var defer = $q.defer();
             $http({
-                url: httpConfig.siteUrl + '/common/qryCommonRegion',
+                url: httpConfig.siteUrl + '/common/qryArea',
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
@@ -70,7 +71,7 @@ angular
         httpMethod.qryResource = function(param) {
             var defer = $q.defer();
             $http({
-                url: httpConfig.siteUrl + '/res/qryResource',
+                url: httpConfig.siteUrl + '/rsc/qryResource',
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
@@ -123,16 +124,35 @@ angular
             return defer.promise;
         };
 
+        //活动信息提交
+        httpMethod.grantActivityCommit = function(param) {
+            var defer = $q.defer();
+            $http({
+                url: httpConfig.siteUrl + '/activity/grantActivityCommit',
+                method: 'POST',
+                headers: httpConfig.requestHeader,
+                data: 'param=' + JSON.stringify(param)
+            }).success(function(data, header, config, status) {
+                if (status != 200) {
+                    //跳转403页面
+                }
+                defer.resolve(data);
+            }).error(function(data, status, headers, config) {
+                defer.reject(data);
+            });
+            return defer.promise;
+        };
+
         if (httpConfig.isMock) {
             //地区查询
-            Mock.mock(httpConfig.siteUrl + '/common/qryCommonRegion', {
+            Mock.mock(httpConfig.siteUrl + '/common/qryArea', {
                 'rsphead': 's',
                 'success': true, //是否成功
                 'code': null,
                 'msg': null, //失败信息
                 'data': {
                     'area|21': [{
-                        'commonRegionId': '@id', //地区ID
+                        'areaId': '@id', //地区ID
                         'name': '@city' //地区名称
                     }]
                 },
@@ -140,14 +160,14 @@ angular
             });
 
             //资源查询
-            Mock.mock(httpConfig.siteUrl + '/res/qryResource', {
+            Mock.mock(httpConfig.siteUrl + '/rsc/qryResource', {
                 'rsphead': 's',
                 'success': true, //是否成功
                 'code': null,
                 'msg': null, //失败信息
                 'data': {
                     'resources|5': [{
-                        'resId': '@id', //资源ID
+                        'rscId': '@id', //资源ID
                         'name': '@cword(4)', //资源名称
                         'value': '', //面值
                         'templet': '', //模板(类型)
@@ -189,6 +209,15 @@ angular
                     }],
                     'total|1-100': 10 //总条数
                 },
+                'errors': null
+            });
+
+            //活动信息提交
+            Mock.mock(httpConfig.siteUrl + '/activity/grantActivityCommit', {
+                'rsphead': 's',
+                'success|+1': [true, false], //是否成功
+                'code': null,
+                'msg': null, //失败信息
                 'errors': null
             });
         }
@@ -242,15 +271,63 @@ angular
         };
         $scope.startPopupOpened = false;
         $scope.endPopupOpened = false;
+
+        // TODO 优化监听方案
+        $scope.isNotAllowObj = {
+            isNotAllow1: true, //activityInformation完整
+            isNotAllow2: true, //createStartDt完整
+            isNotAllow3: true, //createEndDt完整
+            isNotAllow4: true //areaList完整
+        };
+
+        $scope.$watch('activityInformation', function(newValue) {
+            $scope.isNotAllowObj.isNotAllow1 = true;
+            if (newValue.activityName && newValue.activityCode && newValue.activityType && newValue.activityDesc) {
+                $scope.isNotAllowObj.isNotAllow1 = false;
+            }
+        }, true);
+
+        $scope.$watch('createStartDt', function(newValue) {
+            $scope.isNotAllowObj.isNotAllow2 = true;
+            if (newValue) {
+                $scope.isNotAllowObj.isNotAllow2 = false;
+            }
+        });
+
+        $scope.$watch('createEndDt', function(newValue) {
+            $scope.isNotAllowObj.isNotAllow3 = true;
+            if (newValue) {
+                $scope.isNotAllowObj.isNotAllow3 = false;
+            }
+        });
+
+        var _watchFn = function() {
+            $scope.$watch('isNotAllowObj', function(newValue) {
+                //监听是否允许下一步
+                $rootScope.isNotAllowNext = true;
+                if (newValue.isNotAllow1 === false && newValue.isNotAllow2 === false && newValue.isNotAllow3 === false && newValue.isNotAllow4 === false) {
+                    $rootScope.isNotAllowNext = false;
+                }
+            }, true);
+        };
+
+        _watchFn();
+
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 0) {
+                $rootScope.isNotAllowNext = true;
+                _watchFn();
+            }
+        });
     }])
-    .controller('selectMultipleCtrl', ['$log', 'httpMethod', 'paramData', function($log, httpMethod, paramData) {
+    .controller('selectMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
         var vm = this;
         vm.checkedAreaList = [];
         vm.areaList = []; //所有地区列表
         var param = {
             level: '3'
         };
-        httpMethod.qryCommonRegion(param).then(function(rsp) {
+        httpMethod.qryArea(param).then(function(rsp) {
             vm.areaList = rsp.data.area;
             $log.log('获取地区列表成功.');
         }, function() {
@@ -259,17 +336,20 @@ angular
         vm.changeCallback = function(item, model) {
             paramData.areasId = [];
             _.map(vm.checkedAreaList, function(item, index) {
-                _.set(paramData, ['areasId', index, 'areaId'], item.commonRegionId);
+                _.set(paramData, ['areasId', index, 'areaId'], item.areaId);
+                _.set(paramData, ['areasId', index, 'name'], item.name);
             });
         };
+
+        $scope.$watch('$ctrl.checkedAreaList', function(newValue) {
+            var parent = $scope.$parent;
+            parent.isNotAllowObj.isNotAllow4 = true;
+            if (_.size(newValue)) {
+                parent.isNotAllowObj.isNotAllow4 = false;
+            }
+        }, true);
     }])
     .controller('secondStepCtrl', ['$scope', '$rootScope', '$uibModal', '$log', 'paramData', function($scope, $rootScope, $uibModal, $log, paramData) {
-        $rootScope.$watch('stepNum', function(newValue) {
-            if (newValue === 1) {
-                $scope.startDt = paramData.activityStartDate || '----';
-                $scope.endDt = paramData.activityEndDate || '----';
-            }
-        });
         $scope.lineList = []; //发放单代金券明细列表
         $scope.currentPageList = []; //当前分页数据列表
         //分页
@@ -286,7 +366,7 @@ angular
             var obj = {
                 resources: {}, //资源信息
                 hall: {}, //厅店信息
-                num: '' //资源数量
+                num: null //资源数量
             };
             $scope.lineList.push(obj);
             $scope.totalNum = _.size($scope.lineList);
@@ -299,21 +379,48 @@ angular
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
         };
         //数据update同步paramData
-        $scope.$watch('lineList', function(newValue) {
-            var middleData = [],
-                obj = {
-                    hallId: '',
-                    resId: '',
-                    num: ''
+        var _watchFn = function() {
+            $scope.$watch('lineList', function(newValue) {
+                var middleData = [];
+                _.map(newValue, function(item, index) {
+                    var obj = {
+                        hallId: '',
+                        hallName: '',
+                        rscId: '',
+                        rscName: '',
+                        num: null
+                    };
+                    obj.hallId = item.hall.hallId;
+                    obj.hallName = item.hall.name;
+                    obj.rscId = item.resources.rscId;
+                    obj.rscName = item.resources.name;
+                    obj.num = item.num;
+                    middleData.push(obj);
+                });
+                paramData.hallResources = middleData;
+                //监听是否允许下一步
+                $rootScope.isNotAllowNext = true;
+                if (_.size(newValue)) {
+                    var isNotAllow = _.every(newValue, function(item, index) {
+                        return item.hall.hallId !== '' && item.resources.rscId !== '' && item.num !== null;
+                    });
+                    if (isNotAllow) {
+                        $rootScope.isNotAllowNext = false;
+                    };
                 };
-            _.map(newValue, function(item, index) {
-                obj.hallId = item.hall.hallId;
-                obj.resId = item.resources.resId;
-                obj.num = item.num;
-                middleData.push(obj);
-            });
-            paramData.hallResources = middleData;
-        }, true);
+            }, true);
+        };
+
+        _watchFn();
+
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 1) {
+                $scope.startDt = paramData.activityStartDate || '----';
+                $scope.endDt = paramData.activityEndDate || '----';
+                $rootScope.isNotAllowNext = true;
+                _watchFn();
+            }
+        });
         //添加资源
         $scope.addResources = function(item) {
             var modalInstance = $uibModal.open({
@@ -411,7 +518,7 @@ angular
         var param = {
             level: '3'
         };
-        httpMethod.qryCommonRegion(param).then(function(rsp) {
+        httpMethod.qryArea(param).then(function(rsp) {
             $ctrl.cityList = rsp.data.area;
             $log.log('获取州/市列表成功.');
         }, function() {
@@ -419,13 +526,12 @@ angular
         });
 
         $scope.$watch('$ctrl.cityId', function(newValue) {
-            $log.log(newValue, 'newValue');
             if (newValue) {
                 var param = {
                     level: '4',
-                    parentCommonRegionId: $ctrl.cityId
+                    parentAreaId: $ctrl.cityId
                 };
-                httpMethod.qryCommonRegion(param).then(function(rsp) {
+                httpMethod.qryArea(param).then(function(rsp) {
                     $ctrl.districtList = rsp.data.area;
                     $log.log('获取区/县列表成功.');
                 }, function() {
@@ -499,20 +605,38 @@ angular
             $log.log($scope.currentPageList, '$scope.currentPageList');
         };
         //数据update同步paramData
-        $scope.$watch('lineList', function(newValue) {
-            $log.log(newValue, 'newValue11');
-            var middleData = [],
-                obj = {
-                    merchantId: '',
-                    merchantName: ''
+        var _watchFn = function() {
+            $scope.$watch('lineList', function(newValue) {
+                var middleData = [],
+                    obj = {
+                        merchantId: '',
+                        merchantName: ''
+                    };
+                _.map(newValue, function(item, index) {
+                    obj.merchantId = item.merchantId;
+                    obj.merchantName = item.name;
+                    middleData.push(obj);
+                });
+                paramData.merchants = middleData;
+                //监听是否允许下一步
+                if (_.size(newValue)) {
+                    $rootScope.isNotAllowNext = true;
+                    var isNotAllow = _.every(newValue, function(item, index) {
+                        return item.merchantId !== '';
+                    });
+                    if (isNotAllow) {
+                        $rootScope.isNotAllowNext = false;
+                    };
                 };
-            _.map(newValue, function(item, index) {
-                obj.merchantId = item.merchantId;
-                obj.merchantName = item.name;
-                middleData.push(obj);
-            });
-            paramData.merchants = middleData;
-        }, true);
+            }, true);
+        }
+        _watchFn();
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 2) {
+                $rootScope.isNotAllowNext = false;
+                _watchFn();
+            }
+        });
         //添加商户
         $scope.addMerchant = function(item) {
             var modalInstance = $uibModal.open({
@@ -551,7 +675,7 @@ angular
         var param = {
             level: '3'
         };
-        httpMethod.qryCommonRegion(param).then(function(rsp) {
+        httpMethod.qryArea(param).then(function(rsp) {
             $ctrl.cityList = rsp.data.area;
             $log.log('获取州/市列表成功.');
         }, function() {
@@ -559,13 +683,12 @@ angular
         });
 
         $scope.$watch('$ctrl.cityId', function(newValue) {
-            $log.log(newValue, 'newValue');
             if (newValue) {
                 var param = {
                     level: '4',
-                    parentCommonRegionId: $ctrl.cityId
+                    parentAreaId: $ctrl.cityId
                 };
-                httpMethod.qryCommonRegion(param).then(function(rsp) {
+                httpMethod.qryArea(param).then(function(rsp) {
                     $ctrl.districtList = rsp.data.area;
                     $log.log('获取区/县列表成功.');
                 }, function() {
@@ -609,24 +732,90 @@ angular
             $uibModalInstance.dismiss('cancel');
         };
     }])
-    .controller('lastStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {}])
-    .controller('stepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
-        $scope.giveoutActivityCommit = function() {
-            $log.log($rootScope.checkedAreaList, 'checkedAreaList');
-        }
-    }])
-    //分页控制器
-    .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function($scope, $rootScope, $log) {
-        $scope.$on('pageChange', function() {
-            $scope.currentPage = 1;
+    .controller('fourthStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 3) {
+                $rootScope.isNotAllowNext = true;
+                $scope.activityName = paramData.activityName;
+                $scope.activityCode = paramData.activityCode;
+                $scope.activityType = paramData.activityType;
+                $scope.activityStartDate = paramData.activityStartDate || '----';
+                $scope.activityEndDate = paramData.activityEndDate || '----';
+                $scope.areasId = paramData.areasId;
+                $scope.activityDesc = paramData.activityDesc;
+                $scope.resHallList = [];
+                $scope.hallResourcesList = paramData.hallResources;
+                //数据fit
+                if (_.size($scope.hallResourcesList)) {
+                    _.map($scope.hallResourcesList, function(item, index) {
+                        if (!_.size($scope.resHallList)) {
+                            var obj = {
+                                rscId: item.rscId,
+                                rscName: item.rscName,
+                                list: [{
+                                    hallId: item.hallId,
+                                    hallName: item.hallName,
+                                    num: item.num
+                                }]
+                            };
+                            $scope.resHallList.push(obj);
+                        } else {
+                            _.map($scope.resHallList, function(it, index) {
+                                if (it.rscId === item.rscId) {
+                                    var o = {
+                                        hallId: item.hallId,
+                                        hallName: item.hallName,
+                                        num: item.num
+                                    };
+                                    it.list.push(o);
+                                } else {
+                                    var obj = {
+                                        rscId: item.rscId,
+                                        rscName: item.rscName,
+                                        list: [{
+                                            hallId: item.hallId,
+                                            hallName: item.hallName,
+                                            num: item.num
+                                        }]
+                                    };
+                                    $scope.resHallList.push(obj);
+                                };
+                            });
+                        };
+                    });
+                };
+                $scope.merchantsList = paramData.merchants;
+            }
         });
-        $scope.maxSize = 10;
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
-
-        $scope.pageChanged = function() {
-            $scope.queryStaffFormSubmit($scope.currentPage);
-            $log.log('Page changed to: ' + $scope.currentPage);
-        };
+    }])
+    .controller('stepCtrl', ['$scope', '$rootScope', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $log, $timeout, paramData, httpMethod) {
+        $scope.giveoutActivityCommit = function() {
+            httpMethod.grantActivityCommit(paramData).then(function(rsp) {
+                if (rsp.success) {
+                    swal({
+                        title: '恭喜你.',
+                        text: '活动信息提交成功',
+                        type: 'success',
+                        confirmButtonText: '确定'
+                    }, function() {
+                        $timeout(function() {
+                            // parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        });
+                    });
+                } else {
+                    swal({
+                        title: 'Sorry.',
+                        text: '活动信息提交失败',
+                        type: 'error',
+                        confirmButtonText: '确定'
+                    }, function() {
+                        $timeout(function() {
+                            // parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        });
+                    });
+                }
+            }, function() {
+                $log.log('活动信息提交接口失败.');
+            });
+        }
     }])
