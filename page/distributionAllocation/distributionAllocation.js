@@ -21,20 +21,20 @@ angular
             'activityType': '', //活动类型
             'activityStartDate': '', //活动开始时间
             'activityEndDate': '', //活动结束时间
-            'areasId': [{ //活动地区ID列表
-                'areaId': '' //地区ID
-            }],
+            'areasId': [], //活动地区ID列表
             'activityDesc': '', //活动描述
             'hallResources': [{ //厅店发放明细列表
-                'hallId': '111', //厅店ID
-                'resId': '213', //资源ID
-                'num': 500 //资源数量
+                'hallId': '', //厅店ID
+                'hallName': '', //厅店名称
+                'resId': '', //资源ID
+                'resName': '', //资源名称
+                'num': null //资源数量
             }],
             'merchants': [{ //商户列表
-                'merchantId': '12321', //商户ID
-                'merchantName': 'xx商户' //商户名称
+                'merchantId': '', //商户ID
+                'merchantName': '' //商户名称
             }]
-        }
+        };
 
         return paramData;
     }])
@@ -123,6 +123,26 @@ angular
             return defer.promise;
         };
 
+        //活动信息提交
+        httpMethod.grantActivityCommit = function(param) {
+            debugger
+            var defer = $q.defer();
+            $http({
+                url: httpConfig.siteUrl + '/activity/grantActivityCommit',
+                method: 'POST',
+                headers: httpConfig.requestHeader,
+                data: 'param=' + JSON.stringify(param)
+            }).success(function(data, header, config, status) {
+                if (status != 200) {
+                    //跳转403页面
+                }
+                defer.resolve(data);
+            }).error(function(data, status, headers, config) {
+                defer.reject(data);
+            });
+            return defer.promise;
+        };
+
         if (httpConfig.isMock) {
             //地区查询
             Mock.mock(httpConfig.siteUrl + '/common/qryCommonRegion', {
@@ -189,6 +209,15 @@ angular
                     }],
                     'total|1-100': 10 //总条数
                 },
+                'errors': null
+            });
+
+            //活动信息提交
+            Mock.mock(httpConfig.siteUrl + '/activity/grantActivityCommit', {
+                'rsphead': 's',
+                'success|+1': [true, false], //是否成功
+                'code': null,
+                'msg': null, //失败信息
                 'errors': null
             });
         }
@@ -260,6 +289,7 @@ angular
             paramData.areasId = [];
             _.map(vm.checkedAreaList, function(item, index) {
                 _.set(paramData, ['areasId', index, 'areaId'], item.commonRegionId);
+                _.set(paramData, ['areasId', index, 'name'], item.name);
             });
         };
     }])
@@ -300,15 +330,19 @@ angular
         };
         //数据update同步paramData
         $scope.$watch('lineList', function(newValue) {
-            var middleData = [],
-                obj = {
+            var middleData = [];
+            _.map(newValue, function(item, index) {
+                var obj = {
                     hallId: '',
+                    hallName: '',
                     resId: '',
+                    resName: '',
                     num: ''
                 };
-            _.map(newValue, function(item, index) {
                 obj.hallId = item.hall.hallId;
+                obj.hallName = item.hall.name;
                 obj.resId = item.resources.resId;
+                obj.resName = item.resources.name;
                 obj.num = item.num;
                 middleData.push(obj);
             });
@@ -419,7 +453,6 @@ angular
         });
 
         $scope.$watch('$ctrl.cityId', function(newValue) {
-            $log.log(newValue, 'newValue');
             if (newValue) {
                 var param = {
                     level: '4',
@@ -609,24 +642,71 @@ angular
             $uibModalInstance.dismiss('cancel');
         };
     }])
-    .controller('lastStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {}])
-    .controller('stepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
-        $scope.giveoutActivityCommit = function() {
-            $log.log($rootScope.checkedAreaList, 'checkedAreaList');
-        }
-    }])
-    //分页控制器
-    .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function($scope, $rootScope, $log) {
-        $scope.$on('pageChange', function() {
-            $scope.currentPage = 1;
+    .controller('fourthStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 3) {
+                $scope.activityName = paramData.activityName;
+                $scope.activityCode = paramData.activityCode;
+                $scope.activityType = paramData.activityType;
+                $scope.activityStartDate = paramData.activityStartDate || '----';
+                $scope.activityEndDate = paramData.activityEndDate || '----';
+                $scope.areasId = paramData.areasId;
+                $scope.activityDesc = paramData.activityDesc;
+                $scope.resHallList = [];
+                $scope.hallResourcesList = paramData.hallResources;
+                //数据fit
+                if (_.size($scope.hallResourcesList)) {
+                    _.map($scope.hallResourcesList, function(item, index) {
+                        if (!_.size($scope.resHallList)) {
+                            var obj = {
+                                resId: item.resId,
+                                resName: item.resName,
+                                list: [{
+                                    hallId: item.hallId,
+                                    hallName: item.hallName,
+                                    num: item.num
+                                }]
+                            };
+                            $scope.resHallList.push(obj);
+                        } else {
+                            _.map($scope.resHallList, function(it, index) {
+                                if (it.resId === item.resId) {
+                                    var o = {
+                                        hallId: item.hallId,
+                                        hallName: item.hallName,
+                                        num: item.num
+                                    };
+                                    it.list.push(o);
+                                } else {
+                                    var obj = {
+                                        resId: item.resId,
+                                        resName: item.resName,
+                                        list: [{
+                                            hallId: item.hallId,
+                                            hallName: item.hallName,
+                                            num: item.num
+                                        }]
+                                    };
+                                    $scope.resHallList.push(obj);
+                                };
+                            });
+                        };
+                    });
+                };
+                $scope.merchantsList = paramData.merchants;
+            }
         });
-        $scope.maxSize = 10;
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
-
-        $scope.pageChanged = function() {
-            $scope.queryStaffFormSubmit($scope.currentPage);
-            $log.log('Page changed to: ' + $scope.currentPage);
-        };
+    }])
+    .controller('stepCtrl', ['$scope', '$rootScope', '$log', 'paramData', 'httpMethod', function($scope, $rootScope, $log, paramData, httpMethod) {
+        $scope.giveoutActivityCommit = function() {
+            httpMethod.grantActivityCommit(paramData).then(function(rsp) {
+                if (rsp.success) {
+                    $log.log('活动信息提交成功.');
+                } else {
+                    $log.log('活动信息提交失败.');
+                }
+            }, function() {
+                $log.log('获取商户列表失败.');
+            });
+        }
     }])

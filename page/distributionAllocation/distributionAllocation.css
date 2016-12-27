@@ -80,6 +80,37 @@
     /*border-bottom: 1px solid #ddd;*/
 }
 
+.res-hall-list {
+    min-height: 32px;
+    max-height: 64px;
+    padding: 0 20px;
+    line-height: 32px;
+    color: #333;
+    overflow: hidden;
+}
+
+.res-name {
+    font-weight: 800;
+}
+
+.hall-name-num {
+    margin: 0 50px 0 30px;
+}
+
+.hall-name, .hall-num {
+    font-style: normal;
+}
+
+.store-list {
+    padding: 0 20px;
+    line-height: 32px;
+    color: #333;
+}
+
+.store-name {
+    margin-right: 80px;
+}
+
 .step-ctrl {
     padding: 10px 0;
 }
@@ -370,6 +401,11 @@
 .form-group .detail-input {
     height: 25px;
     line-height: 25px;
+    overflow: hidden;
+}
+
+.form-group .detail-input .city-span {
+    margin-right: 3px;
 }
 
 /* 分页 */
