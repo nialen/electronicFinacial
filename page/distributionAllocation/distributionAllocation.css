@@ -35,7 +35,8 @@
     display: none;
 }
 
-.step-item::before, .step-item::after {
+.step-item::before,
+.step-item::after {
     content: '';
     position: absolute;
     top: 10px;
@@ -64,7 +65,8 @@
     border-color: #b1cc00;
 }
 
-.step-item.current::before, .step-item.current::after {
+.step-item.current::before,
+.step-item.current::after {
     background-color: #b1cc00;
 }
 
@@ -72,8 +74,7 @@
     color: #b1cc00;
 }
 
-.step-wrapper {
-}
+.step-wrapper {}
 
 .step-content {
     padding: 10px;
@@ -97,7 +98,8 @@
     margin: 0 50px 0 30px;
 }
 
-.hall-name, .hall-num {
+.hall-name,
+.hall-num {
     font-style: normal;
 }
 
@@ -143,21 +145,25 @@
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
 }
+
 .result-title .title {
     position: relative;
     padding-top: 4px;
     padding-left: 32px;
     line-height: 16px;
 }
+
 .result-title .title img {
     position: absolute;
     top: 4px;
     left: 0;
 }
+
 .result-title .title .title-cn {
     color: #4c9ef5;
     font-size: 14px;
 }
+
 .result-title .title .title-en {
     color: #ddd;
     font-size: 12px;
@@ -182,6 +188,7 @@
     line-height: 25px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    text-align: center;
 }
 
 .query-keyword-box {
@@ -298,21 +305,25 @@
     border: 1px solid #ddd;
     border-bottom: none;
 }
+
 .result-header .title {
     position: relative;
     padding-top: 4px;
     padding-left: 32px;
     line-height: 16px;
 }
+
 .result-header .title img {
     position: absolute;
     top: 4px;
     left: 0;
 }
+
 .result-header .title .title-cn {
     color: #4c9ef5;
     font-size: 14px;
 }
+
 .result-header .title .title-en {
     color: #ddd;
     font-size: 12px;
@@ -328,16 +339,20 @@
     font-size: 12px;
     margin-top: 2px;
 }
-.btn-set:focus, .btn-set.focus {
+
+.btn-set:focus,
+.btn-set.focus {
     background-color: #e4ae0c;
     border-color: #e4ae0c;
     color: #fff;
 }
+
 .btn-set:hover {
     background-color: #e4ae0c;
     border-color: #e4ae0c;
     color: #fff;
 }
+
 .result-table table th {
     background-color: #f5fafa;
     border-bottom-width: 1px !important;
@@ -345,36 +360,47 @@
     font-weight: 800;
     text-align: center;
 }
+
 .result-table table td {
     padding: 2px !important;
     text-align: center;
 }
+
 .result-table table td p {
     height: 25px;
     line-height: 25px;
 }
+
 .btn-edit {
     background-color: #b1cc00;
     color: #fff;
 }
-.btn-edit:focus, .btn-edit.focus {
+
+.btn-edit:focus,
+.btn-edit.focus {
     background-color: #a4bc04;
     color: #fff;
 }
+
 .btn-edit:hover {
     background-color: #a4bc04;
     color: #fff;
 }
-.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
     padding: 5px 0;
 }
 
+
 /* input 百分比 */
+
 .form-group {
     position: relative;
     width: 100% !important;
     padding-left: 80px;
 }
+
 .form-group label {
     position: absolute;
     left: 0;
@@ -382,18 +408,21 @@
     line-height: 25px;
     text-align: right;
 }
+
 .form-group input[type="text"] {
     width: 100% !important;
     height: 25px;
     padding: 0 12px;
     line-height: 25px;
 }
+
 .form-group select {
     width: 100% !important;
     height: 25px;
     padding: 0 12px;
     line-height: 25px;
 }
+
 .form-group textarea {
     width: 100% !important;
 }
@@ -408,12 +437,15 @@
     margin-right: 3px;
 }
 
+
 /* 分页 */
+
 .page {
     position: relative;
     height: 26px;
     margin-bottom: 10px;
 }
+
 .page-num {
     position: absolute;
     top: 5px;
@@ -422,6 +454,7 @@
     color: #4c4c4c;
     line-height: 16px;
 }
+
 .page-num .number {
     display: inline-block;
     height: 16px;
@@ -433,12 +466,22 @@
     color: #fff;
 }
 
+
 /* ng-cloak修复闪跳 */
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
     display: none !important;
 }
 
+
 /* select */
+
 .select-box {
     width: 100%;
     height: 25px;
@@ -465,12 +508,16 @@
     display: none;
 }
 
+
 /* 日历 */
+
 .dropdown-menu {
     padding: 1px;
 }
 
+
 /* 表单提示 */
+
 .prompt {
     position: absolute;
     right: -100px;
@@ -481,7 +528,9 @@
     color: #ff0000;
 }
 
+
 /* select2 */
+
 .ui-select-multiple.ui-select-bootstrap {
     width: 100%;
     height: 25px;

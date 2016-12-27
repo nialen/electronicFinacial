@@ -3,7 +3,7 @@
  * Date 2016-12-24
  */
 angular
-    .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select'])
+    .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select', 'ui.uploader'])
     .run(['$rootScope', function($rootScope) {
         $rootScope.stepNum = 0; //当前显示的step索引值（Number类型）
         $rootScope.goBack = function(num) { //返回（num-1）
@@ -12,6 +12,7 @@ angular
         $rootScope.forward = function(num) { //返回（num+1）
             $rootScope.stepNum = num + 1;
         };
+        $rootScope.isNotAllowNext = true; //允许下一步 true:不允许；false:允许；
     }])
     //活动确认保存入参
     .factory('paramData', [function() {
@@ -125,7 +126,6 @@ angular
 
         //活动信息提交
         httpMethod.grantActivityCommit = function(param) {
-            debugger
             var defer = $q.defer();
             $http({
                 url: httpConfig.siteUrl + '/activity/grantActivityCommit',
@@ -271,8 +271,56 @@ angular
         };
         $scope.startPopupOpened = false;
         $scope.endPopupOpened = false;
+
+        // TODO 优化监听方案
+        $scope.isNotAllowObj = {
+            isNotAllow1: true, //activityInformation完整
+            isNotAllow2: true, //createStartDt完整
+            isNotAllow3: true, //createEndDt完整
+            isNotAllow4: true //areaList完整
+        };
+
+        $scope.$watch('activityInformation', function(newValue) {
+            $scope.isNotAllowObj.isNotAllow1 = true;
+            if (newValue.activityName && newValue.activityCode && newValue.activityType && newValue.activityDesc) {
+                $scope.isNotAllowObj.isNotAllow1 = false;
+            }
+        }, true);
+
+        $scope.$watch('createStartDt', function(newValue) {
+            $scope.isNotAllowObj.isNotAllow2 = true;
+            if (newValue) {
+                $scope.isNotAllowObj.isNotAllow2 = false;
+            }
+        });
+
+        $scope.$watch('createEndDt', function(newValue) {
+            $scope.isNotAllowObj.isNotAllow3 = true;
+            if (newValue) {
+                $scope.isNotAllowObj.isNotAllow3 = false;
+            }
+        });
+
+        var _watchFn = function() {
+            $scope.$watch('isNotAllowObj', function(newValue) {
+                //监听是否允许下一步
+                $rootScope.isNotAllowNext = true;
+                if (newValue.isNotAllow1 === false && newValue.isNotAllow2 === false && newValue.isNotAllow3 === false && newValue.isNotAllow4 === false) {
+                    $rootScope.isNotAllowNext = false;
+                }
+            }, true);
+        };
+
+        _watchFn();
+
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 0) {
+                $rootScope.isNotAllowNext = true;
+                _watchFn();
+            }
+        });
     }])
-    .controller('selectMultipleCtrl', ['$log', 'httpMethod', 'paramData', function($log, httpMethod, paramData) {
+    .controller('selectMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
         var vm = this;
         vm.checkedAreaList = [];
         vm.areaList = []; //所有地区列表
@@ -292,14 +340,16 @@ angular
                 _.set(paramData, ['areasId', index, 'name'], item.name);
             });
         };
+
+        $scope.$watch('$ctrl.checkedAreaList', function(newValue) {
+            var parent = $scope.$parent;
+            parent.isNotAllowObj.isNotAllow4 = true;
+            if (_.size(newValue)) {
+                parent.isNotAllowObj.isNotAllow4 = false;
+            }
+        }, true);
     }])
     .controller('secondStepCtrl', ['$scope', '$rootScope', '$uibModal', '$log', 'paramData', function($scope, $rootScope, $uibModal, $log, paramData) {
-        $rootScope.$watch('stepNum', function(newValue) {
-            if (newValue === 1) {
-                $scope.startDt = paramData.activityStartDate || '----';
-                $scope.endDt = paramData.activityEndDate || '----';
-            }
-        });
         $scope.lineList = []; //发放单代金券明细列表
         $scope.currentPageList = []; //当前分页数据列表
         //分页
@@ -316,7 +366,7 @@ angular
             var obj = {
                 resources: {}, //资源信息
                 hall: {}, //厅店信息
-                num: '' //资源数量
+                num: null //资源数量
             };
             $scope.lineList.push(obj);
             $scope.totalNum = _.size($scope.lineList);
@@ -329,25 +379,48 @@ angular
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
         };
         //数据update同步paramData
-        $scope.$watch('lineList', function(newValue) {
-            var middleData = [];
-            _.map(newValue, function(item, index) {
-                var obj = {
-                    hallId: '',
-                    hallName: '',
-                    resId: '',
-                    resName: '',
-                    num: ''
+        var _watchFn = function() {
+            $scope.$watch('lineList', function(newValue) {
+                var middleData = [];
+                _.map(newValue, function(item, index) {
+                    var obj = {
+                        hallId: '',
+                        hallName: '',
+                        resId: '',
+                        resName: '',
+                        num: null
+                    };
+                    obj.hallId = item.hall.hallId;
+                    obj.hallName = item.hall.name;
+                    obj.resId = item.resources.resId;
+                    obj.resName = item.resources.name;
+                    obj.num = item.num;
+                    middleData.push(obj);
+                });
+                paramData.hallResources = middleData;
+                //监听是否允许下一步
+                $rootScope.isNotAllowNext = true;
+                if (_.size(newValue)) {
+                    var isNotAllow = _.every(newValue, function(item, index) {
+                        return item.hall.hallId !== '' && item.resources.resId !== '' && item.num !== null;
+                    });
+                    if (isNotAllow) {
+                        $rootScope.isNotAllowNext = false;
+                    };
                 };
-                obj.hallId = item.hall.hallId;
-                obj.hallName = item.hall.name;
-                obj.resId = item.resources.resId;
-                obj.resName = item.resources.name;
-                obj.num = item.num;
-                middleData.push(obj);
-            });
-            paramData.hallResources = middleData;
-        }, true);
+            }, true);
+        };
+
+        _watchFn();
+
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 1) {
+                $scope.startDt = paramData.activityStartDate || '----';
+                $scope.endDt = paramData.activityEndDate || '----';
+                $rootScope.isNotAllowNext = true;
+                _watchFn();
+            }
+        });
         //添加资源
         $scope.addResources = function(item) {
             var modalInstance = $uibModal.open({
@@ -532,20 +605,38 @@ angular
             $log.log($scope.currentPageList, '$scope.currentPageList');
         };
         //数据update同步paramData
-        $scope.$watch('lineList', function(newValue) {
-            $log.log(newValue, 'newValue11');
-            var middleData = [],
-                obj = {
-                    merchantId: '',
-                    merchantName: ''
+        var _watchFn = function() {
+            $scope.$watch('lineList', function(newValue) {
+                var middleData = [],
+                    obj = {
+                        merchantId: '',
+                        merchantName: ''
+                    };
+                _.map(newValue, function(item, index) {
+                    obj.merchantId = item.merchantId;
+                    obj.merchantName = item.name;
+                    middleData.push(obj);
+                });
+                paramData.merchants = middleData;
+                //监听是否允许下一步
+                if (_.size(newValue)) {
+                    $rootScope.isNotAllowNext = true;
+                    var isNotAllow = _.every(newValue, function(item, index) {
+                        return item.merchantId !== '';
+                    });
+                    if (isNotAllow) {
+                        $rootScope.isNotAllowNext = false;
+                    };
                 };
-            _.map(newValue, function(item, index) {
-                obj.merchantId = item.merchantId;
-                obj.merchantName = item.name;
-                middleData.push(obj);
-            });
-            paramData.merchants = middleData;
-        }, true);
+            }, true);
+        }
+        _watchFn();
+        $rootScope.$watch('stepNum', function(newValue) {
+            if (newValue === 2) {
+                $rootScope.isNotAllowNext = false;
+                _watchFn();
+            }
+        });
         //添加商户
         $scope.addMerchant = function(item) {
             var modalInstance = $uibModal.open({
@@ -592,7 +683,6 @@ angular
         });
 
         $scope.$watch('$ctrl.cityId', function(newValue) {
-            $log.log(newValue, 'newValue');
             if (newValue) {
                 var param = {
                     level: '4',
@@ -645,6 +735,7 @@ angular
     .controller('fourthStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
         $rootScope.$watch('stepNum', function(newValue) {
             if (newValue === 3) {
+                $rootScope.isNotAllowNext = true;
                 $scope.activityName = paramData.activityName;
                 $scope.activityCode = paramData.activityCode;
                 $scope.activityType = paramData.activityType;
@@ -697,16 +788,34 @@ angular
             }
         });
     }])
-    .controller('stepCtrl', ['$scope', '$rootScope', '$log', 'paramData', 'httpMethod', function($scope, $rootScope, $log, paramData, httpMethod) {
+    .controller('stepCtrl', ['$scope', '$rootScope', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $log, $timeout, paramData, httpMethod) {
         $scope.giveoutActivityCommit = function() {
             httpMethod.grantActivityCommit(paramData).then(function(rsp) {
                 if (rsp.success) {
-                    $log.log('活动信息提交成功.');
+                    swal({
+                        title: '恭喜你.',
+                        text: '活动信息提交成功',
+                        type: 'success',
+                        confirmButtonText: '确定'
+                    }, function() {
+                        $timeout(function() {
+                            // parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        });
+                    });
                 } else {
-                    $log.log('活动信息提交失败.');
+                    swal({
+                        title: 'Sorry.',
+                        text: '活动信息提交失败',
+                        type: 'error',
+                        confirmButtonText: '确定'
+                    }, function() {
+                        $timeout(function() {
+                            // parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        });
+                    });
                 }
             }, function() {
-                $log.log('获取商户列表失败.');
+                $log.log('活动信息提交接口失败.');
             });
         }
     }])
