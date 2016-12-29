@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-xs-8 text-right">
                             <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 增加一行</button>
-                            <button ng-click="" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
+                            <button ng-click="hallImport()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
                         </div>
                     </div>
                     <div class="result-table">
@@ -166,14 +166,14 @@
                                         <span class="add-new-btn" ng-click="addResources(item)">...</span>
                                     </td>
                                     <td>
-                                        <p ng-bind="item.resources.name"></p>
+                                        <p ng-bind="item.resources.rscName"></p>
                                     </td>
                                     <td>
                                         <span ng-bind="item.hall.hallId"></span>
                                         <span class="add-new-btn" ng-click="addHall(item)">...</span>
                                     </td>
                                     <td>
-                                        <p ng-bind="item.hall.name"></p>
+                                        <p ng-bind="item.hall.hallName"></p>
                                     </td>
                                     <td>
                                         <input type="number" class="edit-num-input" ng-model="item.num">
@@ -206,7 +206,7 @@
                         </div>
                         <div class="col-xs-8 text-right">
                             <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 增加一行</button>
-                            <button ng-click="" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
+                            <button ng-click="merchantImport()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
                         </div>
                     </div>
                     <div class="result-table">
@@ -291,7 +291,7 @@
                             <div class="form-group">
                                 <label class="control-label">活动地区：</label>
                                 <p class="detail-input">
-                                    <span class="city-span" ng-repeat="item in areasId" ng-bind="item.name"></span>
+                                    <span class="city-span" ng-repeat="item in areasId" ng-bind="item.areaname"></span>
                                 </p>
                             </div>
                         </div>
@@ -385,7 +385,7 @@
                                     <p ng-bind="item.rscId"></p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.name"></p>
+                                    <p ng-bind="item.rscName"></p>
                                 </td>
                                 <td>
                                     <p ng-bind="item.templet"></p>
@@ -491,7 +491,7 @@
                                     <p ng-bind="item.hallId"></p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.name"></p>
+                                    <p ng-bind="item.hallName"></p>
                                 </td>
                                 <td>
                                     <p ng-bind="item.orgName"></p>
@@ -608,6 +608,58 @@
             <div class="modal-footer" id="hall-modal-footer">
                 <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
                 <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
+            </div>
+        </script>
+        <!-- 厅店发放导入弹框 -->
+        <script type="text/ng-template" id="hallImportModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title" id="hall-import-title"><img class="icon" src="../../resources/images/icon_import.png">发放明细导入</h3>
+            </div>
+            <div class="temp-down">
+                <span class="temp-down-name">模板下载：</span>
+                <a ng-href="{{$ctrl.grantUploadTemplete}}" class="temp-down-link" target="_blank">模板下载</a>
+                <span class="temp-down-tip">* 提醒：导入之前请下载最新模版</span>
+            </div>
+            <div class="temp-import">
+                <span class="temp-import-name">选择Excel文件：</span>
+                <label class="temp-import-link">选择文件
+                    <input type="file" id="hallImportInput" ng-click="$ctrl.checkFiles()" />
+                </label>
+                <div class="temp-import-files" ng-repeat="file in $ctrl.files">
+                    <p class="import-file-name" ng-bind="file.name"></p>
+                    <progress style="width:100%;" value="{{file.loaded}}" max="{{file.size}}"></progress>
+                    <p class="import-file-state" ng-cloak ng-if="$ctrl.resp">导入结果：{{$ctrl.resp.success ? '成功' : '失败'}} <span class="import-file-result" ng-cloak ng-if="!$ctrl.resp.success">失败原因：{{$ctrl.resp.msg}}</span></p>
+                </div>
+            </div>
+            <div class="modal-footer" id="hall-import-footer">
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.btn_upload()">确定导入</button>
+                <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
+            </div>
+        </script>
+        <!-- 活动商户导入 -->
+        <script type="text/ng-template" id="merchantImportModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title" id="merchant-import-title"><img class="icon" src="../../resources/images/icon_import.png">商户导入</h3>
+            </div>
+            <div class="temp-down">
+                <span class="temp-down-name">模板下载：</span>
+                <a ng-href="{{$ctrl.grantUploadTemplete}}" class="temp-down-link" target="_blank">模板下载</a>
+                <span class="temp-down-tip">* 提醒：导入之前请下载最新模版</span>
+            </div>
+            <div class="temp-import">
+                <span class="temp-import-name">选择Excel文件：</span>
+                <label class="temp-import-link">选择文件
+                    <input type="file" id="merchantImportInput" ng-click="$ctrl.checkFiles()" />
+                </label>
+                <div class="temp-import-files" ng-repeat="file in $ctrl.files">
+                    <p class="import-file-name" ng-bind="file.name"></p>
+                    <progress style="width:100%;" value="{{file.loaded}}" max="{{file.size}}"></progress>
+                    <p class="import-file-state" ng-cloak ng-if="$ctrl.resp">导入结果：{{$ctrl.resp.success ? '成功' : '失败'}} <span class="import-file-result" ng-cloak ng-if="!$ctrl.resp.success">失败原因：{{$ctrl.resp.msg}}</span></p>
+                </div>
+            </div>
+            <div class="modal-footer" id="merchant-import-footer">
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.btn_upload()">确定导入</button>
+                <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
             </div>
         </script>
     </div>
