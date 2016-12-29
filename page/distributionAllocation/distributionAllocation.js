@@ -26,20 +26,23 @@ angular
             'activityDesc': '', //活动描述
             'hallResources': [{ //厅店发放明细列表
                 'hallId': '', //厅店ID
+                'hallCode': '', //厅店编码
                 'hallName': '', //厅店名称
                 'rscId': '', //资源ID
+                'rscCode': '', //资源编码
                 'rscName': '', //资源名称
                 'num': null //资源数量
             }],
             'merchants': [{ //商户列表
                 'merchantId': '', //商户ID
+                'merchantCode': '', //商户编码
                 'merchantName': '' //商户名称
             }]
         };
 
         return paramData;
     }])
-    .factory('httpMethod', ['$http', '$q', function($http, $q) {
+    .factory('httpConfig', [function() {
         var httpConfig = {
             'siteUrl': 'http://192.168.16.84:8088',
             'requestHeader': {
@@ -47,6 +50,9 @@ angular
             },
             'isMock': true //是否开启测试数据
         };
+        return httpConfig;
+    }])
+    .factory('httpMethod', ['$http', '$q', 'httpConfig', function($http, $q, httpConfig) {
         var httpMethod = {};
         //获取地区列表
         httpMethod.qryArea = function(param) {
@@ -168,7 +174,8 @@ angular
                 'data': {
                     'resources|5': [{
                         'rscId': '@id', //资源ID
-                        'name': '@cword(4)', //资源名称
+                        'rscCode': '@id', //资源Code
+                        'rscName': '@cword(4)', //资源名称
                         'value': '', //面值
                         'templet': '', //模板(类型)
                         'state': '' //状态
@@ -187,7 +194,8 @@ angular
                 'data': {
                     'halls|5': [{
                         'hallId': '@id', //厅店ID
-                        'name': '@cword(5)', //厅店名称
+                        'hallCode': '@id', //厅店Code
+                        'hallName': '@cword(5)', //厅店名称
                         'orgName': '@cword(8)' //归属分支局
                     }],
                     'total|1-100': 10 //总条数
@@ -204,6 +212,7 @@ angular
                 'data': {
                     'merchants|5': [{
                         'merchantId': '@id', //商户ID
+                        'merchantCode': '@id', //商户Code
                         'name': '@cword(10)', //商户名称
                         'sName': '@cword(4)', //商户简称
                     }],
@@ -219,6 +228,51 @@ angular
                 'code': null,
                 'msg': null, //失败信息
                 'errors': null
+            });
+
+            //厅店发放导入
+            Mock.mock(httpConfig.siteUrl + '/activity/activityGrantUpload', {
+                'rsphead': 's',
+                'success': true, //是否成功,
+                'code': '0',
+                'msg': '', //失败信息
+                'error': null,
+                'data': {
+                    'activityGrant|15': [{
+                        'rscId': '@id', //资源id
+                        'rscCode': '@id', //资源编码
+                        'rscName': '@cword(5)', //资源名称
+                        'hallId': '@id', //厅店id
+                        'hallCode': '@id', //厅店编码
+                        'hallName': '@cword(5)', //厅店名称
+                        'hallTotalNum|1-100': 1 //发放数量
+                    }],
+                    'fileName': '', //文件名
+                    'total|100-200': 100, //数据总量
+                    'successNum|1-100': 1, //成功数量
+                    'failNum|1-100': 1, //失败数量
+                }
+            });
+
+            //活动商户导入
+            Mock.mock(httpConfig.siteUrl + '/activity/activityMerchantUpload', {
+                'rsphead': 's',
+                'success': true, //是否成功,
+                'code': '0',
+                'msg': '', //失败信息
+                'error': null,
+                'data': {
+                    'activityMerchant|15': [{
+                        'merchantId': '@id', //商户id
+                        'merchantCode': '@id', //商户编码
+                        'name': '@cword(5)', //商户名称
+                        'sName': '@cword(5)', //商户简称
+                    }],
+                    'fileName': '', //文件名
+                    'total|100-200': 100, //数据总量
+                    'successNum|1-100': 1, //成功数量
+                    'failNum|1-100': 1, //失败数量
+                }
             });
         }
 
@@ -337,7 +391,7 @@ angular
             paramData.areasId = [];
             _.map(vm.checkedAreaList, function(item, index) {
                 _.set(paramData, ['areasId', index, 'areaId'], item.areaId);
-                _.set(paramData, ['areasId', index, 'name'], item.name);
+                _.set(paramData, ['areasId', index, 'areaname'], item.name);
             });
         };
 
@@ -368,15 +422,15 @@ angular
                 hall: {}, //厅店信息
                 num: null //资源数量
             };
-            $scope.lineList.push(obj);
+            $scope.lineList.unshift(obj);
             $scope.totalNum = _.size($scope.lineList);
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
         };
         //删除
         $scope.delLine = function(index) {
-            $scope.lineList.splice(index, 1);
             $scope.totalNum = _.size($scope.lineList);
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
+            $scope.lineList.splice(($scope.currentPage - 1) * $scope.rowNumPerPage + index, 1);
         };
         //数据update同步paramData
         var _watchFn = function() {
@@ -391,9 +445,9 @@ angular
                         num: null
                     };
                     obj.hallId = item.hall.hallId;
-                    obj.hallName = item.hall.name;
+                    obj.hallName = item.hall.hallName;
                     obj.rscId = item.resources.rscId;
-                    obj.rscName = item.resources.name;
+                    obj.rscName = item.resources.rscName;
                     obj.num = item.num;
                     middleData.push(obj);
                 });
@@ -408,6 +462,9 @@ angular
                         $rootScope.isNotAllowNext = false;
                     };
                 };
+                //刷新列表
+                $scope.totalNum = _.size(newValue);
+                $scope.currentPageList = _.chunk(newValue, $scope.rowNumPerPage)[$scope.currentPage - 1];
             }, true);
         };
 
@@ -451,6 +508,25 @@ angular
                 resolve: {
                     items: function() {
                         return item;
+                    }
+                }
+            });
+        };
+        //导入
+        $scope.hallImport = function() {
+            var modalInstance = $uibModal.open({
+                backdrop: 'static',
+                keyboard: false,
+                animation: 'true',
+                ariaLabelledBy: 'hall-import-title',
+                ariaDescribedBy: 'hall-import-body',
+                templateUrl: 'hallImportModal.html',
+                controller: 'hallImportModalCtrl',
+                controllerAs: '$ctrl',
+                size: 'lg',
+                resolve: {
+                    items: function() {
+                        return $scope.lineList;
                     }
                 }
             });
@@ -573,6 +649,71 @@ angular
             $uibModalInstance.dismiss('cancel');
         };
     }])
+    .controller('hallImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpConfig', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpConfig, httpMethod) {
+        var $ctrl = this;
+        $ctrl.ok = function() {
+            $uibModalInstance.close();
+        };
+        $ctrl.cancel = function() {
+            var activityGrantList = _.get($ctrl.resp, 'data.activityGrant');
+            _.map(activityGrantList, function(item) {
+                var obj = {
+                    resources: {
+                        rscId: item.hallId,
+                        rscCode: item.rscCode,
+                        rscName: item.rscName
+                    },
+                    hall: {
+                        hallId: item.hallId,
+                        hallCode: item.hallCode,
+                        hallName: item.hallName
+                    },
+                    num: item.hallTotalNum
+                };
+                items.unshift(obj);
+            });
+            $uibModalInstance.dismiss('cancel');
+        };
+        $ctrl.resp = null; //上传完毕接口返回的response信息；
+        $ctrl.files = []; //上传的文件列表；
+        $ctrl.isNotAllowClose = false; //是否不允许关闭弹框；
+        $ctrl.grantUploadTemplete = httpConfig.siteUrl + '/activity/downLoad/grantUploadTemplete'; //模板下载地址
+        $ctrl.btn_remove = function(file) {
+            uiUploader.removeFile(file);
+        };
+        $ctrl.btn_clean = function() {
+            uiUploader.removeAll();
+        };
+        $ctrl.btn_upload = function() {
+            $ctrl.isNotAllowClose = true;
+            uiUploader.startUpload({
+                url: httpConfig.siteUrl + '/activity/activityGrantUpload',
+                concurrency: 1,
+                onProgress: function(file) {
+                    $log.info(file.name + '=' + file.humanSize);
+                    $scope.$apply();
+                },
+                onCompleted: function(file, response) {
+                    $ctrl.isNotAllowClose = false;
+                    $ctrl.resp = JSON.parse(response);
+                    $scope.$apply();
+                }
+            });
+        };
+        $ctrl.checkFiles = function() {
+            var element = document.getElementById('hallImportInput');
+            if (element) {
+                element.addEventListener('change', function(e) {
+                    $ctrl.resp = null;
+                    $ctrl.files = uiUploader.removeAll();
+                    var files = e.target.files;
+                    uiUploader.addFiles(files);
+                    $ctrl.files = uiUploader.getFiles();
+                    $scope.$apply();
+                });
+            }
+        };
+    }])
     .controller('thirdStepCtrl', ['$scope', '$rootScope', '$uibModal', '$log', 'paramData', function($scope, $rootScope, $uibModal, $log, paramData) {
         $scope.lineList = []; //活动商户明细列表
         $scope.currentPageList = []; //当前分页数据列表
@@ -592,27 +733,45 @@ angular
                 name: '', //商户名称
                 sName: '' //商户简称
             };
-            $scope.lineList.push(obj);
+            $scope.lineList.unshift(obj);
             $scope.totalNum = _.size($scope.lineList);
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
             $log.log($scope.currentPageList, '$scope.currentPageList');
         };
+        //导入
+        $scope.merchantImport = function() {
+            var modalInstance = $uibModal.open({
+                backdrop: 'static',
+                keyboard: false,
+                animation: 'true',
+                ariaLabelledBy: 'merchant-import-title',
+                ariaDescribedBy: 'merchant-import-body',
+                templateUrl: 'merchantImportModal.html',
+                controller: 'merchantImportModalCtrl',
+                controllerAs: '$ctrl',
+                size: 'lg',
+                resolve: {
+                    items: function() {
+                        return $scope.lineList;
+                    }
+                }
+            });
+        };
         //删除
         $scope.delLine = function(index) {
-            $scope.lineList.splice(index, 1);
             $scope.totalNum = _.size($scope.lineList);
             $scope.currentPageList = _.chunk($scope.lineList, $scope.rowNumPerPage)[$scope.currentPage - 1];
-            $log.log($scope.currentPageList, '$scope.currentPageList');
+            $scope.lineList.splice(($scope.currentPage - 1) * $scope.rowNumPerPage + index, 1);
         };
         //数据update同步paramData
         var _watchFn = function() {
             $scope.$watch('lineList', function(newValue) {
-                var middleData = [],
-                    obj = {
+                var middleData = [];
+                _.map(newValue, function(item, index) {
+                    var obj = {
                         merchantId: '',
                         merchantName: ''
                     };
-                _.map(newValue, function(item, index) {
                     obj.merchantId = item.merchantId;
                     obj.merchantName = item.name;
                     middleData.push(obj);
@@ -628,6 +787,9 @@ angular
                         $rootScope.isNotAllowNext = false;
                     };
                 };
+                //刷新列表
+                $scope.totalNum = _.size(newValue);
+                $scope.currentPageList = _.chunk(newValue, $scope.rowNumPerPage)[$scope.currentPage - 1];
             }, true);
         }
         _watchFn();
@@ -732,6 +894,63 @@ angular
             $uibModalInstance.dismiss('cancel');
         };
     }])
+    .controller('merchantImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpConfig', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpConfig, httpMethod) {
+        var $ctrl = this;
+        $ctrl.ok = function() {
+            $uibModalInstance.close();
+        };
+        $ctrl.cancel = function() {
+            var activityMerchantList = _.get($ctrl.resp, 'data.activityMerchant');
+            _.map(activityMerchantList, function(item) {
+                var obj = {
+                    merchantId: item.merchantId, //商户ID
+                    name: item.name, //商户名称
+                    sName: item.sName //商户简称
+                };
+                items.unshift(obj);
+            });
+            $uibModalInstance.dismiss('cancel');
+        };
+        $ctrl.resp = null; //上传完毕接口返回的response信息；
+        $ctrl.files = []; //上传的文件列表；
+        $ctrl.isNotAllowClose = false; //是否不允许关闭弹框；
+        $ctrl.grantUploadTemplete = httpConfig.siteUrl + '/activity/downLoad/merchantTemplete'; //模板下载地址
+        $ctrl.btn_remove = function(file) {
+            uiUploader.removeFile(file);
+        };
+        $ctrl.btn_clean = function() {
+            uiUploader.removeAll();
+        };
+        $ctrl.btn_upload = function() {
+            $ctrl.isNotAllowClose = true;
+            uiUploader.startUpload({
+                url: httpConfig.siteUrl + '/activity/activityMerchantUpload',
+                concurrency: 1,
+                onProgress: function(file) {
+                    $log.info(file.name + '=' + file.humanSize);
+                    $scope.$apply();
+                },
+                onCompleted: function(file, response) {
+                    $ctrl.isNotAllowClose = false;
+                    $ctrl.resp = JSON.parse(response);
+                    $scope.$apply();
+                }
+            });
+        };
+        $ctrl.checkFiles = function() {
+            var element = document.getElementById('merchantImportInput');
+            if (element) {
+                element.addEventListener('change', function(e) {
+                    $ctrl.resp = null;
+                    $ctrl.files = uiUploader.removeAll();
+                    var files = e.target.files;
+                    uiUploader.addFiles(files);
+                    $ctrl.files = uiUploader.getFiles();
+                    $scope.$apply();
+                });
+            }
+        };
+    }])
     .controller('fourthStepCtrl', ['$scope', '$rootScope', '$log', 'paramData', function($scope, $rootScope, $log, paramData) {
         $rootScope.$watch('stepNum', function(newValue) {
             if (newValue === 3) {
@@ -760,27 +979,31 @@ angular
                             };
                             $scope.resHallList.push(obj);
                         } else {
-                            _.map($scope.resHallList, function(it, index) {
-                                if (it.rscId === item.rscId) {
-                                    var o = {
+                            var isDuplicate = _.some($scope.resHallList, function(it, i) {
+                                    return it.rscId === item.rscId;
+                                }),
+                                indexDuplicate = _.findIndex($scope.resHallList, function(it, i) {
+                                    return it.rscId === item.rscId;
+                                });
+                            if (isDuplicate) {
+                                var obj = {
+                                    hallId: item.hallId,
+                                    hallName: item.hallName,
+                                    num: item.num
+                                };
+                                $scope.resHallList[indexDuplicate].list.push(obj);
+                            } else {
+                                var obj = {
+                                    rscId: item.rscId,
+                                    rscName: item.rscName,
+                                    list: [{
                                         hallId: item.hallId,
                                         hallName: item.hallName,
                                         num: item.num
-                                    };
-                                    it.list.push(o);
-                                } else {
-                                    var obj = {
-                                        rscId: item.rscId,
-                                        rscName: item.rscName,
-                                        list: [{
-                                            hallId: item.hallId,
-                                            hallName: item.hallName,
-                                            num: item.num
-                                        }]
-                                    };
-                                    $scope.resHallList.push(obj);
+                                    }]
                                 };
-                            });
+                                $scope.resHallList.push(obj);
+                            };
                         };
                     });
                 };

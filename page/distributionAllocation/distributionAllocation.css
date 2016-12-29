@@ -322,6 +322,77 @@
     padding: 5px 0;
 }
 
+.temp-down {
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 30px 0;
+}
+
+.temp-down-name {
+    display: inline-block;
+    width: 90px;
+    color: #333;
+}
+.temp-down-link, .temp-down-link:active {
+    display: inline-block;
+    color: #ffb319;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.temp-down-link:hover {
+    color: #e4ae0c;
+}
+.temp-down-tip {
+    display: inline-block;
+    margin-left: 20px;
+    color: #ff0000;
+}
+
+.temp-import {
+    margin: 10px 30px 0;
+}
+.temp-import-name {
+    display: inline-block;
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    color: #333;
+}
+.temp-import-link, .temp-import-link:active {
+    display: inline-block;
+    width: 86px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #ffb319;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+.temp-import-link:hover {
+    background-color: #e4ae0c;
+}
+.temp-import-link input {
+    display: none;
+}
+.temp-import-files {
+    width: 480px;
+    margin: 20px auto 30px;
+}
+.import-file-name, .import-file-state {
+    height: 22px;
+    line-height: 22px;
+    color: #333;
+    text-align: center;
+}
+
+.import-file-result {
+    margin-left: 20px;
+}
+
 /* input 百分比 */
 .form-group {
     position: relative;
