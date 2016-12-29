@@ -13,21 +13,21 @@
 </head>
 
 <body ng-app="distributionQueryModule">
-    <div class="operate-spec">
+    <div class="operate-spec" ng-controller="queryOperateFormCtrl">
         <!-- 查询 -->
-        <div class="operate-spec-query" ng-controller="queryOperateFormCtrl">
+        <div class="operate-spec-query">
             <form name="queryOperateForm" ng-submit="queryOperateFormSubmit()" class="form-inline" role="form">
                 <div class="row mb10">
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <label class="control-label" for="operationSpecCd">活动名称：</label>
-                            <input type="text" id="operationSpecCd" class="form-control query-input" ng-model="queryOperateForm.operationSpecCd">
+                            <label class="control-label" for="activityName">活动名称：</label>
+                            <input type="text" id="activityName" class="form-control query-input" ng-model="queryOperateForm.activityName">
                         </div>
                     </div>
                     <div class="col-xs-4">
                         <div class="form-group">
-                            <label class="control-label" for="name">厅店名称：</label>
-                            <input type="text" id="name" class="form-control query-input" ng-model="queryOperateForm.name">
+                            <label class="control-label" for="hallName">厅店名称：</label>
+                            <input type="text" id="hallName" class="form-control query-input" ng-model="queryOperateForm.hallName">
                         </div>
                     </div>
                     <div class="col-xs-4 text-right">
@@ -63,12 +63,12 @@
                         </div>
                     </div>
                     <div class="col-xs-4">
-                        <div class="form-group" ng-controller="selectMultipleCtrl as $ctrl">
+                        <div class="form-group" ng-controller="selectStateCtrl as $ctrl">
                             <label class="control-label">活动状态：</label>
-                            <ui-select multiple limit="2" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以">
+                            <ui-select multiple limit="3" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedStateList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false">
                                 <ui-select-match>{{$item.name}}</ui-select-match>
-                                <ui-select-choices repeat="area in $ctrl.areaList | filter:$select.search">
-                                    {{area.name}}
+                                <ui-select-choices repeat="states in $ctrl.stateList | filter:$select.search">
+                                    {{states.name}}
                                 </ui-select-choices>
                             </ui-select>
                             <span class="prompt"><i class="iconfont">&#xe692;</i>可多选</span>
@@ -81,7 +81,7 @@
             </form>
         </div>
         <!-- 结果 -->
-        <div class="operate-spec-result">
+        <div class="operate-spec-result" ng-controller="queryOperateResultCtrl">
             <div class="row result-header">
                 <div class="col-xs-4">
                     <div class="title">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="col-xs-8 text-right">
-                    <button ng-click="" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
+                    <button ng-click="exportDistribution()" class="btn btn-xs btn-set"><i class="iconfont">&#xe627;</i> 导出</button>
                 </div>
             </div>
             <div class="result-table">
@@ -99,10 +99,10 @@
                     <thead>
                         <tr>
                             <th width="20%">发放活动名称</th>
-                            <th width="20%">活动地区</th>
+                            <th width="30%">活动地区</th>
                             <th width="20%">活动日期</th>
-                            <th width="15%">活动状态</th>
-                            <th width="25%">操作</th>
+                            <th width="7%">活动状态</th>
+                            <th width="23%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,23 +111,23 @@
                                 <p ng-bind="item.activitiIdName"></p>
                             </td>
                             <td>
-                                <p ng-repeat="areaName in areasId">
-                                    <span ng-bind="areaName.name"> </span>
+                                <p>
+                                    <span class="areaname" ng-repeat="o in item.areaIds" ng-bind="o.name"></span>
                                 </p>
                             </td>
                             <td>
                                 <p>
-                                    <span ng-bind="item.activityStartDate"></span> - <span ng-bind="item.activityEndDate"></span>
+                                    <span ng-bind="item.activityStartDate"></span> 至 <span ng-bind="item.activityEndDate"></span>
                                 </p>
                             </td>
                             <td>
                                 <p ng-bind="item.stateCode|stateName"></p>
                             </td>
                             <td>
-                                <button ng-click="infoQueryOperate($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe634;</i> 暂停</button>
-                                <button ng-click="editQueryOperate($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe6ca;</i> 结束</button>
-                                <button ng-click="infoQueryOperate($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60b;</i> 详情</button>
-                                <button ng-click="editQueryOperate($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60d;</i> 修改</button>  
+                                <button ng-click="updateDistributionStatus('暂停',item.activitiId)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe634;</i> 暂停</button>
+                                <button ng-click="updateDistributionStatus('结束',item.activitiId)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe6ca;</i> 结束</button>
+                                <button ng-click="infoDistribution(item.activitiId)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60b;</i> 详情</button>
+                                <button ng-click="editDistribution(item.activitiId)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60d;</i> 修改</button>  
                             </td>
                         </tr>
                     </tbody>
@@ -136,9 +136,9 @@
                     没有数据
                 </p>
             </div>
-            <div class="text-center page">
-                <ul uib-pagination total-items="$ctrl.totalNum" items-per-page="$ctrl.rowNumPerPage" ng-model="$ctrl.currentPage" max-size="$ctrl.maxSize" ng-change="$ctrl.pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
-                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+            <div ng-controller="paginationCtrl" class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
             </div>
         </div>
     </div>

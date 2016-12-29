@@ -1,12 +1,12 @@
 /**
  * Auth nieyalan
- * Date 2016-12-24
+ * Date 2016-12-27
  */
 angular
     .module('distributionQueryModule', ['ui.bootstrap', 'ui.select'])
-    // .run(['$rootScope', function($rootScope) {
-    //     $rootScope.areaList = []; // 地区列表
-    // }])
+    .run(['$rootScope', function($rootScope) {
+        $rootScope.areaList = []; // 地区列表
+    }])
     //活动确认保存入参
     .factory('paramData', [function() {
         var paramData = {
@@ -15,19 +15,13 @@ angular
             'activityType': '', //活动类型
             'activityStartDate': '', //活动开始时间
             'activityEndDate': '', //活动结束时间
-            'areasId': [{ //活动地区ID列表
+            'areaIds': [{ //活动地区ID列表
                 'areaId': '' //地区ID
             }],
-            'activityDesc': '', //活动描述
-            'hallResources': [{ //厅店发放明细列表
-                'hallId': '111', //厅店ID
-                'resId': '213', //资源ID
-                'num': 500 //资源数量
+            'states': [{ //状态编码列表
+                'code': '' //状态编码
             }],
-            'merchants': [{ //商户列表
-                'merchantId': '12321', //商户ID
-                'merchantName': 'xx商户' //商户名称
-            }]
+            'hallName':'',
         }
         return paramData;
     }])
@@ -60,11 +54,30 @@ angular
             return defer.promise;
         };
 
-        //活动状态
+        //活动状态 
         httpMethod.queryStateDict = function(param) {
             var defer = $q.defer();
             $http({
                 url: httpConfig.siteUrl + '/activity/queryStateDict',
+                method: 'POST',
+                headers: httpConfig.requestHeader,
+                data: 'param=' + JSON.stringify(param)
+            }).success(function(data, header, config, status) {
+                if (status != 200) {
+                    //跳转403页面
+                }
+                defer.resolve(data);
+            }).error(function(data, status, headers, config) {
+                defer.reject(data);
+            });
+            return defer.promise;
+        };
+
+        // 修改活动状态
+        httpMethod.changeStatus = function(param) {
+            var defer = $q.defer();
+            $http({
+                url: httpConfig.siteUrl + '/activity/changeStatus',
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
@@ -98,24 +111,24 @@ angular
             return defer.promise;
         };
 
-        //暂停
-        // httpMethod.qryCommonRegion = function(param) {
-        //     var defer = $q.defer();
-        //     $http({
-        //         url: httpConfig.siteUrl + '/common/qryCommonRegion',
-        //         method: 'POST',
-        //         headers: httpConfig.requestHeader,
-        //         data: 'param=' + JSON.stringify(param)
-        //     }).success(function(data, header, config, status) {
-        //         if (status != 200) {
-        //             //跳转403页面
-        //         }
-        //         defer.resolve(data);
-        //     }).error(function(data, status, headers, config) {
-        //         defer.reject(data);
-        //     });
-        //     return defer.promise;
-        // };
+        //代金券发放列表导出
+        httpMethod.exportGiveoutActivity = function(param) {
+            var defer = $q.defer();
+            $http({
+                url: httpConfig.siteUrl + '/activity/exportGiveoutActivity',
+                method: 'POST',
+                headers: httpConfig.requestHeader,
+                data: 'param=' + JSON.stringify(param)
+            }).success(function(data, header, config, status) {
+                if (status != 200) {
+                    //跳转403页面
+                }
+                defer.resolve(data);
+            }).error(function(data, status, headers, config) {
+                defer.reject(data);
+            });
+            return defer.promise;
+        };
 
         if (httpConfig.isMock) {
             //地区查询
@@ -126,7 +139,7 @@ angular
                 'msg': null, //失败信息
                 'data': {
                     'area|21': [{
-                        'commonRegionId': '@id', //地区ID
+                        'areaId': '@id', //地区ID
                         'name': '@city' //地区名称
                     }]
                 },
@@ -146,6 +159,14 @@ angular
                 },
                 'errors': null
             });
+            // 修改活动状态
+            Mock.mock(httpConfig.siteUrl + '/activity/changeStatus', {
+                'rsphead': 's',
+                'success': true, //是否成功
+                'code': null,
+                'msg': null, //失败信息
+                'errors': null
+            });
             //代金券查询
             Mock.mock(httpConfig.siteUrl + '/activity/qryGrantActivity', {
                 'rsphead': 's',
@@ -153,18 +174,19 @@ angular
                 'code': null,
                 'msg': null, //失败信息
                 'data': {
-                    "activitys|5": [{
-                        "activitiId": "@id",//活动ID
-                        "activitiIdName": "@cword(10)",//活动名称
-                        "areasId|2": [{//活动地区ID列表
-                            "areaId": "@id",//地区ID
-                            "name": "@city"//地区名称
+                    'activitys|10': [{
+                        'activitiId': '@id',//活动ID
+                        'activitiCode':'@id',
+                        'activitiIdName': '@cword(10)',//活动名称
+                        'areaIds|2': [{//活动地区ID列表
+                            'areaId': '@id',//地区ID
+                            'name': '@city'//地区名称
                         }],
-                        "activityStartDate": "@date",//活动开始时间
-                        "activityEndDate": "@date",//活动结束时间
-                        "stateCode|+1": ["1","2","3"]//状态编码：1正常、2暂停、3结束
+                        'activityStartDate': '@date',//活动开始时间
+                        'activityEndDate': '@date',//活动结束时间
+                        'stateCode|+1': ["1","2","3"]//状态编码：1正常、2暂停、3结束
                     }],
-                    "total|1-100":10//总条数
+                    'total|1-100':10//总条数
                 },
                 'errors': null
             });
@@ -202,31 +224,38 @@ angular
             $log.log('获取地区列表失败.');
         });
         vm.changeCallback = function(item, model) {
-            paramData.areasId = [];
+            paramData.areaIds = [];
             _.map(vm.checkedAreaList, function(item, index) {
-                _.set(paramData, ['areasId', index, 'areaId'], item.commonRegionId);
+                _.set(paramData, ['areaIds', index, 'areaId'], item.areaId);
+            });
+        };
+    }])
+    // 状态多选
+    .controller('selectStateCtrl', ['$log', 'httpMethod', 'paramData', function($log, httpMethod, paramData) {
+        var vm = this;
+        vm.checkedStateList = [];
+        vm.stateList = []; //所有状态列表
+
+        httpMethod.queryStateDict().then(function(rsp) {
+            vm.stateList = rsp.data.states;
+            $log.log('获取状态信息成功.');
+        }, function() {
+            $log.log('获取状态信息失败.');
+        });
+        vm.changeCallback = function(item, model) {
+            paramData.states = [];
+            _.map(vm.checkedStateList, function(item, index) {
+                _.set(paramData, ['states', index, 'code'], item.code);
             });
         };
     }])
     // 查询控制器
     .controller('queryOperateFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'httpMethod', 'paramData', function ($scope, $rootScope, $filter, $log, $timeout, httpMethod, paramData) {
-        // 查询结果分页信息
+        //分页
         $scope.requirePaging = true; // 是否需要分页
         $scope.currentPage = 1; // 当前页
         $scope.rowNumPerPage = 10; // 每页显示行数
         $scope.totalNum = 0; // 总条数
-
-        // 获取状态码
-        httpMethod.queryStateDict().then(function (rsp) {
-            $log.log('调用状态信息成功.');
-            $rootScope.stateText = rsp.data;
-        }, function () {
-            $log.log('调用状态信息失败.');
-        });
-
-        $scope.$watch('activityInformation', function(newValue) {
-            _.assign(paramData, newValue);
-        }, true);
 
         //时间控件
         $scope.createStartDt = ''; //制单日期开始
@@ -263,43 +292,36 @@ angular
         };
         $scope.startPopupOpened = false;
         $scope.endPopupOpened = false;
-       
         $scope.queryOperateForm = {
             activityName: '',
-            hallId: '',
+            hallName: '',
             activityStartDate: '',
-            activityEndDate:'',
-            areaIds: [{//活动地区ID列表
-                areaId:'',//地区ID
-            }],
-            states: [{
-                code: '',//地区ID//状态编码 
-            }]
+            activityEndDate:''
         };
-
+        $scope.$watch('queryOperateForm', function(newValue) {
+            _.assign(paramData, newValue);
+        }, true);
         $scope.queryOperateFormSubmit = function (currentPage) {
             !currentPage && $scope.$broadcast('pageChange');
-
             var param = {
-                activityName: _.get($scope, 'queryOperateForm.activityName'), // 活动名称
-                hallId: _.get($scope, 'queryOperateForm.hallId'), // 厅店
-                activityStartDate: _.get($scope, 'queryOperateForm.activityStartDate'), // 活动开始时间 
-                activityEndDate: _.get($scope, 'queryOperateForm.activityEndDate'), // 活动结束时间 
-                areaIds: [{//活动地区ID列表
-                    areaId: _.get($scope, 'queryOperateForm.areaId'),//地区ID
-                }],
+                activityName: _.get(paramData, 'activityName'),// 活动名称
+                hallName: _.get(paramData, 'hallName'),// 厅店
+                activityStartDate: _.get(paramData, 'activityStartDate'),// 活动开始时间
+                activityEndDate: _.get(paramData, 'activityEndDate'),// 活动结束时间
+                areaIds: [{ //活动地区ID列表
+                        areaId: _.get(paramData, 'areaIds.areaId'),//地区ID
+                    }], 
                 states: [{
-                    code: _.get($scope, 'queryOperateForm.code'),//地区ID//状态编码 
-                }],
+                        code: _.get(paramData, 'states.code'),//状态编码 
+                    }], 
                 curPage: currentPage || $scope.currentPage, // 当前页
-                pageSize: $scope.rowNumPerPage, // 每页展示行数
+                pageSize: $scope.rowNumPerPage // 每页展示行数
             };
-            
             // 发放查询信息
             httpMethod.qryGrantActivity(param).then(function (rsp) {
                 $log.log('调用发放查询接口成功.');
                 $rootScope.queryOperateResultList = rsp.data.activitys;
-                $scope.totalNum = rsp.data.totalNum;
+                $scope.totalNum = rsp.data.total;
             }, function () {
                 $log.log('调用发放查询接口失败.');
             });
@@ -308,10 +330,15 @@ angular
         $scope.$on('requery', function () {
             $scope.queryOperateFormSubmit();
         });
-
+        $rootScope.$watch('isRefresh', function (current) {
+            if (current) {
+                $scope.queryOperateFormSubmit();
+                $rootScope.isRefresh = false;
+            }
+        });
     }])
     // 查询结果控制器
-    .controller('queryOperateResultCtrl', ['$scope', '$rootScope', '$log', '$filter', 'httpMethod', function ($scope, $rootScope, $log, $filter, httpMethod) {
+    .controller('queryOperateResultCtrl', ['$scope', '$rootScope', '$log', 'paramData','httpMethod', function ($scope, $rootScope, $log, paramData, httpMethod) {
         // 修改
         // $scope.editQueryOperate = function (index) {
         //     $rootScope.modifiedQueryOperate = $rootScope.queryOperateResultList[index];
@@ -319,158 +346,101 @@ angular
         // };
         
         // 详情
-        $scope.infoDistribution = function (index) {
-            $rootScope.distributionDetail = $rootScope.queryOperateResultList[index];
-            parent.angular.element(parent.$('#tabs')).scope().addTab('发放详情', '/psm/page/distributionDetail/distributionDetail.html', 'distributionDetail', JSON.stringify($rootScope.distributionDetail));
+        $scope.infoDistribution = function (activitiId) {
+            $rootScope.activitiId = activitiId;
+            // parent.angular.element(parent.$('#tabs')).scope().addTab('发放详情', '/psm/page/distributionDetail/distributionDetail.html', 'activitiId', JSON.stringify($rootScope.activitiId));
         };
         
-        // 暂停
-        $scope.uLockOperateSpec = function (state) {
-            if ($scope.checkedOperateSpec.length) {
-                var param = {
-                    operationSpecCd: [],
-                    state: 0
-                };
-                $scope.checkedOperateSpec.map(function (item, index) {
-                    param.operationSpecCd.push(item.operationSpecCd);
-                });
-                param.operationSpecCd = param.operationSpecCd.join();
-                swal({
-                    title: "权限规格启用",
-                    text: "您确定要把权限规格编码为" + param.operationSpecCd + "的配置启用吗？",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "确定",
-                    confirmButtonColor: "#ffaa00",
-                    cancelButtonText: "取消",
-                    showLoaderOnConfirm: true
-                }, function () {
-                    httpMethod.uLockOperateSpec(param).then(function (rsp) {
-                        $log.log('调用启用权限规格配置接口成功.');
-                        if (rsp.data) {
-                            swal({
-                                title: "操作成功",
-                                text: "权限规格配置启用成功!",
-                                type: "success",
-                                confirmButtonText: "确定",
-                                confirmButtonColor: "#ffaa00"
-                            }, function () {
-                                $scope.$emit('requery');
-                            });
-                        } else {
-                            swal("OMG", "权限规格配置启用失败!", "error");
-                        }
-                    }, function () {
-                        swal("OMG", "调用启用权限规格配置接口失败!", "error");
-                    });
-                });
-            } else {
-                swal("操作提醒", "您没有选中任何需要启用的权限规格！", "info");
+        // 暂停/结束
+        $scope.updateDistributionStatus = function(status, activityId) {
+            var statusTitle = status,
+            param = {
+                activityId: activityId,
+                state:'',
+            };
+            // 修改发放状态信息
+            httpMethod.changeStatus(param).then(function (rsp) {
+                $log.log('调用修改发放状态接口成功.');
+            }, function () {
+                $log.log('调用修改发放状态接口失败.');
+            });
+            switch (status) {
+                case '暂停':
+                    statusTitle = '暂停';
+                    param.state = '2';
+                    break;
+                case '结束':
+                    statusTitle = '结束';
+                    param.state = '3';
+                    break;
             }
-        };
-        // 结束
-        $scope.lockOperateSpec = function (state) {
-            if ($scope.checkedOperateSpec.length) {
-                var param = {
-                    operationSpecCd: [],
-                    state: 1
-                };
-                $scope.checkedOperateSpec.map(function (item, index) {
-                    param.operationSpecCd.push(item.operationSpecCd);
+            swal({
+                title: '代金券发放' + statusTitle + '操作',
+                text: '确定把编码 ' + activityId + ' 代金券发放' + statusTitle + '吗?',
+                type: 'info',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: '确定',
+                confirmButtonColor: '#ffaa00',
+                cancelButtonText: '取消',
+                showLoaderOnConfirm: true
+            }, function() {
+                httpMethod.changeStatus(param).then(function(rsp) {
+                    $log.log('调用代金券发放暂停/结束接口成功.');
+                    if (rsp.success) {
+                        swal({
+                            title: '操作成功',
+                            text: statusTitle + '代金券发放成功!',
+                            type: 'success',
+                            confirmButtonText: '确定',
+                            confirmButtonColor: '#ffaa00'
+                        }, function() {
+                            $scope.$emit('requery');
+                        });
+                    } else {
+                        swal('OMG', rsp.msg || statusTitle + '代金券发放失败!', 'error');
+                    }
+                }, function() {
+                    swal('OMG', rsp.msg || statusTitle + '代金券发放失败!', 'error');
                 });
-                param.operationSpecCd = param.operationSpecCd.join();
-                swal({
-                    title: "权限规格配置停用",
-                    text: "您确定要把权限规格编码为" + param.operationSpecCd + "的配置停用吗？",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "确定",
-                    confirmButtonColor: "#ffaa00",
-                    cancelButtonText: "取消",
-                    showLoaderOnConfirm: true
-                }, function () {
-                    httpMethod.lockOperateSpec(param).then(function (rsp) {
-                        $log.log('调用停用权限规格配置接口成功.');
-                        if (rsp.data) {
-                            swal({
-                                title: "操作成功",
-                                text: "权限规格配置停用成功!",
-                                type: "success",
-                                confirmButtonText: "确定",
-                                confirmButtonColor: "#ffaa00"
-                            }, function () {
-                                $scope.$emit('requery');
-                            });
-                        } else {
-                            swal("OMG", "权限规格配置停用失败!", "error");
-                        }
-                    }, function () {
-                        swal("OMG", "调用停用权限规格配置接口失败!", "error");
-                    });
-                });
-            } else {
-                swal("操作提醒", "您没有选中任何需要停用的权限规格！", "info");
-            }
+            }); 
         };
 
-        // 删除
-        $scope.batchCancelOperateSpec = function () {
-            if ($scope.checkedOperateSpec.length) {
-                var param = [];
-                $scope.checkedOperateSpec.map(function (item, index) {
-                    param.push(item.operationSpecCd);
-                });
-                param = param.join();
-                swal({
-                    title: "删除权限规格",
-                    text: "您确定要把权限规格编码为" + param + "的配置删除吗？",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "确定",
-                    confirmButtonColor: "#ffaa00",
-                    cancelButtonText: "取消",
-                    showLoaderOnConfirm: true
-                }, function () {
-                    httpMethod.batchCancelOperateSpec(param).then(function (rsp) {
-                        $log.log('调用删除权限规格配置接口成功.');
-                        if (rsp.data) {
-                            swal({
-                                title: "操作成功",
-                                text: "删除权限规格配置成功!",
-                                type: "success",
-                                confirmButtonText: "确定",
-                                confirmButtonColor: "#ffaa00"
-                            }, function () {
-                                $scope.$emit('requery');
-                            });
-                        } else {
-                            swal("OMG", "删除权限规格配置失败!", "error");
-                        }
-                    }, function () {
-                        swal("OMG", "调用删除权限规格配置接口失败!", "error");
-                    });
-                });
-            } else {
-                swal("操作提醒", "您没有选中任何需要删除的权限规格！", "info");
-            }
+        // 代金券发放列表导出
+        $scope.exportDistribution = function() {
+            var param = {
+                activityName: _.get(paramData, 'activityName'),
+                hallName: _.get(paramData, 'hallName'),
+                activityStartDate: _.get(paramData, 'activityStartDate'),
+                activityEndDate: _.get(paramData, 'activityEndDate'),
+                areaIds: [{
+                        areaId: _.get(paramData, 'areaIds.areaId'),//状态编码 
+                    }], 
+                states: [{
+                        code: _.get(paramData, 'states.code'),//状态编码 
+                    }] 
+            };
+            // 代金券发放列表导出
+            httpMethod.exportGiveoutActivity(param).then(function () {
+                $log.log('调用代金券发放列表导出接口成功.');
+            }, function () {
+                $log.log('调用代金券发放列表导出接口失败.');
+            });
         }
+         
     }])
-
-    //分页控制器
-    .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function($scope, $rootScope, $log) {
-        $scope.$on('pageChange', function() {
+    // 分页控制器
+    .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function ($scope, $rootScope, $log) {
+        $scope.$on('pageChange', function () {
             $scope.currentPage = 1;
         });
         $scope.maxSize = 10;
-        $scope.setPage = function(pageNo) {
+        $scope.setPage = function (pageNo) {
             $scope.currentPage = pageNo;
         };
-
-        $scope.pageChanged = function() {
-            $scope.queryStaffFormSubmit($scope.currentPage);
+        $scope.pageChanged = function () {
+            $scope.queryOperateFormSubmit($scope.currentPage);
             $log.log('Page changed to: ' + $scope.currentPage);
         };
     }])
+   

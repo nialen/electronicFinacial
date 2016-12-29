@@ -279,3 +279,9 @@
     color: #333;
     border-radius: 2px;
 }
+.areaname::after{
+	content:',';
+}
+.areaname:last-child::after{
+	content:'';
+}

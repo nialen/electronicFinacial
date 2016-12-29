@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>发放详情</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link href="../../resources/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="distributionDetail.css">
+</head>
+
+<body ng-app="distributionDetailModule">
+	<div class="operate-spec">
+		<div class="detail-operate-result">
+	        <div class="row result-header">
+	            <div class="col-xs-4">
+	                <div class="title">
+	                    <img src="../../resources/images/icon_gift.png">
+	                    <p class="title-cn">发放基本配置</p>
+	                    <p class="title-en">Activity basic information</p>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="result-table mb10">
+	            <div class="detail-operate-spec">
+	                <form name="detailOperate" ng-controller="detailOperateFormCtrl" class="form-inline" role="form">
+	                    <div class="row">
+	                        <div class="col-xs-6">
+	                            <div class="form-group">
+	                                <label class="control-label edit-label" for="activitiIdName">活动名称：</label>
+	                                <input type="text" id="activitiIdName" class="form-control detail-input"
+	                                       ng-model="detailOperateForm.activitiIdName" disabled>
+	                            </div>
+	                        </div>
+	                        <div class="col-xs-6">
+	                            <div class="form-group">
+	                                <label class="control-label edit-label" for="activitiIdCode">活动编码：</label>
+	                                <input type="text" id="activitiIdCode" class="form-control detail-input"
+	                                       ng-model="detailOperateForm.activitiIdCode" disabled>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="row">
+	                        <div class="col-xs-6">
+	                            <div class="form-group">
+	                                <label class="control-label edit-label" for="operationSpecCd">活动周期：</label>
+	                                <label class="control-label edit-label text-left" for="activityStartDate">开始时间：</label>
+	                                <input type="text" id="activityStartDate" class="form-control detail-input"
+	                                       ng-model="detailOperateForm.activityStartDate" disabled>
+	                                <label class="control-label edit-label text-left" for="activityEndDate">结束时间：</label>
+	                                <input type="text" id="activityEndDate" class="form-control detail-input"
+	                                       ng-model="detailOperateForm.activityEndDate" disabled>
+	                            </div>
+	                        </div>
+	                        <div class="col-xs-6">
+	                            <div class="form-group">
+	                                <label class="control-label edit-label" for="activityType">活动类型：</label>
+	                                <input type="text" id="activityType" class="form-control detail-input"
+	                                       ng-model="detailOperateForm.activityType" disabled>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="row">
+	                        <div class="col-xs-6">
+	                            <div class="form-group">
+	                                <label class="control-label edit-label" for="areasId">活动地区：</label>
+	                                <span ng-repeat="o in detailOperateForm.areasId" ng-bind="o.name" class="form-control detail-input"></span>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	        <!-- 厅店资源明细 -->
+	        <div class="operate-spec-result" ng-controller="preveligeDimensionFormCtrl">
+	            <div class="row result-header">
+	                <div class="col-xs-4">
+	                    <div class="title">
+	                        <img src="../../resources/images/icon_store.png">
+	                        <p class="title-cn">厅店资源明细</p>
+	                        <p class="title-en">Shop resource detail</p>
+	                    </div>
+	                </div>
+	                <div class="col-xs-8 text-right">
+	                    <button ng-click="exportDistribution()" class="btn btn-xs btn-set"><i class="iconfont">&#xe627;</i> 导出</button>
+	                </div>
+	            </div>	       
+		        <div class="result-table">
+		            <table class="table table-hover table-bordered">
+		                <thead>
+			                <tr>
+			                    <th width="15%">资源编码</th>
+			                    <th width="15%">资源名称</th>
+			                    <th width="15%">厅店名称</th>
+			                    <th width="15%">厅店编码</th>
+			                    <th width="10%">发放数量</th>
+			                    <th width="10%">已领取</th>
+			                    <th width="12%">领取地址</th>
+			                    <th>操作</th>
+			                </tr>
+		                </thead>
+		                <tbody>
+			                <tr ng-repeat="item in preveligeDimensionResultList">
+			                    <td>
+			                        <p ng-bind="item.rscCode"></p>
+			                    </td>
+			                    <td>
+			                        <p ng-bind="item.rscName"></p>
+			                    </td>
+			                    <td>
+			                        <p ng-bind="item.hallName"></p>
+			                    </td>
+			                    <td>
+			                        <p ng-bind="item.hallCode"></p>
+			                    </td>
+			                    <td>
+			                        <p ng-bind="item.grantNum"></p>
+			                    </td>
+			                    <td>
+			                        <p ng-bind="item.receivedNum"></p>
+			                    </td>
+			                    <td>
+			                        <a class="org" ng-href="{{item.receiveUrl}}">点击领取</a>
+			                    </td>
+			                    <td>
+			                        <button ng-click="updateStoreStatus('启用',item.grantId)" ng-if="item.state === '1'" class="btn btn-xs btn-edit"><i class="iconfont">&#xe613;</i> 启用</button>
+			                        <button ng-click="updateStoreStatus('停用',item.grantId)" ng-if="item.state === '2'" class="btn btn-xs btn-edit"><i class="iconfont">&#xe634;</i> 停用</button>
+			                    </td>
+			                </tr>
+		                </tbody>
+		            </table>
+		        </div>
+		        <div ng-controller="paginationCtrl" class="text-center page">
+	                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+	                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="distributionDetail.js"></script>
+</body>
