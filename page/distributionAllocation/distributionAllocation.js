@@ -5,7 +5,7 @@
 angular
     .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select', 'ui.uploader'])
     .run(['$rootScope', function($rootScope) {
-        $rootScope.stepNum = 2; //当前显示的step索引值（Number类型）
+        $rootScope.stepNum = 0; //当前显示的step索引值（Number类型）
         $rootScope.goBack = function(num) { //返回（num-1）
             $rootScope.stepNum = num - 1;
         };
