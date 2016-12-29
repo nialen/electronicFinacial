@@ -445,9 +445,9 @@ angular
                         num: null
                     };
                     obj.hallId = item.hall.hallId;
-                    obj.hallName = item.hall.name;
+                    obj.hallName = item.hall.hallName;
                     obj.rscId = item.resources.rscId;
-                    obj.rscName = item.resources.name;
+                    obj.rscName = item.resources.rscName;
                     obj.num = item.num;
                     middleData.push(obj);
                 });
@@ -766,12 +766,12 @@ angular
         //数据update同步paramData
         var _watchFn = function() {
             $scope.$watch('lineList', function(newValue) {
-                var middleData = [],
-                    obj = {
+                var middleData = [];
+                _.map(newValue, function(item, index) {
+                    var obj = {
                         merchantId: '',
                         merchantName: ''
                     };
-                _.map(newValue, function(item, index) {
                     obj.merchantId = item.merchantId;
                     obj.merchantName = item.name;
                     middleData.push(obj);
@@ -979,27 +979,31 @@ angular
                             };
                             $scope.resHallList.push(obj);
                         } else {
-                            _.map($scope.resHallList, function(it, index) {
-                                if (it.rscId === item.rscId) {
-                                    var o = {
+                            var isDuplicate = _.some($scope.resHallList, function(it, i) {
+                                    return it.rscId === item.rscId;
+                                }),
+                                indexDuplicate = _.findIndex($scope.resHallList, function(it, i) {
+                                    return it.rscId === item.rscId;
+                                });
+                            if (isDuplicate) {
+                                var obj = {
+                                    hallId: item.hallId,
+                                    hallName: item.hallName,
+                                    num: item.num
+                                };
+                                $scope.resHallList[indexDuplicate].list.push(obj);
+                            } else {
+                                var obj = {
+                                    rscId: item.rscId,
+                                    rscName: item.rscName,
+                                    list: [{
                                         hallId: item.hallId,
                                         hallName: item.hallName,
                                         num: item.num
-                                    };
-                                    it.list.push(o);
-                                } else {
-                                    var obj = {
-                                        rscId: item.rscId,
-                                        rscName: item.rscName,
-                                        list: [{
-                                            hallId: item.hallId,
-                                            hallName: item.hallName,
-                                            num: item.num
-                                        }]
-                                    };
-                                    $scope.resHallList.push(obj);
+                                    }]
                                 };
-                            });
+                                $scope.resHallList.push(obj);
+                            };
                         };
                     });
                 };
