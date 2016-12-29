@@ -175,9 +175,9 @@ angular
         $scope.currentPage = 1; // 当前页
         $scope.rowNumPerPage = 10; // 每页显示行数
         $scope.totalNum = 0; // 总条数
-
-        $scope.$broadcast('pageChange');
-        
+        $scope.$on('pageChange', function () {
+            $scope.currentPage = 1;
+        });
         var param = {
         	activityId:_.get($rootScope, 'activitiId'),
         	curPage: $scope.currentPage, // 当前页
@@ -186,7 +186,7 @@ angular
         // 厅店资源明细查询
         httpMethod.qryGrantDetailInfo(param).then(function (rsp) {
             $log.log('调用厅店资源明细查询接口成功.');
-            $scope.preveligeDimensionResultList = rsp.data.resourceDetails;
+            $rootScope.preveligeDimensionResultList = rsp.data.resourceDetails;
             $scope.totalNum = rsp.data.total;
         }, function () {
             $log.log('调用厅店资源明细查询接口失败.');
@@ -261,22 +261,20 @@ angular
     }])
     // 分页控制器
     .controller('paginationCtrl', ['$scope', '$rootScope', '$log', 'httpMethod',function ($scope, $rootScope, $log, httpMethod) {
-        $scope.$on('pageChange', function () {
-            $scope.currentPage = 1;
-        });
         $scope.maxSize = 10;
         $scope.setPage = function (pageNo) {
             $scope.currentPage = pageNo;
         };
-        $scope.pageChanged = function () {
+        $scope.pageChanged = function (currentPage) {
+        	!currentPage && $scope.$broadcast('pageChange');
         	var param = {
 	        	activityId:_.get($rootScope, 'activitiId'),
-	        	curPage: $scope.currentPage, // 当前页
+	        	curPage: currentPage, // 当前页
 	            pageSize: $scope.rowNumPerPage // 每页展示行数
 	        };
             httpMethod.qryGrantDetailInfo(param).then(function (rsp) {
 	            $log.log('调用厅店资源明细查询接口成功.');
-	            $scope.preveligeDimensionResultList = rsp.data.resourceDetails;
+	            $rootScope.preveligeDimensionResultList = rsp.data.resourceDetails;
 	            $scope.totalNum = rsp.data.total;
 	        }, function () {
 	            $log.log('调用厅店资源明细查询接口失败.');
