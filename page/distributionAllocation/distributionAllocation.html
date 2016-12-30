@@ -514,7 +514,7 @@
         <script type="text/ng-template" id="merchantModal.html">
             <div class="modal-header">
                 <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
-                <h3 class="modal-title" id="hall-modal-title"><img class="icon" src="../../resources/images/icon_new.png">商户选择</h3>
+                <h3 class="modal-title" id="merchant-modal-title"><img class="icon" src="../../resources/images/icon_new.png">商户选择</h3>
             </div>
             <!-- 查询 -->
             <div class="query-hall-box">
@@ -605,7 +605,7 @@
                     <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
                 </div>
             </div>
-            <div class="modal-footer" id="hall-modal-footer">
+            <div class="modal-footer" id="merchant-modal-footer">
                 <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
                 <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
             </div>
@@ -632,7 +632,7 @@
                 </div>
             </div>
             <div class="modal-footer" id="hall-import-footer">
-                <button class="btn btn-submit" type="button" ng-click="$ctrl.btn_upload()">确定导入</button>
+                <button class="btn btn-submit" type="button" ng-disabled="$ctrl.isNotAllowUpload" ng-click="$ctrl.btn_upload()">确定导入</button>
                 <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
             </div>
         </script>
@@ -658,7 +658,7 @@
                 </div>
             </div>
             <div class="modal-footer" id="merchant-import-footer">
-                <button class="btn btn-submit" type="button" ng-click="$ctrl.btn_upload()">确定导入</button>
+                <button class="btn btn-submit" type="button" ng-disabled="$ctrl.isNotAllowUpload" ng-click="$ctrl.btn_upload()">确定导入</button>
                 <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
             </div>
         </script>

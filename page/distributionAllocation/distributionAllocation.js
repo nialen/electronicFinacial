@@ -677,6 +677,7 @@ angular
         $ctrl.resp = null; //上传完毕接口返回的response信息；
         $ctrl.files = []; //上传的文件列表；
         $ctrl.isNotAllowClose = false; //是否不允许关闭弹框；
+        $ctrl.isNotAllowUpload = true; //是否不允许上传；
         $ctrl.grantUploadTemplete = httpConfig.siteUrl + '/activity/downLoad/grantUploadTemplete'; //模板下载地址
         $ctrl.btn_remove = function(file) {
             uiUploader.removeFile(file);
@@ -695,6 +696,7 @@ angular
                 },
                 onCompleted: function(file, response) {
                     $ctrl.isNotAllowClose = false;
+                    $ctrl.isNotAllowUpload = true;
                     $ctrl.resp = JSON.parse(response);
                     $scope.$apply();
                 }
@@ -706,9 +708,11 @@ angular
                 element.addEventListener('change', function(e) {
                     $ctrl.resp = null;
                     $ctrl.files = uiUploader.removeAll();
+                    $ctrl.isNotAllowUpload = true;
                     var files = e.target.files;
                     uiUploader.addFiles(files);
                     $ctrl.files = uiUploader.getFiles();
+                    $ctrl.isNotAllowUpload = false;
                     $scope.$apply();
                 });
             }
@@ -914,6 +918,7 @@ angular
         $ctrl.resp = null; //上传完毕接口返回的response信息；
         $ctrl.files = []; //上传的文件列表；
         $ctrl.isNotAllowClose = false; //是否不允许关闭弹框；
+        $ctrl.isNotAllowUpload = true; //是否不允许上传；
         $ctrl.grantUploadTemplete = httpConfig.siteUrl + '/activity/downLoad/merchantTemplete'; //模板下载地址
         $ctrl.btn_remove = function(file) {
             uiUploader.removeFile(file);
@@ -932,6 +937,7 @@ angular
                 },
                 onCompleted: function(file, response) {
                     $ctrl.isNotAllowClose = false;
+                    $ctrl.isNotAllowUpload = true;
                     $ctrl.resp = JSON.parse(response);
                     $scope.$apply();
                 }
@@ -943,9 +949,11 @@ angular
                 element.addEventListener('change', function(e) {
                     $ctrl.resp = null;
                     $ctrl.files = uiUploader.removeAll();
+                    $ctrl.isNotAllowUpload = true;
                     var files = e.target.files;
                     uiUploader.addFiles(files);
                     $ctrl.files = uiUploader.getFiles();
+                    $ctrl.isNotAllowUpload = false;
                     $scope.$apply();
                 });
             }

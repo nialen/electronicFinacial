@@ -7,7 +7,7 @@ angular
     .run(['$rootScope', '$parse', '$log', function ($rootScope, $parse, $log) {
         var id = window.frameElement && window.frameElement.id || '',
             obj = parent.$('#' + id).attr('data');
-        $rootScope.activitiId = obj ? JSON.parse(obj) : ''; 
+        $rootScope.activitiId = obj ? JSON.parse(obj) : '';
     }])
     .factory('httpMethod', ['$http', '$q', function($http, $q) {
         var httpConfig = {
@@ -137,7 +137,7 @@ angular
 		                "hallName": "@cword(5)",//厅店名称
 		                "grantNum|1-100": 10,//发放数量
 						"receivedNum|1-100": 5,//已领取数量
-                		"receiveUrl": "@url",//领取地址 
+                		"receiveUrl": "@url",//领取地址
                 		"state|+1":["1","2"]
                     }],
                     "total|1-100":10//总条数
@@ -191,7 +191,7 @@ angular
         }, function () {
             $log.log('调用厅店资源明细查询接口失败.');
         });
-             
+
         // 停用/启用
         $scope.updateStoreStatus = function(status, grantId) {
             var statusTitle = status,
@@ -244,12 +244,12 @@ angular
                 }, function() {
                     swal('OMG', rsp.msg || statusTitle + '厅店资源发放失败!', 'error');
                 });
-            }); 
+            });
         };
         // 发放活动厅店资源明细导出
         $scope.exportDistribution = function() {
             var param = {
-                activityId:_.get($rootScope, 'activitiId'),
+                activityId:_.get($rootScope, 'activitiId')
             };
             // 发放活动厅店资源明细导出
             httpMethod.exportBaseInfo(param).then(function () {

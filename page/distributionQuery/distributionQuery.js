@@ -54,7 +54,7 @@ angular
             return defer.promise;
         };
 
-        //活动状态 
+        //活动状态
         httpMethod.queryStateDict = function(param) {
             var defer = $q.defer();
             $http({
@@ -193,7 +193,7 @@ angular
         }
         return httpMethod;
     }])
-    
+
     // 状态码转换文本
     .filter('stateName', function () {
         return function (stateValue) {
@@ -308,12 +308,8 @@ angular
                 hallName: _.get(paramData, 'hallName'),// 厅店
                 activityStartDate: _.get(paramData, 'activityStartDate'),// 活动开始时间
                 activityEndDate: _.get(paramData, 'activityEndDate'),// 活动结束时间
-                areaIds: [{ //活动地区ID列表
-                        areaId: _.get(paramData, 'areaIds.areaId'),//地区ID
-                    }], 
-                states: [{
-                        code: _.get(paramData, 'states.code'),//状态编码 
-                    }], 
+                areaIds: _.get(paramData, 'areaIds'),
+                states: _.get(paramData, 'states'),
                 curPage: currentPage || $scope.currentPage, // 当前页
                 pageSize: $scope.rowNumPerPage // 每页展示行数
             };
@@ -344,13 +340,13 @@ angular
         //     $rootScope.modifiedQueryOperate = $rootScope.queryOperateResultList[index];
         //     parent.angular.element(parent.$('#tabs')).scope().addTab('修改权限规格', '/psm/page/modifyOperate/modifyOperate.html', 'modifyOperate', JSON.stringify($rootScope.modifiedQueryOperate));
         // };
-        
+
         // 详情
         $scope.infoDistribution = function (activitiId) {
             $rootScope.activitiId = activitiId;
             // parent.angular.element(parent.$('#tabs')).scope().addTab('发放详情', '/psm/page/distributionDetail/distributionDetail.html', 'activitiId', JSON.stringify($rootScope.activitiId));
         };
-        
+
         // 暂停/结束
         $scope.updateDistributionStatus = function(status, activityId) {
             var statusTitle = status,
@@ -403,7 +399,7 @@ angular
                 }, function() {
                     swal('OMG', rsp.msg || statusTitle + '代金券发放失败!', 'error');
                 });
-            }); 
+            });
         };
 
         // 代金券发放列表导出
@@ -413,12 +409,8 @@ angular
                 hallName: _.get(paramData, 'hallName'),
                 activityStartDate: _.get(paramData, 'activityStartDate'),
                 activityEndDate: _.get(paramData, 'activityEndDate'),
-                areaIds: [{
-                        areaId: _.get(paramData, 'areaIds.areaId'),//状态编码 
-                    }], 
-                states: [{
-                        code: _.get(paramData, 'states.code'),//状态编码 
-                    }] 
+                areaIds: _.get(paramData, 'areaIds'),
+                states: _.get(paramData, 'states')
             };
             // 代金券发放列表导出
             httpMethod.exportGiveoutActivity(param).then(function () {
@@ -427,7 +419,7 @@ angular
                 $log.log('调用代金券发放列表导出接口失败.');
             });
         }
-         
+
     }])
     // 分页控制器
     .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function ($scope, $rootScope, $log) {
@@ -443,4 +435,4 @@ angular
             $log.log('Page changed to: ' + $scope.currentPage);
         };
     }])
-   
+
