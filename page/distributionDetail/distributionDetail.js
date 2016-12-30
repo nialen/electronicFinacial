@@ -266,7 +266,7 @@ angular
             $scope.currentPage = pageNo;
         };
         $scope.pageChanged = function (currentPage) {
-        	!currentPage && $scope.$broadcast('pageChange');
+        	!currentPage && $scope.$emit('pageChange');
         	var param = {
 	        	activityId:_.get($rootScope, 'activitiId'),
 	        	curPage: currentPage, // 当前页
