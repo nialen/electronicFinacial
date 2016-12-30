@@ -1,0 +1,277 @@
+.operate-spec{
+    padding: 10px 20px 0;
+}
+
+/* 结果 */
+.detail-operate-result {
+    margin-top: 10px;
+}
+
+.result-header {
+    height: 48px;
+    margin: 0;
+    line-height: 46px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+
+.result-header .title {
+    position: relative;
+    padding-top: 9px;
+    padding-left: 32px;
+    line-height: 16px;
+}
+
+.result-header .title img {
+    position: absolute;
+    top: 9px;
+    left: 0;
+}
+
+.result-header .title .title-cn {
+    color: #4c9ef5;
+    font-size: 14px;
+}
+td .org{
+    color:#ff8c19;
+    text-decoration: underline;
+    line-height: 25px;
+}
+
+.result-header .title .title-en {
+    color: #ddd;
+    font-size: 12px;
+}
+
+.detail-operate-spec {
+    padding: 5px 5px 0;
+    border: 1px solid #ddd;
+}
+
+.edit-label {
+    width: 100px !important;
+    text-align: right;
+}
+
+.remark {
+    width: 805px !important;
+    height: 240px !important;
+}
+
+.check-default {
+    margin: 0 2px 0 8px !important;
+}
+
+.modify-input {
+    width: 180px !important;
+    height: 28px;
+}
+
+.query-input {
+    width: 265px !important;
+    height: 28px;
+}
+
+.jobId-input {
+    width: 122px !important;
+    height: 28px;
+}
+
+.btn-jobId {
+    padding: 4px 14px;
+    background-color: #ffc619;
+    border-color: #ffc619;
+    color: #fff;
+    font-size: 12px;
+}
+
+.btn-jobId:focus, .btn-jobId.focus {
+    background-color: #e4ae0c;
+    border-color: #e4ae0c;
+    color: #fff;
+}
+
+.btn-jobId:hover {
+    background-color: #e4ae0c;
+    border-color: #e4ae0c;
+    color: #fff;
+}
+.btn-edit {
+    background-color: #b1cc00;
+    color: #fff;
+    margin-top: 2px;
+}
+
+.btn-edit i {
+    font-size: 12px;
+}
+
+.btn-edit:focus, .btn-edit.focus {
+    background-color: #a4bc04;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: #a4bc04;
+    color: #fff;
+}
+/* 弹出框 */
+
+
+.result-table .form-group .detail-input {
+    border: 0;
+    background: #fff;
+    box-shadow: inset 0 0 0 rgba(0, 0, 0, .075);
+    -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, .075);
+    font-size: 12px;
+    width: 100px !important;
+    padding: 0;
+    height:25px;
+    line-height: 25px;
+}
+
+.modal-content {
+    border-radius: 0;
+}
+
+.modal-header {
+    background-color: #ffb319;
+}
+
+.modal-title {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.modal-title .iconfont {
+    margin-right: 6px;
+}
+
+.edit-label {
+    width: 100px !important;
+    text-align: right;
+}
+
+.edit-input {
+    width: 200px !important;
+}
+
+.mb5 {
+    margin-bottom: 5px;
+}
+
+.modal-footer {
+    text-align: center !important;
+}
+
+.result-header {
+    height: 37px;
+    margin: 0;
+    line-height: 32px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+
+.result-header .title {
+    position: relative;
+    padding-top: 4px;
+    padding-left: 32px;
+    line-height: 16px;
+}
+
+.result-header .title img {
+    position: absolute;
+    top: 4px;
+    left: 0;
+}
+
+.result-header .title .title-cn {
+    color: #4c9ef5;
+    font-size: 14px;
+}
+
+.result-header .title .title-cn.red {
+    color: #f54c84;
+}
+
+.result-header .title .title-cn.green {
+    color: #3cc250;
+}
+
+.result-header .title .title-en {
+    color: #ddd;
+    font-size: 12px;
+}
+
+.btn-set {
+    margin-left: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #ffc619;
+    border-color: #ffc619;
+    color: #fff;
+    font-size: 12px;
+}
+
+.btn-set:focus, .btn-set.focus {
+    background-color: #e4ae0c;
+    border-color: #e4ae0c;
+    color: #fff;
+}
+
+.btn-set:hover {
+    background-color: #e4ae0c;
+    border-color: #e4ae0c;
+    color: #fff;
+}
+
+.result-table table th {
+    background-color: #f5fafa;
+    border-bottom-width: 1px !important;
+    color: #333;
+    font-weight: 800;
+    text-align: center;
+}
+
+.result-table table td {
+    padding: 2px !important;
+    text-align: center;
+}
+
+.result-table table td p {
+    height: 25px;
+    line-height: 25px;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+    padding: 5px 0;
+}
+.edit-label.text-left{
+    text-align: left;
+    width:60px !important;
+}
+/* 分页 */
+.page {
+    position: relative;
+    height: 26px;
+    margin-bottom: 10px;
+}
+.page-num {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 16px;
+    color: #4c4c4c;
+    line-height: 16px;
+}
+.page-num .number {
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    margin: 0 3px;
+    padding: 0 4px;
+    background-color: #ff9f19;
+    border-radius: 5px;
+    color: #fff;
+}
