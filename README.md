@@ -5,6 +5,8 @@
 * 代金券发放
 	* 发放配置 **distributionAllocation**
 	* 发放查询 **distributionQuery**
-	* 查询详情 **distributionDetail**
+    * 查询详情 **distributionDetail**
+    * 代金券领用列表 **leadingList**
+    * 领取明细查询 **receiveDetail**
 
 
