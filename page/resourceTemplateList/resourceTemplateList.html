@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>资源模板</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="resourceTemplateList.css">
+</head>
+
+<body ng-app="resourceTemplateListModule">
+    <div class="operate-spec">
+        <!-- 查询 -->
+        <div class="operate-spec-query" ng-cloak>
+            <form name="queryOperateForm" class="form-inline" role="form">
+                <div class="row mb10">
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label class="control-label">模版名称：</label>
+                            <input type="text" class="form-control query-input">
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label class="control-label">模版编码：</label>
+                            <input type="text" class="form-control query-input">
+                        </div>
+                    </div>
+                    <div class="col-xs-2 text-right">
+                        <button type="submit" class="btn btn-sm btn-query"><i class="iconfont">&#xe600;</i> 查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 结果 -->
+        <div class="operate-spec-result" ng-cloak>
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_infoList.png">
+                        <p class="title-cn">资源模版属性列表</p>
+                        <p class="title-en">Resource attribute template list </p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增</button>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="20%">模版编码</th>
+                            <th width="20%">模版名称</th>
+                            <th>模版描述</th>
+                            <th width="10%">模版状态</th>
+                            <th width="15%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>10000001</p>
+                            </td>
+                            <td>
+                                <p>翼支付券模版</p>
+                            </td>
+                            <td>
+                                <p class="overflow-handle">翼支付券属性模版</p>
+                            </td>
+                            <td>
+                                <p>在用</p>
+                            </td>
+                            <td>
+                                <button class="btn btn-xs btn-edit"><i class="iconfont">&#xe60d;</i> 编辑</button>
+                                <button class="btn btn-xs btn-edit"><i class="iconfont">&#xe60b;</i> 详情</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="no-data" ng-if="queryOperateResultList && !queryOperateResultList.length">
+                    没有数据
+                </p>
+            </div>
+            <div ng-controller="paginationCtrl" class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
+            </div>
+        </div>
+    </div>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="resourceTemplateList.js"></script>
+</body>
+
+</html>
