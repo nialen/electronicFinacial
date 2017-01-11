@@ -21,6 +21,14 @@
     line-height: 25px;
 }
 
+.num-input {
+    position: relative;
+    top: 2px;
+    width: 80px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 
 /* 结果 */
 
