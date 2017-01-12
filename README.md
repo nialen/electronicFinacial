@@ -13,5 +13,6 @@
     * 资源模版详情 **resourceTemplateDetail**
     * 资源管理列表 **resourceManagementList**
     * 资源管理编辑 **resourceManagementEdit**
+    * 资源管理详情 **resourceManagementDetail**
 
 
