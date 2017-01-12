@@ -138,14 +138,18 @@ td .org{
     background-color: #ffb319;
 }
 
-.modal-title {
-    color: #fff;
+.model-title {
+    color: #3cc250;
     font-size: 14px;
-    font-weight: bold;
 }
-
 .modal-title .iconfont {
     margin-right: 6px;
+}
+.modal-title .icon {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }
 
 .edit-label {
@@ -274,4 +278,53 @@ td .org{
     background-color: #ff9f19;
     border-radius: 5px;
     color: #fff;
+}
+
+.get-url {
+    width: 90%;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+}
+
+.url-title {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f5fafa;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    text-align: center;
+}
+
+.url-content {
+    height: 60px;
+    padding: 10px;
+}
+
+.two-dimension {
+    width: 90%;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+}
+
+.code-title {
+    height: 30px;
+    line-height: 30px;
+    background-color: #f5fafa;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    text-align: center;
+}
+
+.code-content {
+    height: 250px;
+    padding: 10px;
+}
+
+.code-content img {
+    display: block;
+    width: 240px;
+    height: 228px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background-color: #5bc8ce;
 }
