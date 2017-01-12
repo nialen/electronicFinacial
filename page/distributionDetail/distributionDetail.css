@@ -275,3 +275,21 @@ td .org{
     border-radius: 5px;
     color: #fff;
 }
+.check-num-box {
+    position: relative;
+}
+.check-num {
+    position: absolute;
+    top: -11px;
+    left: -190px;
+    width: 230px;
+    min-height:30px;
+    background-color: #fff;
+    border: 1px solid #ff8c19;
+}
+.urlwrds{
+    text-align: left;
+    padding:5px 10px;
+    line-height:20px;
+}
+

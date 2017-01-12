@@ -122,12 +122,16 @@
 			                    <td>
 			                        <p ng-bind="item.receivedNum"></p>
 			                    </td>
-			                    <td>
-			                        <a class="org" ng-href="{{item.receiveUrl}}">点击领取</a>
+			                    <td class="check-num-box">
+			                    	<input type="checkbox" id="checkbox{{$index}}" ng-model="isChecked" class="hide">
+                                	<label for="checkbox{{$index}}" class="org">领取地址</label>
+			                        <div class="check-num" ng-show="isChecked">
+                                        <div class="urlwrds" ng-bind="item.receiveUrl"></div>
+	                                </div>
 			                    </td>
 			                    <td>
-			                        <button ng-click="updateStoreStatus('启用',item.grantId)" ng-if="item.state === '1'" class="btn btn-xs btn-edit"><i class="iconfont">&#xe613;</i> 启用</button>
-			                        <button ng-click="updateStoreStatus('停用',item.grantId)" ng-if="item.state === '2'" class="btn btn-xs btn-edit"><i class="iconfont">&#xe634;</i> 停用</button>
+			                        <button ng-click="updateStoreStatus('启用',item)" ng-if="item.state === '1'" class="btn btn-xs btn-edit"><i class="iconfont">&#xe613;</i> 启用</button>
+			                        <button ng-click="updateStoreStatus('停用',item)" ng-if="item.state === '2'" class="btn btn-xs btn-edit"><i class="iconfont">&#xe634;</i> 停用</button>
 			                    </td>
 			                </tr>
 		                </tbody>

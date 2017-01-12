@@ -193,10 +193,10 @@ angular
         });
 
         // 停用/启用
-        $scope.updateStoreStatus = function(status, grantId) {
+        $scope.updateStoreStatus = function(status, obj) {
             var statusTitle = status,
             param = {
-                grantId: grantId,
+                grantId: obj.grantId,
                 state:'',
             };
             // 修改发放状态信息
@@ -217,7 +217,7 @@ angular
             }
             swal({
                 title: '厅店资源发放' + statusTitle + '操作',
-                text: '确定把发放ID ' + grantId + ' 厅店资源发放' + statusTitle + '吗?',
+                text: '确定把发放ID ' + obj.grantId + ' 厅店资源发放' + statusTitle + '吗?',
                 type: 'info',
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -237,6 +237,7 @@ angular
                             confirmButtonColor: '#ffaa00'
                         }, function() {
                             $scope.$emit('requery');
+                            obj.state=param.state;
                         });
                     } else {
                         swal('OMG', rsp.msg || statusTitle + '厅店资源发放失败!', 'error');
