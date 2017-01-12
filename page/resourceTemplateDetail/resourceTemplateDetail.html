@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>资源模板详情</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="resourceTemplateDetail.css">
+</head>
+
+<body ng-app="resourceTemplateDetailModule">
+    <div class="operate-spec">
+        <div class="row result-header">
+            <div class="col-xs-4">
+                <div class="title">
+                    <img src="../../resources/images/icon_list.png">
+                    <p class="title-cn">基本信息</p>
+                    <p class="title-en">Essential information</p>
+                </div>
+            </div>
+        </div>
+        <div class="operate-spec-query" ng-cloak>
+            <div class="row mb10">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label class="control-label">模版名称：</label>
+                        <input type="text" class="form-control detail-input" disabled>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label class="control-label">模版编码：</label>
+                        <input type="text" class="form-control detail-input" disabled>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label class="control-label">停用资源：</label>
+                        <input type="text" class="form-control detail-input" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label">资源描述：</label>
+                        <input type="text" class="form-control detail-input" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 关联属性 -->
+        <div class="operate-spec-result" ng-cloak>
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_infoList.png">
+                        <p class="title-cn">关联属性</p>
+                        <p class="title-en">Related attributes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="5%">序号</th>
+                            <th width="15%">属性编码</th>
+                            <th>属性名称</th>
+                            <th width="15%">是否启用</th>
+                            <th width="15%">是否显示</th>
+                            <th width="15%">是否可空</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>1</p>
+                            </td>
+                            <td>
+                                <p>10000001</p>
+                            </td>
+                            <td>
+                                <p>资源面值</p>
+                            </td>
+                            <td>
+                                <p>是</p>
+                            </td>
+                            <td>
+                                <p>是</p>
+                            </td>
+                            <td>
+                                <p>是</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="no-data" ng-if="queryOperateResultList && !queryOperateResultList.length">
+                    没有数据
+                </p>
+            </div>
+            <div ng-controller="paginationCtrl" class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
+            </div>
+        </div>
+    </div>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="resourceTemplateDetail.js"></script>
+</body>
+
+</html>

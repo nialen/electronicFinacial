@@ -613,7 +613,9 @@ angular
                 }, function() {
                     $log.log('获取区/县列表失败.');
                 });
-            };
+            } else {
+                $ctrl.districtList = [];
+            }
         });
 
         //条件查询

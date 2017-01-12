@@ -138,14 +138,18 @@ td .org{
     background-color: #ffb319;
 }
 
-.modal-title {
-    color: #fff;
+.model-title {
+    color: #3cc250;
     font-size: 14px;
-    font-weight: bold;
 }
-
 .modal-title .iconfont {
     margin-right: 6px;
+}
+.modal-title .icon {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }
 
 .edit-label {

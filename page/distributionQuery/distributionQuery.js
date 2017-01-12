@@ -25,7 +25,7 @@ angular
         }
         return paramData;
     }])
-    .factory('httpMethod', ['$http', '$q', function($http, $q) {
+    .factory('httpConfig', [function() {
         var httpConfig = {
             'siteUrl': 'http://192.168.16.84:8088',
             'requestHeader': {
@@ -33,8 +33,10 @@ angular
             },
             'isMock': true //是否开启测试数据
         };
+        return httpConfig;
+    }])
+    .factory('httpMethod', ['$http', '$q', 'httpConfig', function($http, $q, httpConfig) {
         var httpMethod = {};
-
         //获取地区列表
         httpMethod.qryCommonRegion = function(param) {
             var defer = $q.defer();
@@ -97,25 +99,6 @@ angular
             var defer = $q.defer();
             $http({
                 url: httpConfig.siteUrl + '/activity/qryGrantActivity',
-                method: 'POST',
-                headers: httpConfig.requestHeader,
-                data: 'param=' + JSON.stringify(param)
-            }).success(function(data, header, config, status) {
-                if (status != 200) {
-                    //跳转403页面
-                }
-                defer.resolve(data);
-            }).error(function(data, status, headers, config) {
-                defer.reject(data);
-            });
-            return defer.promise;
-        };
-
-        //代金券发放列表导出
-        httpMethod.exportGiveoutActivity = function(param) {
-            var defer = $q.defer();
-            $http({
-                url: httpConfig.siteUrl + '/activity/exportGiveoutActivity',
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
@@ -335,7 +318,7 @@ angular
         });
     }])
     // 查询结果控制器
-    .controller('queryOperateResultCtrl', ['$scope', '$rootScope', '$log', 'paramData','httpMethod', function ($scope, $rootScope, $log, paramData, httpMethod) {
+    .controller('queryOperateResultCtrl', ['$scope', '$rootScope', '$log', 'paramData', 'httpConfig', 'httpMethod', function ($scope, $rootScope, $log, paramData, httpConfig, httpMethod) {
         // 修改
         // $scope.editQueryOperate = function (index) {
         //     $rootScope.modifiedQueryOperate = $rootScope.queryOperateResultList[index];
@@ -413,12 +396,8 @@ angular
                 areaIds: _.get(paramData, 'areaIds'),
                 states: _.get(paramData, 'states')
             };
-            // 代金券发放列表导出
-            httpMethod.exportGiveoutActivity(param).then(function () {
-                $log.log('调用代金券发放列表导出接口成功.');
-            }, function () {
-                $log.log('调用代金券发放列表导出接口失败.');
-            });
+
+            window.open(httpConfig.siteUrl + '/activity/exportGiveoutActivity?param=' + JSON.stringify(param));
         }
 
     }])

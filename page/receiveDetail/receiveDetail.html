@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>领取明细查询</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="receiveDetail.css">
+</head>
+
+<body ng-app="receiveDetailModule">
+    <div class="operate-spec" ng-controller="queryOperateFormCtrl">
+        <!-- 查询 -->
+        <div class="operate-spec-query" ng-cloak>
+            <form name="queryOperateForm" ng-submit="queryOperateFormSubmit()" class="form-inline" role="form">
+                <div class="row mb10">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="control-label">厅店：</label>
+                            <p class="modal-input" ng-click="addHall(hall)">
+                                <span class="new-name" ng-bind="hall.hallName"></span>
+                                <span class="add-new-btn">...</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="control-label">资源：</label>
+                            <p class="modal-input" ng-click="addResources(resource)">
+                                <span class="new-name" ng-bind="resource.rscName"></span>
+                                <span class="add-new-btn">...</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <div class="form-group">
+                            <label class="control-label">发放周期范围：</label>
+                            <div class="datepicker-input fn-left">
+                                <input type="text" id="createStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createStartDt" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                <span class="icon_time" ng-click="startOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                            </div>
+                            <div class="datepicker-text fn-left">至</div>
+                            <div class="datepicker-input fn-left">
+                                <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createEndDt" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                <span class="icon_time" ng-click="endOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb10">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="control-label">活动名称：</label>
+                            <input type="text" class="form-control query-input">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group" ng-controller="selectMultipleCtrl as $ctrl">
+                            <label class="control-label">活动地区：</label>
+                            <ui-select multiple limit="3" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择3个地市">
+                                <ui-select-match>{{$item.name}}</ui-select-match>
+                                <ui-select-choices repeat="area in $ctrl.areaList | filter:$select.search">
+                                    {{area.name}}
+                                </ui-select-choices>
+                            </ui-select>
+                            <span class="prompt"><i class="iconfont">&#xe692;</i>可多选</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group" ng-controller="selectStateCtrl as $ctrl">
+                            <label class="control-label">用户号码：</label>
+                            <div class="reduce">
+                                <input type="text" class="form-control query-input">
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-query fn-right"><i class="iconfont">&#xe600;</i> 查询</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 结果 -->
+        <div class="operate-spec-result" ng-cloak ng-controller="queryOperateResultCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_money.png">
+                        <p class="title-cn">代金券领取明细</p>
+                        <p class="title-en">Vouchers to receive details</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="exportDistribution()" class="btn btn-xs btn-set"><i class="iconfont">&#xe627;</i> 导出</button>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="20%">发放活动名称</th>
+                            <th width="15%">地区</th>
+                            <th width="15%">厅店名称</th>
+                            <th width="15%">资源名称</th>
+                            <th width="15%">用户号码</th>
+                            <th width="20%">领取时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>活动A</p>
+                            </td>
+                            <td>
+                                <p>成都</p>
+                            </td>
+                            <td>
+                                <p>旗舰店</p>
+                            </td>
+                            <td>
+                                <p>2元通用券</p>
+                            </td>
+                            <td>
+                                <p>15651806999</p>
+                            </td>
+                            <td>
+                                <p>2017／01／01-12:30:22</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="no-data" ng-if="queryOperateResultList && !queryOperateResultList.length">
+                    没有数据
+                </p>
+            </div>
+            <div ng-controller="paginationCtrl" class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
+            </div>
+        </div>
+    </div>
+    <!-- 厅店选择弹框 -->
+    <script type="text/ng-template" id="hallModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="hall-modal-title"><img class="icon" src="../../resources/images/icon_new.png">厅店选择</h3>
+        </div>
+        <!-- 查询 -->
+        <div class="query-hall-box">
+            <form name="queryHall" ng-submit="$ctrl.conditionQuery()" class="form-inline" role="form">
+                <div class="row mb10">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label">厅店编码：</label>
+                            <input type="text" class="form-control" ng-model="$ctrl.hallId">
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label">厅店名称：</label>
+                            <input type="text" class="form-control" ng-model="$ctrl.hallName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label">所属州/市：</label>
+                            <div class="select-box">
+                                <select class="form-control" ng-model="$ctrl.cityId">
+                                    <option value="">请选择州/市</option>
+                                    <option ng-repeat="item in $ctrl.cityList" value="{{item.areaId}}">{{item.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label">所属区/县：</label>
+                            <div class="select-box reduce">
+                                <select class="form-control" ng-model="$ctrl.districtId">
+                                    <option value="">请选择区/县</option>
+                                    <option ng-repeat="item in $ctrl.districtList" value="{{item.areaId}}">{{item.name}}</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-query fn-right"><i class="iconfont">&#xe600;</i> 查询</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 结果列表 -->
+        <div class="result-list">
+            <div class="result-modal-header">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="model-header">
+                            <img class="model-img" src="../../resources/images/icon_previlege.png">
+                            <p class="model-title">厅店列表</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="6%">选择</th>
+                            <th width="25%">编码</th>
+                            <th width="35%">名称</th>
+                            <th width="34%">归属分支局</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in $ctrl.hallsList">
+                            <td>
+                                <input type="radio" name="radio" ng-click="$ctrl.check(item)">
+                            </td>
+                            <td>
+                                <p ng-bind="item.hallId"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.hallName"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.orgName"></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center page">
+                <ul uib-pagination total-items="$ctrl.totalNum" items-per-page="$ctrl.rowNumPerPage" ng-model="$ctrl.currentPage" max-size="$ctrl.maxSize" ng-change="$ctrl.pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+            </div>
+        </div>
+        <div class="modal-footer" id="hall-modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+            <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
+        </div>
+    </script>
+    <!-- 资源选择弹框 -->
+    <script type="text/ng-template" id="resourcesModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="resources-modal-title"><img class="icon" src="../../resources/images/icon_new.png">资源选择</h3>
+        </div>
+        <!-- 查询 -->
+        <div class="query-keyword-box">
+            <label class="label-keyword">关键字：</label>
+            <div class="form-keyword">
+                <input type="text" class="form-control" placeholder="请输入关键字进行查询" ng-model="$ctrl.keyword">
+                <button ng-click="$ctrl.keywordQuery()" class="btn btn-sm btn-keyword"><i class="iconfont">&#xe600;</i> 查询</button>
+            </div>
+        </div>
+        <!-- 结果列表 -->
+        <div class="result-list">
+            <div class="result-modal-header">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="model-header">
+                            <img class="model-img" src="../../resources/images/icon_previlege.png">
+                            <p class="model-title">资源列表</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="6%">选择</th>
+                            <th width="20%">编码</th>
+                            <th width="20%">名称</th>
+                            <th width="20%">类型</th>
+                            <th width="20%">面值</th>
+                            <th width="14%">状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in $ctrl.resourceList">
+                            <td>
+                                <input type="radio" name="radio" ng-click="$ctrl.check(item)">
+                            </td>
+                            <td>
+                                <p ng-bind="item.rscId"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.rscName"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.templet"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.value"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.state"></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center page">
+                <ul uib-pagination total-items="$ctrl.totalNum" items-per-page="$ctrl.rowNumPerPage" ng-model="$ctrl.currentPage" max-size="$ctrl.maxSize" ng-change="$ctrl.pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+            </div>
+        </div>
+        <div class="modal-footer" id="resources-modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+            <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
+        </div>
+    </script>
+    <!-- 明细详情 -->
+    <script type="text/ng-template" id="detailModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon_new.png">代金券发放领取明细详情</h3>
+        </div>
+        <div class="result-list">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_typeSetup.png">
+                        <p class="title-cn">每日明细</p>
+                        <p class="title-en">Daily detail</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="exportDistribution()" class="btn btn-xs btn-set"><i class="iconfont">&#xe627;</i> 领取明细导出</button>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="35%">日期</th>
+                            <th width="30%">领取量</th>
+                            <th width="35%">日结余</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>2016-12-12</p>
+                            </td>
+                            <td>
+                                <p>12</p>
+                            </td>
+                            <td>
+                                <p>250</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-bind="totalNum"></span>条记录，当前显示第<span class="number" ng-bind="currentPage"></span>页</div>
+            </div>
+        </div>
+        <div class="modal-footer" id="detail-modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+            <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
+        </div>
+    </script>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="receiveDetail.js"></script>
+</body>
+
+</html>
