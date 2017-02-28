@@ -226,7 +226,6 @@ angular
             $log.log('获取状态信息失败.');
         });
         vm.changeCallback = function(item, model) {
-            debugger
             paramData.states = [];
             _.map(vm.checkedStateList, function(item, index) {
                 _.set(paramData, ['states', index, 'code'], item.code);
