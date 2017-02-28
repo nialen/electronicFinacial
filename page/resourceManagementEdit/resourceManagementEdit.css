@@ -551,3 +551,12 @@
     border: 1px solid #ddd;
     border-bottom: none;
 }
+.form-group input.short-class{
+    width:calc(100% - 20px) !important;
+}
+.yuan{
+    position:absolute;
+    right:5px;
+    top:7px;
+    font-weight:bold;
+}

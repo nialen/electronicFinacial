@@ -121,7 +121,7 @@
                                 </p>
                             </td>
                             <td>
-                                <p ng-bind="item.stateCode|stateName"></p>
+                                <p ng-bind="item.stateCode | stateName"></p>
                             </td>
                             <td>
                                 <button ng-click="updateDistributionStatus('暂停',item.activitiId)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe634;</i> 暂停</button>
@@ -137,7 +137,7 @@
                 </p>
             </div>
             <div ng-controller="paginationCtrl" class="text-center page">
-                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
                 <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
             </div>
         </div>

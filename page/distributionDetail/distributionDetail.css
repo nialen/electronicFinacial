@@ -279,52 +279,21 @@ td .org{
     border-radius: 5px;
     color: #fff;
 }
-
-.get-url {
-    width: 90%;
-    margin: 10px auto;
-    border: 1px solid #ddd;
+.check-num-box {
+    position: relative;
+}
+.check-num {
+    position: absolute;
+    top: -11px;
+    left: -190px;
+    width: 230px;
+    min-height:30px;
+    background-color: #fff;
+    border: 1px solid #ff8c19;
+}
+.urlwrds{
+    text-align: left;
+    padding:5px 10px;
+    line-height:20px;
 }
 
-.url-title {
-    height: 30px;
-    line-height: 30px;
-    background-color: #f5fafa;
-    border-bottom: 1px solid #ddd;
-    color: #333;
-    text-align: center;
-}
-
-.url-content {
-    height: 60px;
-    padding: 10px;
-}
-
-.two-dimension {
-    width: 90%;
-    margin: 10px auto;
-    border: 1px solid #ddd;
-}
-
-.code-title {
-    height: 30px;
-    line-height: 30px;
-    background-color: #f5fafa;
-    border-bottom: 1px solid #ddd;
-    color: #333;
-    text-align: center;
-}
-
-.code-content {
-    height: 250px;
-    padding: 10px;
-}
-
-.code-content img {
-    display: block;
-    width: 240px;
-    height: 228px;
-    margin: 0 auto;
-    padding: 20px 30px;
-    background-color: #5bc8ce;
-}
