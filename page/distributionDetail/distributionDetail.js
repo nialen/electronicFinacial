@@ -275,6 +275,15 @@ angular
                     }
                 }
             });
+
+            modalInstance.rendered.then(function() { //这是一个接收模态框返回值的函数
+                $("#code").qrcode({
+                    render: "table", //table方式
+                    width: 200, //宽度
+                    height: 200, //高度
+                    text: "www.helloweba.com" //任意内容
+                });
+            });
         };
     }])
 

@@ -2,6 +2,7 @@
  * Auth 丁少华
  * Date 2016-12-24
  */
+define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate','angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
 angular
     .module('distributionAllocationModule', ['ui.bootstrap', 'ui.select', 'ui.uploader'])
     .run(['$rootScope', function($rootScope) {
@@ -42,17 +43,7 @@ angular
 
         return paramData;
     }])
-    .factory('httpConfig', [function() {
-        var httpConfig = {
-            'siteUrl': 'http://192.168.16.84:8088',
-            'requestHeader': {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            'isMock': true //是否开启测试数据
-        };
-        return httpConfig;
-    }])
-    .factory('httpMethod', ['$http', '$q', 'httpConfig', function($http, $q, httpConfig) {
+    .factory('httpMethod', ['$http', '$q', function($http, $q) {
         var httpMethod = {};
         //获取地区列表
         httpMethod.qryArea = function(param) {
@@ -651,7 +642,7 @@ angular
             $uibModalInstance.dismiss('cancel');
         };
     }])
-    .controller('hallImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpConfig', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpConfig, httpMethod) {
+    .controller('hallImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpMethod) {
         var $ctrl = this;
         $ctrl.ok = function() {
             $uibModalInstance.close();
@@ -900,7 +891,7 @@ angular
             $uibModalInstance.dismiss('cancel');
         };
     }])
-    .controller('merchantImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpConfig', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpConfig, httpMethod) {
+    .controller('merchantImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpMethod) {
         var $ctrl = this;
         $ctrl.ok = function() {
             $uibModalInstance.close();
@@ -1052,3 +1043,4 @@ angular
             });
         }
     }])
+});
