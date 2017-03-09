@@ -14,5 +14,8 @@
     * 资源管理列表 **resourceManagementList**
     * 资源管理编辑 **resourceManagementEdit**
     * 资源管理详情 **resourceManagementDetail**
-
-
+    
+* 活动申请
+    * 营销活动立减 **activityReduce**
+    * 营销活动立返 **activityReturn**
+    * 活动资源信息-添加红包 **addRedPacket**

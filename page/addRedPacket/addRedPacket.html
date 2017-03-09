@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>红包申请信息填写</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link href="../../resources/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="addRedPacket.css">
+</head>
+
+<body ng-app="activityReduceModule">
+	<div class="operate-spec add-redpacket" ng-controller="pageCtrl">
+		<form name="activityReduceForm">
+		    <div class="detail-operate-result">
+		        <div class="row result-header">
+		            <div class="col-xs-4">
+		                <div class="title">
+		                    <img src="../../resources/images/icon_redpacket.png">
+		                    <p class="title-cn">红包领取限制</p>
+		                    <p class="title-en">Red envelope restrictions</p>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="result-content result-content-activity">
+		        	<div class="activity-content">
+		        		<table class="table table-hover">
+		        			<tbody>
+		        				<tr>
+		        					<td width="25%">新用户是否可领</td>
+		        					<td width="25%">
+		        						<div class="select-box select-box-half">
+				                            <select class="form-control">
+				                                <option value=""></option>
+				                            </select>
+				                        </div>
+		        					</td>
+		        					<td width="25%">红包名称</td>
+		        					<td width="25%">
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>领取身份限制</td>
+		        					<td>
+		        						<div class="select-box select-box-half">
+				                            <select class="form-control">
+				                                <option value="">是</option>
+				                                <option value="">否</option>
+				                            </select>
+				                        </div>
+		        					</td>
+		        					<td>老用户是否可领</td>
+		        					<td>
+		        						<div class="select-box select-box-half">
+				                            <select class="form-control">
+				                                <option value="">是</option>
+				                                <option value="">否</option>
+				                            </select>
+				                        </div>
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>红包链接限制</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>用户运营商</td>
+		        					<td>
+		        						<div class="select-box select-box-half">
+				                            <select class="form-control">
+				                                <option value=""></option>
+				                            </select>
+				                        </div>
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>红包链接接收邮箱</td>
+		        					<td>
+										<input type="text" class="form-control" />
+		        					</td>
+		        					<td>防止URL转发</td>
+		        					<td>
+		        						<div class="select-box select-box-half">
+				                            <select class="form-control">
+				                                <option value="">是</option>
+				                                <option value="">否</option>
+				                            </select>
+				                        </div>
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>单用户领取次数</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>红包内含子红包个数</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>商户简称</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>红包内代金券总张数</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>子红包总金额（单个红包总金额）</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>子红包代金券总张数</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        			</tbody>
+		        		</table>
+		        	</div>
+		        </div>
+		    </div>
+		    <div class="detail-operate-result">
+		        <div class="row result-header">
+		            <div class="col-xs-4">
+		                <div class="title">
+		                    <img src="../../resources/images/icon_redpacket.png">
+		                    <p class="title-cn">红包链接</p>
+		                    <p class="title-en">Red link</p>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="result-content result-content-activity">
+		        	<div class="activity-content">
+		        		<table class="table table-hover">
+		        			<tbody>
+		        				<tr>
+		        					<td width="25%">子红包链接有效时间（小时）</td>
+		        					<td width="25%">
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td width="25%">领取页面祝福语</td>
+		        					<td width="25%">
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>链接指定失效时间</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>分享链接标题</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>分享链接祝福语</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>中奖率</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>中奖跳转应用</td>
+		        					<td>
+										<input type="text" class="form-control" />
+		        					</td>
+		        					<td>中奖提示</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>未中奖链接</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        					<td>未中奖提示</td>
+		        					<td>
+		        						<input type="text" class="form-control" />
+		        					</td>
+		        				</tr>
+		        			</tbody>
+		        		</table>
+		        	</div>
+		        </div>
+		    </div>
+		    <div class="detail-operate-result">
+		        <div class="row result-header">
+		            <div class="col-xs-4">
+		                <div class="title">
+		                    <img src="../../resources/images/icon_redpacket.png">
+		                    <p class="title-cn">子红包内代金券</p>
+		                    <p class="title-en">Sub red Neidaijin coupons</p>
+		                </div>
+		            </div>
+		            <div class="col-xs-8 text-right">
+	                    <button  class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增</button>
+	                </div>
+		        </div>
+		        <div class="result-content result-content-activity no-bdl">
+		        	<div class="activity-content activity-content-s">
+		        		<table class="table table-hover table-bordered">
+		                    <thead>
+		                        <tr>
+		                            <th>代金券名称</th>
+			        				<th>代金券面值</th>
+			        				<th>子红包内张数</th>
+			        				<th>子红包内制券总额</th>
+			        				<th width="200">操作</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+		                        <tr>
+		        					<td>
+		        						<p class="overflow-handle">代金券A</p>
+		        					</td>
+		        					<td>
+		        						<p>5</p>
+		        					</td>
+		        					<td>
+		        						<input class="form-control text-center" type="text" value="2" />
+		        					</td>
+		        					<td>
+		        						<p>10</p>
+		        					</td>
+		        					<td>
+										<button class="btn btn-xs btn-set"><i class="iconfont">&#xe610;</i> 删除</button>
+										<button class="btn btn-xs btn-set"><i class="iconfont">&#xe63e;</i> 编辑</button>
+		        					</td>
+		        				</tr>
+		                    </tbody>
+		                </table>
+		        	</div>
+		        </div>
+		    </div>
+		    <div class="activity-action-btns text-center">
+		    	<button class="btn btn-submit">保存</button>
+	            <button class="btn btn-cancel">关闭</button>
+	        </div>
+	    </form>
+	</div>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="addRedPacket.js"></script>
+</body>
