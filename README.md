@@ -14,5 +14,6 @@
     * 资源管理列表 **resourceManagementList**
     * 资源管理编辑 **resourceManagementEdit**
     * 资源管理详情 **resourceManagementDetail**
+    * 商户现金红包申请 **merchantCashRedEnvelopes**
 
 

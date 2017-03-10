@@ -136,7 +136,7 @@ angular
                 'msg': null, //失败信息
                 'data': {
                     "states|3": [{
-                        "code|+1": ["1","2","3"],//状态编码：1正常、2暂停、3结束
+                        "code|+1": [1, 2, 3],//状态编码：1正常、2暂停、3结束
                         "name|+1": ["正常","暂停","结束"]//状态名称
                     }]
                 },
@@ -167,7 +167,7 @@ angular
                         }],
                         'activityStartDate': '@date',//活动开始时间
                         'activityEndDate': '@date',//活动结束时间
-                        'stateCode|+1': ["1","2","3"]//状态编码：1正常、2暂停、3结束
+                        'stateCode|+1': [1, 2, 3]//状态编码：1正常、2暂停、3结束
                     }],
                     'total|1-100':10//总条数
                 },
@@ -181,13 +181,13 @@ angular
     .filter('stateName', function () {
         return function (stateValue) {
             switch (stateValue) {
-                case '1':
+                case 1:
                     return '正常';
                     break;
-                case '2':
+                case 2:
                     return '暂停';
                     break;
-                case '3':
+                case 3:
                     return '结束';
                     break;
             }
@@ -338,11 +338,11 @@ angular
                 state:'',
             };
             // 修改发放状态信息
-            httpMethod.changeStatus(param).then(function (rsp) {
-                $log.log('调用修改发放状态接口成功.');
-            }, function () {
-                $log.log('调用修改发放状态接口失败.');
-            });
+            // httpMethod.changeStatus(param).then(function (rsp) {
+            //     $log.log('调用修改发放状态接口成功.');
+            // }, function () {
+            //     $log.log('调用修改发放状态接口失败.');
+            // });
             switch (status) {
                 case '暂停':
                     statusTitle = '暂停';
