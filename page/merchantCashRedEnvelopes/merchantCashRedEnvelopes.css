@@ -1,7 +1,8 @@
 .wrapper {
     margin: 10px 20px 0;
 }
-.staff-man-result {
+.form-wrap {
+    margin-bottom: 10px;
     border: 1px solid #ddd;
 }
 .result-header {
@@ -55,12 +56,105 @@
 .datepicker-input {
     position: relative;
 }
+.datepicker-input input {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
 .icon_time {
     position: absolute;
     top: 5px;
     right: 10px;
     color: #ffb366;
     cursor: pointer;
+}
+.redpacket-wrap .table-bordered {
+    border: 0;
+    margin-bottom: 0;
+}
+.redpacket-wrap .table-bordered > thead > tr > th {
+    height: 20px;
+    padding: 5px;
+    line-height: 20px;
+    background-color: #f5fafa;
+    border: 0;
+    color: #faa214;
+}
+.table-bordered > tbody > tr > td {
+    padding: 2px 20px;
+    border-left: 0;
+    text-align: center;
+}
+.redpacket-wrap .table-bordered > tbody > tr:last-of-type >td {
+    border-bottom: none;
+}
+.redpacket-item {
+    height: 25px;
+    line-height: 25px;
+}
+.redpacket-input {
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+.result-table table th {
+    background-color: #f5fafa;
+    border-bottom-width: 1px !important;
+    color: #333;
+    font-weight: 800;
+    text-align: center;
+}
+.result-table table td p {
+    height: 25px;
+    line-height: 25px;
+}
+.btn-edit {
+    background-color: #b1cc00;
+    color: #fff;
+}
+.btn-edit:focus, .btn-edit.focus {
+    background-color: #a4bc04;
+    color: #fff;
+}
+.btn-edit:hover {
+    background-color: #a4bc04;
+    color: #fff;
+}
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+    padding: 5px 0;
+}
+.red-foundation-head {
+    margin: 0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+.red-foundation-head .title {
+    height: 30px;
+    line-height: 30px;
+    font-size: 0;
+}
+.red-foundation-head .title .icon-title {
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    margin-right: 5px;
+    vertical-align: top;
+}
+.red-foundation-head .title .text-title {
+    color: #3cc250;
+    font-size: 12px;
+}
+
+/* The starting CSS styles for the enter animation */
+.animate-show {
+    opacity: 1;
+}
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+    transition: all linear 0.5s;
+}
+.animate-show.ng-hide {
+    opacity: 0;
 }
 
 /* input 百分比 */
@@ -139,7 +233,7 @@
     background: #fff url('../../resources/images/select_bg.jpg') no-repeat 98% center;
     overflow: hidden;
 }
-.form-group select {
+.select-box select {
     width: calc(100% + 32px) !important;
     height: 25px;
     padding: 0 12px;
@@ -151,7 +245,7 @@
     -moz-appearance: none;
     -webkit-appearance: none;
 }
-.form-group select::-ms-expand {
+.select-box select::-ms-expand {
     display: none;
 }
 

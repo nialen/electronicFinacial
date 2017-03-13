@@ -13,8 +13,8 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="staff-man-result">
+    <div class="wrapper" ng-cloak>
+        <div class="form-wrap" ng-controller="activityApplyFormCtrl">
             <div class="row result-header">
                 <div class="col-xs-4">
                     <div class="title">
@@ -24,28 +24,29 @@
                     </div>
                 </div>
                 <div class="col-xs-8 text-right">
-                    <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe608;</i> 收起</button>
+                    <button ng-click="toggleShow()" ng-show="showInformation" class="btn btn-xs btn-set"><i class="iconfont">&#xe608;</i> 收起</button>
+                    <button ng-click="toggleShow()" ng-show="!showInformation" class="btn btn-xs btn-set"><i class="iconfont">&#xe607;</i> 展开</button>
                 </div>
             </div>
-            <div class="information-wrap" ng-show="true">
-                <form name="activityApplyForm" class="form-inline" role="form" ng-controller="activityApplyFormCtrl">
+            <div class="information-wrap animate-show" ng-show="showInformation">
+                <form name="activityApplyForm" class="form-inline" role="form">
                     <div class="row mb10">
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label class="control-label">所属省份：</label>
-                                <input type="text" class="form-control" ng-model="activityApplyForm.activityName" disabled>
+                                <input type="text" class="form-control" ng-model="activityApply.applyProvinceName" disabled>
                             </div>
                         </div>
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label class="control-label">所属公司：</label>
-                                <input type="text" class="form-control" ng-model="activityApplyForm.activityCode">
+                                <input type="text" class="form-control" ng-model="activityApply.applyCompany">
                             </div>
                         </div>
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label class="control-label">申请日期：</label>
-                                <input type="text" id="createStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="activityApply.createStartDt" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                <input type="text" class="form-control modify-input" uib-datepicker-popup readonly ng-model="activityApply.applyStateDate" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
                                 <span class="icon_time" ng-click="startOpen()"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>
@@ -54,24 +55,252 @@
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label class="control-label">申请人：</label>
-                                <input type="text" class="form-control" ng-model="activityApplyForm.activityName">
+                                <input type="text" class="form-control" ng-model="activityApply.applyMan">
                             </div>
                         </div>
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label class="control-label">联系电话：</label>
-                                <input type="text" class="form-control" ng-model="activityApplyForm.activityCode">
+                                <input type="text" class="form-control" ng-model="activityApply.linkTele">
                             </div>
                         </div>
                         <div class="col-xs-4">
                             <div class="form-group">
                                 <label class="control-label">联系邮箱：</label>
-                                <input type="text" class="form-control" ng-model="activityApplyForm.activityCode">
+                                <input type="text" class="form-control" ng-model="activityApply.linkEmail">
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="form-wrap" ng-controller="redPacketCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_redpacket.png">
+                        <p class="title-cn">红包信息</p>
+                        <p class="title-en">Red message</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="toggleShow()" ng-show="showRedpacket" class="btn btn-xs btn-set"><i class="iconfont">&#xe608;</i> 收起</button>
+                    <button ng-click="toggleShow()" ng-show="!showRedpacket" class="btn btn-xs btn-set"><i class="iconfont">&#xe607;</i> 展开</button>
+                </div>
+            </div>
+            <div class="redpacket-wrap animate-show" ng-show="showRedpacket">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="4">/ 基础信息填写</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">活动名称</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input" ng-model="activityInfo.activityName">
+                            </td>
+                            <td>
+                                <p class="redpacket-item">活动描述</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input" ng-model="activityInfo.activityDesc">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">发红包商户（编码）</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input">
+                            </td>
+                            <td>
+                                <p class="redpacket-item">祝福语</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">活动开展省份</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value="">四川省</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">活动开展城市</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control" ng-model="activityInfo.activityAreaRels" ng-options="item.areaId as item.areaName for item in cityList">
+                                        <option value="">请选择城市</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">红包开始时间</p>
+                            </td>
+                            <td>
+                                <div class="datepicker-input">
+                                    <input type="text" class="form-control modify-input" uib-datepicker-popup readonly ng-model="activityInfo.activityStartDate" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="startOpen()"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">红包结束时间</p>
+                            </td>
+                            <td>
+                                <div class="datepicker-input">
+                                    <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="activityInfo.activityEndDate" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="endOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">分配方式</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value="">请选择分配方式</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">领取用户是否实名</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value="">是</option>
+                                        <option value="">否</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">是否为绑卡用户</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value="">是</option>
+                                        <option value="">否</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">收红包白名单</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value="">请选择收红包白名单</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">用户类型</p>
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value="">请选择用户类型</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">红包主题</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-wrap" ng-controller="redFoundationCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_redpacket.png">
+                        <p class="title-cn">红包基础配置</p>
+                        <p class="title-en">Red foundation</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="toggleShow()" ng-show="showFoundation" class="btn btn-xs btn-set"><i class="iconfont">&#xe608;</i> 收起</button>
+                    <button ng-click="toggleShow()" ng-show="!showFoundation" class="btn btn-xs btn-set"><i class="iconfont">&#xe607;</i> 展开</button>
+                </div>
+            </div>
+            <div class="information-wrap animate-show" ng-show="showFoundation">
+                <div class="staff-man-result">
+                    <div class="row red-foundation-head">
+                        <div class="col-xs-4">
+                            <div class="title">
+                                <img class="icon-title" src="../../resources/images/icon_redpacket_green.png">
+                                <span class="text-title">活动商户列表</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 增加</button>
+                        </div>
+                    </div>
+                    <div class="result-table">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="5%">序号</th>
+                                    <th width="30%">红包总金额</th>
+                                    <th width="30%">子红包个数(小于1万)</th>
+                                    <th>红包编号(申请方无需填写)</th>
+                                    <th width="10%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in resources">
+                                    <td>
+                                        <p ng-bind="{{$index + 1}}"></p>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control redpacket-input" ng-model="item.totalMoney">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control redpacket-input" ng-model="item.totalNum">
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.expDate"></p>
+                                    </td>
+                                    <td>
+                                        <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe610;</i> 删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step-ctrl text-center" ng-cloak ng-controller="submitCtrl">
+            <button ng-click="submitApply('save')" class="btn btn-cancel">保存</button>
+            <button ng-click="submitApply('apply')" class="btn btn-submit">提交审批</button>
         </div>
     </div>
     <script src="../../resources/js/require.js" data-main="entry"></script>

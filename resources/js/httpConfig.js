@@ -4,7 +4,7 @@ define(function () {
         'requestHeader': {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
-        isMock: false //是否开启测试数据
+        isMock: true //是否开启测试数据
     };
     return httpConfig;
 });
