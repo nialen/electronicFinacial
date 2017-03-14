@@ -135,7 +135,7 @@
                                 <p class="redpacket-item">活动开展城市</p>
                             </td>
                             <td>
-                                <ui-select ng-controller="areaMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select ng-controller="areaMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
                                     <ui-select-match>{{$item.name}}</ui-select-match>
                                     <ui-select-choices repeat="area in $ctrl.areaList | filter:$select.search">
                                         {{area.name}}
@@ -170,7 +170,7 @@
                                 <p class="redpacket-item">分配方式</p>
                             </td>
                             <td>
-                                <ui-select ng-controller="distributionModelMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select ng-controller="distributionModelMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
                                     <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
                                     <ui-select-choices repeat="area in distributionModel | filter:$select.search">
                                         {{area.attrValueCode}}
@@ -181,7 +181,7 @@
                                 <p class="redpacket-item">领取用户是否实名</p>
                             </td>
                             <td>
-                                <ui-select ng-controller="isRealNameMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select ng-controller="isRealNameMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
                                     <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
                                     <ui-select-choices repeat="area in isRealName | filter:$select.search">
                                         {{area.attrValueCode}}
@@ -194,7 +194,7 @@
                                 <p class="redpacket-item">是否为绑卡用户</p>
                             </td>
                             <td>
-                                <ui-select ng-controller="isCardUsersMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select ng-controller="isCardUsersMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
                                     <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
                                     <ui-select-choices repeat="area in isCardUsers | filter:$select.search">
                                         {{area.attrValueCode}}
@@ -205,7 +205,7 @@
                                 <p class="redpacket-item">收红包白名单</p>
                             </td>
                             <td>
-                                <ui-select ng-controller="whiteListMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select ng-controller="whiteListMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
                                     <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
                                     <ui-select-choices repeat="area in whiteList | filter:$select.search">
                                         {{area.attrValueCode}}
@@ -218,7 +218,7 @@
                                 <p class="redpacket-item">用户类型</p>
                             </td>
                             <td>
-                                <ui-select ng-controller="customerTypeMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个地市">
+                                <ui-select ng-controller="customerTypeMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
                                     <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
                                     <ui-select-choices repeat="area in customerType | filter:$select.search">
                                         {{area.attrValueCode}}
