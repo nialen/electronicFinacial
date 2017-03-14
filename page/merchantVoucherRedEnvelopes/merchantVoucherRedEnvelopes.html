@@ -77,9 +77,9 @@
             <div class="row result-header">
                 <div class="col-xs-4">
                     <div class="title">
-                        <img src="../../resources/images/icon_redpacket.png">
-                        <p class="title-cn">红包信息</p>
-                        <p class="title-en">Red message</p>
+                        <img src="../../resources/images/icon_store.png">
+                        <p class="title-cn">活动信息</p>
+                        <p class="title-en">Activity information</p>
                     </div>
                 </div>
                 <div class="col-xs-8 text-right">
@@ -110,20 +110,6 @@
                         </tr>
                         <tr>
                             <td>
-                                <p class="redpacket-item">发红包商户（编码）</p>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control redpacket-input" ng-model="merchantCode">
-                            </td>
-                            <td>
-                                <p class="redpacket-item">祝福语</p>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control redpacket-input" ng-model="wishes">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <p class="redpacket-item">活动开展省份</p>
                             </td>
                             <td>
@@ -139,6 +125,20 @@
                                         {{area.name}}
                                     </ui-select-choices>
                                 </ui-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">商户简称</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input" ng-model="merchantAbbreviation">
+                            </td>
+                            <td>
+                                <p class="redpacket-item">活动总成本</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input" ng-model="totalCost">
                             </td>
                         </tr>
                         <tr>
@@ -163,73 +163,6 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <p class="redpacket-item">分配方式</p>
-                            </td>
-                            <td>
-                                <ui-select ng-controller="distributionModelMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
-                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-                                    <ui-select-choices repeat="area in distributionModel | filter:$select.search">
-                                        {{area.attrValueCode}}
-                                    </ui-select-choices>
-                                </ui-select>
-                            </td>
-                            <td>
-                                <p class="redpacket-item">领取用户是否实名</p>
-                            </td>
-                            <td>
-                                <ui-select ng-controller="isRealNameMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
-                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-                                    <ui-select-choices repeat="area in isRealName | filter:$select.search">
-                                        {{area.attrValueCode}}
-                                    </ui-select-choices>
-                                </ui-select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="redpacket-item">是否为绑卡用户</p>
-                            </td>
-                            <td>
-                                <ui-select ng-controller="isCardUsersMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
-                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-                                    <ui-select-choices repeat="area in isCardUsers | filter:$select.search">
-                                        {{area.attrValueCode}}
-                                    </ui-select-choices>
-                                </ui-select>
-                            </td>
-                            <td>
-                                <p class="redpacket-item">收红包白名单</p>
-                            </td>
-                            <td>
-                                <ui-select ng-controller="whiteListMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
-                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-                                    <ui-select-choices repeat="area in whiteList | filter:$select.search">
-                                        {{area.attrValueCode}}
-                                    </ui-select-choices>
-                                </ui-select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="redpacket-item">用户类型</p>
-                            </td>
-                            <td>
-                                <ui-select ng-controller="customerTypeMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
-                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-                                    <ui-select-choices repeat="area in customerType | filter:$select.search">
-                                        {{area.attrValueCode}}
-                                    </ui-select-choices>
-                                </ui-select>
-                            </td>
-                            <td>
-                                <p class="redpacket-item">红包主题</p>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control redpacket-input" ng-model="redTheme">
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -238,9 +171,9 @@
             <div class="row result-header">
                 <div class="col-xs-4">
                     <div class="title">
-                        <img src="../../resources/images/icon_redpacket.png">
-                        <p class="title-cn">红包基础配置</p>
-                        <p class="title-en">Red foundation</p>
+                        <img src="../../resources/images/icon_store.png">
+                        <p class="title-cn">活动资源信息</p>
+                        <p class="title-en">Activity resource information </p>
                     </div>
                 </div>
                 <div class="col-xs-8 text-right">
@@ -252,30 +185,25 @@
                     <div class="row red-foundation-head">
                         <div class="col-xs-4">
                             <div class="title">
-                                <img class="icon-title" src="../../resources/images/icon_redpacket_green.png">
-                                <span class="text-title">活动商户列表</span>
+                                <img class="icon-title" src="../../resources/images/icon_list_green.png">
+                                <span class="text-title">资源列表</span>
                             </div>
                         </div>
                         <div class="col-xs-8 text-right">
-                            <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 增加</button>
+                            <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增</button>
                         </div>
                     </div>
                     <div class="result-table">
                         <table class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th width="5%">序号</th>
-                                    <th width="30%">红包总金额</th>
-                                    <th width="30%">子红包个数(小于1万)</th>
-                                    <th>红包编号(申请方无需填写)</th>
+                                    <th width="45%">资源类型</th>
+                                    <th width="45%">资源名称</th>
                                     <th width="10%">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in resources">
-                                    <td>
-                                        <p ng-bind="{{$index + 1}}"></p>
-                                    </td>
                                     <td>
                                         <input type="number" class="form-control redpacket-input" ng-model="item.totalMoney">
                                     </td>
@@ -283,10 +211,7 @@
                                         <input type="number" class="form-control redpacket-input" ng-model="item.totalNum">
                                     </td>
                                     <td>
-                                        <p></p>
-                                    </td>
-                                    <td>
-                                        <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe610;</i> 删除</button>
+                                        <button ng-click="editLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60d;</i> 编辑</button>
                                     </td>
                                 </tr>
                             </tbody>

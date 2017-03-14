@@ -261,6 +261,7 @@
     border-radius: 4px;
 }
 .ui-select-multiple.ui-select-bootstrap>div {
+    height: 25px;
     line-height: 25px;
     text-align: left;
     overflow-y: auto;

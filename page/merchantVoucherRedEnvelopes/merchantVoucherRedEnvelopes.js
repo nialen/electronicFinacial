@@ -15,12 +15,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     'applyCompany': '',
                     'applyProvinceId': '2', //固定的四川省的AreaID
                     'applyProvinceName': '四川省', //固定的四川省
-                    'applyStateDate': '',
-                    'applyStateCd': '', //0：保存，1：提交审批，2：修改
+                    'applyStateDate': null,
+                    'applyStateCd': '', //1：保存，2：提交审批
                     'applyMan': '',
                     'linkTele': '',
                     'linkEmail': '',
-                    'activityTplId': '4' //现金红包固定值
+                    'activityTplId': '5', //代金券红包固定值
+                    'applyOptType': '0' //代金券红包固定值
                 },
                 'activityInfo': {
                     'activityId': '0', //固定的值
@@ -30,37 +31,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     'activityStartDate': '',
                     'activityEndDate': '',
                     'activityAttr': [{
-                        'attrId': '110028',
+                        'attrId': '110002',
                         'attrValue': '',
-                        'attrName': '发红包商户（编码）'
+                        'attrName': '活动总成本'
                     }, {
-                        'attrId': '110029',
+                        'attrId': '210002',
                         'attrValue': '',
-                        'attrName': '祝福语'
-                    }, {
-                        'attrId': '110030',
-                        'attrValue': '',
-                        'attrName': '分配方式'
-                    }, {
-                        'attrId': '110031',
-                        'attrValue': '',
-                        'attrName': '领取用户是否实名'
-                    }, {
-                        'attrId': '110032',
-                        'attrValue': '',
-                        'attrName': '是否为绑卡用户'
-                    }, {
-                        'attrId': '110033',
-                        'attrValue': '',
-                        'attrName': '收红包白名单'
-                    }, {
-                        'attrId': '110034',
-                        'attrValue': '',
-                        'attrName': '用户类型'
-                    }, {
-                        'attrId': '110035',
-                        'attrValue': '',
-                        'attrName': '红包主题'
+                        'attrName': '商户简称'
                     }]
                 },
                 'resources': []
@@ -111,6 +88,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             //商户现金红包申请提交
             httpMethod.apply = function(param) {
+                debugger
                 var defer = $q.defer();
                 $http({
                     url: httpConfig.siteUrl + '/efmp-activity-web/activity/apply',
@@ -220,7 +198,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 'applyCompany': '',
                 'applyProvinceId': '2', //固定的四川省的AreaID
                 'applyProvinceName': '四川省', //固定的四川省
-                'applyStateDate': '',
+                'applyStateDate': null,
                 'applyMan': '',
                 'linkTele': '',
                 'linkEmail': ''
@@ -247,40 +225,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             $scope.toggleShow = function() {
                 $scope.showRedpacket = !$scope.showRedpacket;
             };
-            //110030 分配方式; 110031 领取用户是否实名; 110032 是否为绑卡用户; 110033 收红包白名单; 110034 用户类型
-            var param = {
-                attrIdList: ['110030', '110031', '110032', '110033', '110034']
-            };
-            httpMethod.qryAttrValueByAttrIds(param).then(function(rsp) {
-                var attributeList = rsp.data.attributeList;
-                $scope.distributionModel = [];
-                $scope.isRealName = [];
-                $scope.isCardUsers = [];
-                $scope.whiteList = [];
-                $scope.customerType = [];
-                _.map(attributeList, function(item, index) {
-                    switch (item.attrId) {
-                        case '110030':
-                            $scope.distributionModel = item.AttributeValueList;
-                            break;
-                        case '110031':
-                            $scope.isRealName = item.AttributeValueList;
-                            break;
-                        case '110032':
-                            $scope.isCardUsers = item.AttributeValueList;
-                            break;
-                        case '110033':
-                            $scope.whiteList = item.AttributeValueList;
-                            break;
-                        case '110034':
-                            $scope.customerType = item.AttributeValueList;
-                            break;
-                    }
-                });
-                $log.log('获取属性离散值列表成功.');
-            }, function() {
-                $log.log('获取属性离散值列表失败.');
-            });
 
             $scope.activityInfo = {
                 'activityName': '',
@@ -289,25 +233,18 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 'activityEndDate': ''
             };
 
-            $scope.merchantCode = '';
-            $scope.wishes = '';
-            $scope.redTheme = '';
+            $scope.merchantAbbreviation = '';
+            $scope.totalCost = '';
             var activityAttr = _.get(paramData, 'activityInfo.activityAttr');
-            $scope.$watch('merchantCode', function(newObj) {
+            $scope.$watch('merchantAbbreviation', function(newObj) {
                 var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110028';
+                    return item.attrId === '110002';
                 });
                 _.set(activityAttr, [index, 'attrValue'], newObj);
             });
-            $scope.$watch('wishes', function(newObj) {
+            $scope.$watch('totalCost', function(newObj) {
                 var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110029';
-                });
-                _.set(activityAttr, [index, 'attrValue'], newObj);
-            });
-            $scope.$watch('redTheme', function(newObj) {
-                var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110035';
+                    return item.attrId === '210002';
                 });
                 _.set(activityAttr, [index, 'attrValue'], newObj);
             });
@@ -379,124 +316,35 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 });
             };
         }])
-        .controller('distributionModelMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
-            var vm = this;
-            vm.checkedList = [];
-            vm.changeCallback = function(item, model) {
-                var arr = [];
-                _.map(vm.checkedList, function(item, index) {
-                    arr.push(item.attrValueId);
-                });
-                var activityAttr = _.get(paramData, 'activityInfo.activityAttr');
-                var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110030';
-                });
-                _.set(activityAttr, [index, 'attrValue'], arr.join(','));
-            };
-        }])
-        .controller('isRealNameMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
-            var vm = this;
-            vm.checkedList = [];
-            vm.changeCallback = function(item, model) {
-                var arr = [];
-                _.map(vm.checkedList, function(item, index) {
-                    arr.push(item.attrValueId);
-                });
-                var activityAttr = _.get(paramData, 'activityInfo.activityAttr');
-                var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110031';
-                });
-                _.set(activityAttr, [index, 'attrValue'], arr.join(','));
-            };
-        }])
-        .controller('isCardUsersMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
-            var vm = this;
-            vm.checkedList = [];
-            vm.changeCallback = function(item, model) {
-                var arr = [];
-                _.map(vm.checkedList, function(item, index) {
-                    arr.push(item.attrValueId);
-                });
-                var activityAttr = _.get(paramData, 'activityInfo.activityAttr');
-                var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110032';
-                });
-                _.set(activityAttr, [index, 'attrValue'], arr.join(','));
-            };
-        }])
-        .controller('whiteListMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
-            var vm = this;
-            vm.checkedList = [];
-            vm.changeCallback = function(item, model) {
-                var arr = [];
-                _.map(vm.checkedList, function(item, index) {
-                    arr.push(item.attrValueId);
-                });
-                var activityAttr = _.get(paramData, 'activityInfo.activityAttr');
-                var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110033';
-                });
-                _.set(activityAttr, [index, 'attrValue'], arr.join(','));
-            };
-        }])
-        .controller('customerTypeMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
-            var vm = this;
-            vm.checkedList = [];
-            vm.changeCallback = function(item, model) {
-                var arr = [];
-                _.map(vm.checkedList, function(item, index) {
-                    arr.push(item.attrValueId);
-                });
-                var activityAttr = _.get(paramData, 'activityInfo.activityAttr');
-                var index = _.findIndex(activityAttr, function(item) {
-                    return item.attrId === '110034';
-                });
-                _.set(activityAttr, [index, 'attrValue'], arr.join(','));
-            };
-        }])
         .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
             $scope.showFoundation = true;
             $scope.toggleShow = function() {
                 $scope.showFoundation = !$scope.showFoundation;
             };
-            $scope.resources = [];
+            $scope.resources = []; // TODO 接收postMessage传过来的数据，update；
             $scope.$watch('resources', function(newValue) {
                 paramData.resources = newValue;
             });
             $scope.addNewLine = function() {
-                var obj = {
-                    'rscName': '', //命名规则：活动名称-金额-数量 TODO:提交的时候拼接
-                    'totalMoney': null,
-                    'totalNum': null,
-                    'rscSpecCd': '3', //固定的值
-                    'rscStateCd': '1', //固定的值
-                    'effDate': paramData.activityInfo.activityStartDate,
-                    'expDate': paramData.activityInfo.activityEndDate
-                };
-                $scope.resources.push(obj);
+                // TODO 打开红包设置页面-新建
             };
-            $scope.delLine = function(index) {
-                $scope.resources.splice(index, 1);
+            $scope.editLine = function(index) {
+                // TODO 打开红包设置页面-编辑
             }
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function(sign) {
-                var flag = _.some(paramData.resources, function(item, index) {
-                    return item.totalMoney === null || item.totalNum === null;
-                });
+                var activityApply = paramData.activityApply;
+                var flag = activityApply.applyCompany.trim() === '' || activityApply.applyStateDate === null || activityApply.applyMan.trim() === '' || activityApply.linkTele.trim() === '' || activityApply.linkEmail.trim() === '';
                 if (!flag) {
-                    var activityName = paramData.activityInfo.activityName;
-                    _.map(paramData.resources, function(item, index) {
-                        item.rscName = activityName + '-' + item.totalMoney + '-' + item.totalNum;
-                    });
                     switch (sign) {
                         case 'save':
-                            paramData.activityApply.applyStateCd = 0;
+                            paramData.activityApply.applyStateCd = 1;
                             httpMethod.apply(paramData).then(function(rsp) {
                                 if (rsp.success) {
                                     swal({
                                         title: '恭喜你.',
-                                        text: '商户现金红包保存成功',
+                                        text: '商户代金券红包保存成功',
                                         type: 'success',
                                         confirmButtonText: '确定'
                                     }, function() {
@@ -507,7 +355,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                                 } else {
                                     swal({
                                         title: 'Sorry.',
-                                        text: '商户现金红包保存失败',
+                                        text: '商户代金券红包保存失败',
                                         timer: 1000,
                                         showConfirmButton: false
                                     });
@@ -515,12 +363,12 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                             });
                             break;
                         case 'apply':
-                            paramData.activityApply.applyStateCd = 1;
+                            paramData.activityApply.applyStateCd = 2;
                             httpMethod.apply(paramData).then(function(rsp) {
                                 if (rsp.success) {
                                     swal({
                                         title: '恭喜你.',
-                                        text: '商户现金红包提交审批成功',
+                                        text: '商户代金券红包提交审批成功',
                                         type: 'success',
                                         confirmButtonText: '确定'
                                     }, function() {
@@ -531,7 +379,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                                 } else {
                                     swal({
                                         title: 'Sorry.',
-                                        text: '商户现金红包提交审批失败',
+                                        text: '商户代金券红包提交审批失败',
                                         timer: 1000,
                                         showConfirmButton: false
                                     });
@@ -542,7 +390,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 } else {
                     swal({
                         title: '操作提醒',
-                        text: '红包总金额/子红包个数不能为空.',
+                        text: '申请人信息需要填写完整.',
                         timer: 1000,
                         showConfirmButton: false
                     });
