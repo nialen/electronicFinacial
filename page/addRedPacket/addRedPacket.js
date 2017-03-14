@@ -1,416 +1,334 @@
 /**
- * Auth kiwind
+ * Auth nieyalan
  * Date 2017-03-08
  */
-angular
-    .module('activityReduceModule', ['ui.bootstrap', 'ui.select'])
-    .factory('httpMethod', ['$http', '$q', function($http, $q) {
-        var httpConfig = {
-            'siteUrl': 'http://192.168.16.84:8088',
-            'requestHeader': {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            'isMock': true //是否开启测试数据
-        };
-        var httpMethod = {};
-
-        //代金券发放基本配置
-        httpMethod.qryBaseInfo = function(param) {
-            var defer = $q.defer();
-            $http({
-                url: httpConfig.siteUrl + '/activity/qryBaseInfo',
-                method: 'POST',
-                headers: httpConfig.requestHeader,
-                data: 'param=' + JSON.stringify(param)
-            }).success(function(data, header, config, status) {
-                if (status != 200) {
-                    //跳转403页面
-                }
-                defer.resolve(data);
-            }).error(function(data, status, headers, config) {
-                defer.reject(data);
-            });
-            return defer.promise;
-        };
-
-        //厅店资源明细查询
-        httpMethod.qryGrantDetailInfo = function(param) {
-            var defer = $q.defer();
-            $http({
-                url: httpConfig.siteUrl + '/activity/qryGrantDetailInfo',
-                method: 'POST',
-                headers: httpConfig.requestHeader,
-                data: 'param=' + JSON.stringify(param)
-            }).success(function(data, header, config, status) {
-                if (status != 200) {
-                    //跳转403页面
-                }
-                defer.resolve(data);
-            }).error(function(data, status, headers, config) {
-                defer.reject(data);
-            });
-            return defer.promise;
-        };
-
-        //发放活动厅店资源明细导出
-        httpMethod.exportBaseInfo = function(param) {
-            var defer = $q.defer();
-            $http({
-                url: httpConfig.siteUrl + '/activity/exportBaseInfo',
-                method: 'POST',
-                headers: httpConfig.requestHeader,
-                data: 'param=' + JSON.stringify(param)
-            }).success(function(data, header, config, status) {
-                if (status != 200) {
-                    //跳转403页面
-                }
-                defer.resolve(data);
-            }).error(function(data, status, headers, config) {
-                defer.reject(data);
-            });
-            return defer.promise;
-        };
-
-        // 修改厅店资源发放状态
-        httpMethod.changeGrantState = function(param) {
-            var defer = $q.defer();
-            $http({
-                url: httpConfig.siteUrl + '/activity/changeGrantState',
-                method: 'POST',
-                headers: httpConfig.requestHeader,
-                data: 'param=' + JSON.stringify(param)
-            }).success(function(data, header, config, status) {
-                if (status != 200) {
-                    //跳转403页面
-                }
-                defer.resolve(data);
-            }).error(function(data, status, headers, config) {
-                defer.reject(data);
-            });
-            return defer.promise;
-        };
-
-        if (httpConfig.isMock) {
-            // 发放基本配置
-            Mock.mock(httpConfig.siteUrl + '/activity/qryBaseInfo', {
-                'rsphead': 's',
-                'success': true, //是否成功
-                'code': null,
-                'msg': null, //失败信息
-                'data': {
-                    'activityBaseInfo': {
-                        'activitiId': '@id', //活动ID
-                        'activitiIdCode': '@id', //活动编码
-                        'activityType': '@cword(6)',
-                        'activitiIdName': '@cword(6)', //活动名称
-                        'areasId': [{ //活动地区ID列表
-                            'areaId': '@id', //地区ID
-                            'name': '@city' //地区名称
-                        }],
-                        'activityStartDate': '@date', //活动开始时间
-                        'activityEndDate': '@date', //活动结束时间
-                        'stateCode|+1': ['1', '2', '3'], //状态编码：1正常、2暂停、3结束
-                        'stateName|+1': ['正常', '暂停', '结束']
-                    }
+/**
+ * Auth 丁少华
+ * Date 2017-3-9
+ */
+define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate', 'angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
+    angular
+        .module('addRedPacketModule', ['ui.bootstrap', 'ngAnimate'])
+        .run(['$rootScope', function($rootScope) {
+            $rootScope.stepNum = 0; //当前显示的step索引值（Number类型
+        }])
+        //活动确认保存入参
+        .factory('paramData', [function() {
+            var paramData = {
+                'activityApply': {
+                    'applyCompany': '',
+                    'applyProvinceId': '2', // 固定的四川省的AreaID
+                    'applyProvinceName': '四川省', // 固定的四川省
+                    'applyStateDate': '',
+                    'applyStateCd': '', // 0：保存，1：提交审批，2：修改
+                    'applyMan': '',
+                    'linkTele': '',
+                    'linkEmail': '',
+                    'activityTplId': '4' // 现金红包固定值
                 },
-                'errors': null
-            });
-            //厅店资源明细查询
-            Mock.mock(httpConfig.siteUrl + '/activity/qryGrantDetailInfo', {
-                'rsphead': 's',
-                'success': true, //是否成功
-                'code': null,
-                'msg': null, //失败信息
-                'data': {
-                    "resourceDetails|10": [{ //发放明细
-                        "grantId": "@id", //发放ID
-                        "rscId": "@id", //资源ID
-                        "rscCode": "@id", //资源编码
-                        "rscName": "@cword(5)", //资源名称
-                        "hallId": "@id", //厅店ID
-                        "hallCode": "@id", //厅店编码
-                        "hallName": "@cword(5)", //厅店名称
-                        "grantNum|1-100": 10, //发放数量
-                        "receivedNum|1-100": 5, //已领取数量
-                        "receiveUrl": "@url", //领取地址
-                        "state|+1": ["1", "2"]
+                'activityInfo': {
+                    'activityId': '0',
+                    'activityName': '成都10元2017年1月25日限额10元',
+                    'activityDesc': '',
+                    'activityAreaRels': [{
+                        'areaId': '0',
+                        'areaName': '0'
                     }],
-                    "total|1-100": 10 //总条数
+                    'activityStartDate': '2017-03-02',
+                    'activityEndDate': '2017-03-02',
+                    'activityAttr': [{
+                        'attrId': '110028',
+                        'attrValue': '',
+                        'attrName': '发红包商户（编码）'
+                    }, {
+                        'attrId': '110029',
+                        'attrValue': '',
+                        'attrName': '祝福语'
+                    }, {
+                        'attrId': '110030',
+                        'attrValue': '',
+                        'attrName': '分配方式'
+                    }, {
+                        'attrId': '110031',
+                        'attrValue': '',
+                        'attrName': '领取用户是否实名'
+                    }, {
+                        'attrId': '110032',
+                        'attrValue': '',
+                        'attrName': '是否为绑卡用户'
+                    }, {
+                        'attrId': '110033',
+                        'attrValue': '',
+                        'attrName': '收红包白名单'
+                    }, {
+                        'attrId': '110034',
+                        'attrValue': '',
+                        'attrName': '用户类型'
+                    }, {
+                        'attrId': '110035',
+                        'attrValue': '',
+                        'attrName': '红包主题'
+                    }]
                 },
-                'errors': null
-            });
-            //修改厅店资源发放状态
-            Mock.mock(httpConfig.siteUrl + '/activity/changeGrantState', {
-                'rsphead': 's',
-                'success': true, //是否成功
-                'code': null,
-                'msg': null, //失败信息
-                'errors': null
-            });
-        }
-        return httpMethod;
-    }])
-
-    //总控制器
-    .controller('pageCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', function($scope, $rootScope, $log, httpMethod) {
-        $scope.isShow1 = $scope.isShow2 = $scope.isShow3 = $scope.isShow4 = true;
-    }])
-    //活动信息
-    .controller('ActivityInfoCtrl', ['$scope', '$rootScope', '$timeout', '$log', '$uibModal', 'httpMethod', function($scope, $rootScope, $timeout, $log, $uibModal, httpMethod) {
-        $scope.activityReduceForm = {
-            createStartDt: '', //制单日期开始
-            createEndDt: '' //制单日期结束
-        };
-        // 时间控件
-        $scope.startDateOptions = {
-            formatYear: 'yy',
-            maxDate: $scope.activityReduceForm.createEndDt,
-            startingDay: 1,
-            showWeeks: false
-        };
-        $scope.endDateOptions = {
-            formatYear: 'yy',
-            minDate: $scope.activityReduceForm.createStartDt,
-            // maxDate: new Date(),
-            startingDay: 1,
-            showWeeks: false
-        };
-        $scope.$watch('activityReduceForm.createStartDt', function(newValue) {
-            $scope.endDateOptions.minDate = newValue;
-        });
-        $scope.$watch('activityReduceForm.createEndDt', function(newValue) {
-            $scope.startDateOptions.maxDate = newValue;
-        });
-        $scope.startOpen = function() {
-            $timeout(function() {
-                $scope.startPopupOpened = true;
-            });
-        };
-        $scope.endOpen = function() {
-            $timeout(function() {
-                $scope.endPopupOpened = true;
-            });
-        };
-
-    }])
-    //成本配置
-    .controller('costSharingCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', function($scope, $rootScope, $log, $uibModal, httpMethod) {
-        $scope.costSharingList = [];
-        $scope.costSharing = function(item) {
-            var modalInstance = $uibModal.open({
-                animation: 'true',
-                ariaLabelledBy: 'resources-modal-title',
-                ariaDescribedBy: 'resources-modal-body',
-                templateUrl: 'costSharingModal.html',
-                controller: 'costSharingModalCtrl',
-                controllerAs: '$ctrl',
-                size: 'lg',
-                resolve: {
-                    items: function() {
-                        return $scope.costSharingList;
-                    }
-                }
-            });
-        };
-    }])
-    .controller('costSharingModalCtrl', ['$uibModalInstance', '$scope', '$log', 'items', function($uibModalInstance, $scope, $log, items) {
-        var $ctrl = this;
-        $ctrl.items = items;
-        $ctrl.currentPage = 1; //当前页
-        $ctrl.rowNumPerPage = 10; //每页显示行数
-        $ctrl.totalNum = 0; //总条数
-        $ctrl.maxSize = 4; //最大显示页码数
-
-        $scope.addLine = function(){
-            $ctrl.items.push({});
-        }
-
-        $scope.delLine = function(index){
-            $ctrl.items.splice(index, 1);
-        }
-
-        $ctrl.ok = function() {
-            $uibModalInstance.close();
-        };
-
-        $ctrl.cancel = function() {
-            $uibModalInstance.dismiss('cancel');
-        };
-    }])
-    //商户信息
-    .controller('merchantInfoCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', function($scope, $rootScope, $log, $uibModal, httpMethod) {
-        $scope.merchantList = [];
-        $scope.merchantEdit = function(item) {
-            var modalInstance = $uibModal.open({
-                animation: 'true',
-                ariaLabelledBy: 'resources-modal-title',
-                ariaDescribedBy: 'resources-modal-body',
-                templateUrl: 'merchantModal.html',
-                controller: 'merchantModalCtrl',
-                controllerAs: '$ctrl',
-                size: 'lg',
-                resolve: {
-                    items: function() {
-                        return $scope.merchantList;
-                    }
-                }
-            });
-        };
-    }])
-    .controller('merchantModalCtrl', ['$uibModalInstance', '$scope', '$log', 'items', function($uibModalInstance, $scope, $log, items) {
-        var $ctrl = this;
-        $ctrl.items = items;
-        $ctrl.currentPage = 1; //当前页
-        $ctrl.rowNumPerPage = 10; //每页显示行数
-        $ctrl.totalNum = 0; //总条数
-        $ctrl.maxSize = 4; //最大显示页码数
-
-        $scope.addLine = function(){
-            $ctrl.items.push({});
-        }
-
-        $scope.delLine = function(index){
-            $ctrl.items.splice(index, 1);
-        }
-
-        $ctrl.ok = function() {
-            $uibModalInstance.close();
-        };
-
-        $ctrl.cancel = function() {
-            $uibModalInstance.dismiss('cancel');
-        };
-    }])
-    // 厅店资源明细查询
-    .controller('preveligeDimensionFormCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', function($scope, $rootScope, $log, $uibModal, httpMethod) {
-        //分页
-        $scope.requirePaging = true; // 是否需要分页
-        $scope.currentPage = 1; // 当前页
-        $scope.rowNumPerPage = 10; // 每页显示行数
-        $scope.totalNum = 0; // 总条数
-        $scope.$on('pageChange', function() {
-            $scope.currentPage = 1;
-        });
-        var param = {
-            activityId: _.get($rootScope, 'activitiId'),
-            curPage: $scope.currentPage, // 当前页
-            pageSize: $scope.rowNumPerPage // 每页展示行数
-        };
-        // 厅店资源明细查询
-        httpMethod.qryGrantDetailInfo(param).then(function(rsp) {
-            $log.log('调用厅店资源明细查询接口成功.');
-            $rootScope.preveligeDimensionResultList = rsp.data.resourceDetails;
-            $scope.totalNum = rsp.data.total;
-        }, function() {
-            $log.log('调用厅店资源明细查询接口失败.');
-        });
-
-        // 停用/启用
-        $scope.updateStoreStatus = function(status, obj) {
-            var statusTitle = status,
-            param = {
-                grantId: obj.grantId,
-                state:'',
+                'resources': []
             };
-            // 修改发放状态信息
-            httpMethod.changeGrantState(param).then(function(rsp) {
-                $log.log('调用修改厅店资源发放状态接口成功.');
-            }, function() {
-                $log.log('调用修改厅店资源发放状态接口失败.');
-            });
-            switch (status) {
-                case '启用':
-                    statusTitle = '启用';
-                    param.state = '1';
-                    break;
-                case '停用':
-                    statusTitle = '停用';
-                    param.state = '2';
-                    break;
-            }
-            swal({
-                title: '厅店资源发放' + statusTitle + '操作',
-                text: '确定把发放ID ' + obj.grantId + ' 厅店资源发放' + statusTitle + '吗?',
-                type: 'info',
-                showCancelButton: true,
-                closeOnConfirm: false,
-                confirmButtonText: '确定',
-                confirmButtonColor: '#ffaa00',
-                cancelButtonText: '取消',
-                showLoaderOnConfirm: true
-            }, function() {
-                httpMethod.changeGrantState(param).then(function(rsp) {
-                    $log.log('调用厅店资源发放启用/停用接口成功.');
-                    if (rsp.success) {
-                        swal({
-                            title: '操作成功',
-                            text: statusTitle + '厅店资源发放成功!',
-                            type: 'success',
-                            confirmButtonText: '确定',
-                            confirmButtonColor: '#ffaa00'
-                        }, function() {
-                            $scope.$emit('requery');
-                            obj.state=param.state;
-                        });
-                    } else {
-                        swal('OMG', rsp.msg || statusTitle + '厅店资源发放失败!', 'error');
+
+            return paramData;
+        }])
+        .factory('httpMethod', ['$http', '$q', function($http, $q) {
+            var httpMethod = {};
+            //获取地区列表
+            httpMethod.qryArea = function(param) {
+                var defer = $q.defer();
+                $http({
+                    url: httpConfig.siteUrl + '/common/qryArea',
+                    method: 'POST',
+                    headers: httpConfig.requestHeader,
+                    data: 'param=' + JSON.stringify(param)
+                }).success(function(data, header, config, status) {
+                    if (status != 200) {
+                        //跳转403页面
                     }
-                }, function() {
-                    swal('OMG', rsp.msg || statusTitle + '厅店资源发放失败!', 'error');
+                    defer.resolve(data);
+                }).error(function(data, status, headers, config) {
+                    defer.reject(data);
+                });
+                return defer.promise;
+            };
+
+            //资源查询
+            httpMethod.qryResource = function(param) {
+                var defer = $q.defer();
+                $http({
+                    url: httpConfig.siteUrl + '/rsc/qryResource',
+                    method: 'POST',
+                    headers: httpConfig.requestHeader,
+                    data: 'param=' + JSON.stringify(param)
+                }).success(function(data, header, config, status) {
+                    if (status != 200) {
+                        //跳转403页面
+                    }
+                    defer.resolve(data);
+                }).error(function(data, status, headers, config) {
+                    defer.reject(data);
+                });
+                return defer.promise;
+            };
+
+            if (httpConfig.isMock) {
+                //地区查询
+                Mock.mock(httpConfig.siteUrl + '/common/qryArea', {
+                    'rsphead': 's',
+                    'success': true, //是否成功
+                    'code': null,
+                    'msg': null, //失败信息
+                    'data': {
+                        'area|21': [{
+                            'areaId': '@id', //地区ID
+                            'areaName': '@city', //地区名称
+                            'name': '@city' //地区名称
+                        }]
+                    },
+                    'errors': null
+                });
+
+                //资源查询
+                Mock.mock(httpConfig.siteUrl + '/rsc/qryResource', {
+                    'rsphead': 's',
+                    'success': true, //是否成功
+                    'code': null,
+                    'msg': null, //失败信息
+                    'data': {
+                        'resources|5': [{
+                            'rscId': '@id', //资源ID
+                            'rscCode': '@id', //资源Code
+                            'rscName': '@cword(4)', //资源名称
+                            'value': '', //面值
+                            'templet': '', //模板(类型)
+                            'state': '' //状态
+                        }],
+                        'total|1-100': 10 //总条数
+                    },
+                    'errors': null
+                });
+            }
+
+            return httpMethod;
+        }])
+        .controller('activityApplyFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
+            $scope.showInformation = true;
+            $scope.toggleShow = function() {
+                $scope.showInformation = !$scope.showInformation;
+            };
+            $scope.activityApply = {
+                'applyCompany': '',
+                'applyProvinceId': '2', // 固定的四川省的AreaID
+                'applyProvinceName': '四川省', // 固定的四川省
+                'applyStateDate': '',
+                'applyStateCd': '', // 0：保存，1：提交审批，2：修改
+                'applyMan': '',
+                'linkTele': '',
+                'linkEmail': '',
+                'activityTplId': '4' // 现金红包固定值
+            };
+            $scope.$watch('activityApply', function(newValue) {
+                paramData.activityApply = newValue;
+            });
+            //时间控件
+            $scope.startDateOptions = {
+                formatYear: 'yy',
+                maxDate: '',
+                startingDay: 1,
+                showWeeks: false
+            };
+            $scope.startOpen = function() {
+                $timeout(function() {
+                    $scope.startPopupOpened = true;
+                });
+            };
+            $scope.startPopupOpened = false;
+        }])
+        .controller('redPacketCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
+            $scope.showRedpacket = true;
+            $scope.toggleShow = function() {
+                $scope.showRedpacket = !$scope.showRedpacket;
+            };
+            var param = {
+                'level': '3', //地区级别，3为地市，4为区县
+                'parentAreaId': '' //父地区ID,可空
+            };
+
+            httpMethod.qryArea(param).then(function(rsp) {
+                $scope.cityList = rsp.data.area;
+                $log.log('获取州/市列表成功.');
+            }, function() {
+                $log.log('获取州/市列表失败.');
+            });
+            // TODO activityAttr数组结构，双向绑定
+            $scope.activityInfo = {
+                'activityId': '0', // 固定的值
+                'activityName': '',
+                'activityDesc': '',
+                'activityAreaRels': [{
+                    'areaId': '0',
+                    'areaName': '0'
+                }],
+                'activityStartDate': '',
+                'activityEndDate': '',
+                'activityAttr': [{
+                    'attrId': '110028',
+                    'attrValue': '',
+                    'attrName': '发红包商户（编码）'
+                }, {
+                    'attrId': '110029',
+                    'attrValue': '',
+                    'attrName': '祝福语'
+                }, {
+                    'attrId': '110030',
+                    'attrValue': '',
+                    'attrName': '分配方式'
+                }, {
+                    'attrId': '110031',
+                    'attrValue': '',
+                    'attrName': '领取用户是否实名'
+                }, {
+                    'attrId': '110032',
+                    'attrValue': '',
+                    'attrName': '是否为绑卡用户'
+                }, {
+                    'attrId': '110033',
+                    'attrValue': '',
+                    'attrName': '收红包白名单'
+                }, {
+                    'attrId': '110034',
+                    'attrValue': '',
+                    'attrName': '用户类型'
+                }, {
+                    'attrId': '110035',
+                    'attrValue': '',
+                    'attrName': '红包主题'
+                }]
+            };
+            $scope.$watch('activityInfo', function(newValue) {
+                paramData.activityInfo = newValue;
+            });
+            //时间控件
+            $scope.startDateOptions = {
+                formatYear: 'yy',
+                maxDate: $scope.activityInfo.activityStartDate,
+                startingDay: 1,
+                showWeeks: false
+            };
+            $scope.endDateOptions = {
+                formatYear: 'yy',
+                minDate: $scope.activityInfo.activityEndDate,
+                startingDay: 1,
+                showWeeks: false
+            };
+            $scope.$watch('activityInfo.activityStartDate', function(newValue) {
+                $scope.endDateOptions.minDate = newValue;
+                paramData.activityInfo.activityStartDate = $filter('date')(newValue, 'yyyy-MM-dd');
+                _.map(paramData.resources, function(item, index) {
+                    item.effDate = $filter('date')(newValue, 'yyyy-MM-dd');
                 });
             });
-        };
-        // 发放活动厅店资源明细导出
-        $scope.exportDistribution = function() {
-            var param = {
-                activityId: _.get($rootScope, 'activitiId')
-            };
-            // 发放活动厅店资源明细导出
-            httpMethod.exportBaseInfo(param).then(function() {
-                $log.log('调用发放活动厅店资源明细导出接口成功.');
-            }, function() {
-                $log.log('调用发放活动厅店资源明细导出接口失败.');
+            $scope.$watch('activityInfo.activityEndDate', function(newValue) {
+                $scope.startDateOptions.maxDate = newValue;
+                paramData.activityInfo.activityEndDate = $filter('date')(newValue, 'yyyy-MM-dd');
+                _.map(paramData.resources, function(item, index) {
+                    item.expDate = $filter('date')(newValue, 'yyyy-MM-dd');
+                });
             });
-        }
+            $scope.startOpen = function() {
+                $timeout(function() {
+                    $scope.startPopupOpened = true;
+                });
+            };
+            $scope.endOpen = function() {
+                $timeout(function() {
+                    $scope.endPopupOpened = true;
+                });
+            };
+            $scope.startPopupOpened = false;
+            $scope.endPopupOpened = false;
 
-        //领取地址
-        $scope.getUrl = function(item) {
-            var modalInstance = $uibModal.open({
-                animation: 'true',
-                ariaLabelledBy: 'resources-modal-title',
-                ariaDescribedBy: 'resources-modal-body',
-                templateUrl: 'resourcesModal.html',
-                controller: 'resourcesModalCtrl',
-                controllerAs: '$ctrl',
-                size: 'sm',
-                resolve: {
-                    items: function() {
-                        return item;
-                    }
-                }
+            $scope.$watch('activityInfo.activityName', function(newValue) {
+                paramData.activityInfo.activityName = newValue;
             });
-        };
-    }])
-    // 分页控制器
-    .controller('paginationCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', function($scope, $rootScope, $log, httpMethod) {
-        $scope.maxSize = 10;
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.pageChanged = function(currentPage) {
-            !currentPage && $scope.$emit('pageChange');
-            var param = {
-                activityId: _.get($rootScope, 'activitiId'),
-                curPage: currentPage, // 当前页
-                pageSize: $scope.rowNumPerPage // 每页展示行数
+        }])
+        .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
+            $scope.showFoundation = true;
+            $scope.toggleShow = function() {
+                $scope.showFoundation = !$scope.showFoundation;
             };
-            httpMethod.qryGrantDetailInfo(param).then(function(rsp) {
-                $log.log('调用厅店资源明细查询接口成功.');
-                $rootScope.preveligeDimensionResultList = rsp.data.resourceDetails;
-                $scope.totalNum = rsp.data.total;
-            }, function() {
-                $log.log('调用厅店资源明细查询接口失败.');
+            $scope.resources = [];
+            $scope.$watch('resources', function(newValue) {
+                paramData.resources = newValue;
             });
-            $log.log('Page changed to: ' + $scope.currentPage);
-        };
-    }])
+            $scope.addNewLine = function() {
+                var obj = {
+                    'rscName': '', // 命名规则：活动名称-金额-数量 TODO:提交的时候拼接
+                    'totalMoney': null,
+                    'totalNum': null,
+                    'rscSpecCd': '3', // 固定的值
+                    'rscStateCd': '1', // 固定的值
+                    'effDate': paramData.activityInfo.activityStartDate,
+                    'expDate': paramData.activityInfo.activityEndDate
+                };
+                $scope.resources.push(obj);
+            };
+        }])
+        .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
+            $scope.submitApply = function(sign) {
+                switch(sign) {
+                    case 'save':
+                        paramData.activityApply.applyStateCd = 0;
+                        break;
+                    case 'apply':
+                        paramData.activityApply.applyStateCd = 1;
+                        break;
+                }
+            }
+        }])
+});
+
