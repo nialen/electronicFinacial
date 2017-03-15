@@ -1,87 +1,117 @@
 /**
  * Auth nieyalan
- * Date 2017-03-08
- */
-/**
- * Auth 丁少华
- * Date 2017-3-9
+ * Date 2017-3-14
  */
 define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate', 'angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
     angular
-        .module('addRedPacketModule', ['ui.bootstrap', 'ngAnimate'])
-        .run(['$rootScope', function($rootScope) {
-            $rootScope.stepNum = 0; //当前显示的step索引值（Number类型
-        }])
+        .module('addRedPacketModule', ['ui.bootstrap', 'ui.select', 'ngAnimate'])
         //活动确认保存入参
         .factory('paramData', [function() {
             var paramData = {
-                'activityApply': {
-                    'applyCompany': '',
-                    'applyProvinceId': '2', // 固定的四川省的AreaID
-                    'applyProvinceName': '四川省', // 固定的四川省
-                    'applyStateDate': '',
-                    'applyStateCd': '', // 0：保存，1：提交审批，2：修改
-                    'applyMan': '',
-                    'linkTele': '',
-                    'linkEmail': '',
-                    'activityTplId': '4' // 现金红包固定值
-                },
-                'activityInfo': {
-                    'activityId': '0',
-                    'activityName': '成都10元2017年1月25日限额10元',
-                    'activityDesc': '',
-                    'activityAreaRels': [{
-                        'areaId': '0',
-                        'areaName': '0'
-                    }],
-                    'activityStartDate': '2017-03-02',
-                    'activityEndDate': '2017-03-02',
-                    'activityAttr': [{
-                        'attrId': '110028',
-                        'attrValue': '',
-                        'attrName': '发红包商户（编码）'
-                    }, {
-                        'attrId': '110029',
-                        'attrValue': '',
-                        'attrName': '祝福语'
-                    }, {
-                        'attrId': '110030',
-                        'attrValue': '',
-                        'attrName': '分配方式'
-                    }, {
-                        'attrId': '110031',
-                        'attrValue': '',
-                        'attrName': '领取用户是否实名'
-                    }, {
-                        'attrId': '110032',
-                        'attrValue': '',
-                        'attrName': '是否为绑卡用户'
-                    }, {
-                        'attrId': '110033',
-                        'attrValue': '',
-                        'attrName': '收红包白名单'
-                    }, {
-                        'attrId': '110034',
-                        'attrValue': '',
-                        'attrName': '用户类型'
-                    }, {
-                        'attrId': '110035',
-                        'attrValue': '',
-                        'attrName': '红包主题'
-                    }]
-                },
-                'resources': []
+                'rscSpecCd': '2', //固定值
+                'rscName': '',
+                'faceMoney': '',
+                'totalNum': '',
+                'totalMoney': '',
+                'effDate': '',
+                'expDate': '',
+                'rscAttrs': [{
+                    'attrId': '210001',
+                    'attrValue': '',
+                    'attrName': '红包类型'
+                }, {
+                    'attrId': '210002',
+                    'attrValue': '',
+                    'attrName': '商户简称'
+                }, {
+                    'attrId': '210003',
+                    'attrValue': '',
+                    'attrName': '新用户是否可领'
+                }, {
+                    'attrId': '210004',
+                    'attrValue': '',
+                    'attrName': '老用户是否可领'
+                }, {
+                    'attrId': '210005',
+                    'attrValue': '',
+                    'attrName': '领取身份限制'
+                }, {
+                    'attrId': '210006',
+                    'attrValue': '',
+                    'attrName': '用户运营商'
+                }, {
+                    'attrId': '210007',
+                    'attrValue': '',
+                    'attrName': '红包链接接收邮箱'
+                }, {
+                    'attrId': '210008',
+                    'attrValue': '',
+                    'attrName': '防止url转发'
+                }, {
+                    'attrId': '210009',
+                    'attrValue': '',
+                    'attrName': '单用户领取次数'
+                }, {
+                    'attrId': '210012',
+                    'attrValue': '',
+                    'attrName': '红包内代金券总张数'
+                }, {
+                    'attrId': '210014',
+                    'attrValue': '',
+                    'attrName': '子红包代金券总张数'
+                }, {
+                    'attrId': '210015',
+                    'attrValue': '',
+                    'attrName': '子红包链接有效时间'
+                }, {
+                    'attrId': '210016',
+                    'attrValue': '',
+                    'attrName': '领取页面祝福语'
+                }, {
+                    'attrId': '210017',
+                    'attrValue': '',
+                    'attrName': '链接指定失效时间'
+                }, {
+                    'attrId': '210018',
+                    'attrValue': '',
+                    'attrName': '分享链接标题'
+                }, {
+                    'attrId': '210019',
+                    'attrValue': '',
+                    'attrName': '分享链接祝福语'
+                }, {
+                    'attrId': '210020',
+                    'attrValue': '',
+                    'attrName': '中奖率'
+                }, {
+                    'attrId': '210021',
+                    'attrValue': '',
+                    'attrName': '中奖跳转应用'
+                }, {
+                    'attrId': '210022',
+                    'attrValue': '',
+                    'attrName': '中奖提示'
+                }, {
+                    'attrId': '210023',
+                    'attrValue': '',
+                    'attrName': '未中奖链接'
+                }, {
+                    'attrId': '210024',
+                    'attrValue': '',
+                    'attrName': '未中奖提示'
+                }],
+                'subResources': []
             };
-
             return paramData;
         }])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
             var httpMethod = {};
-            //获取地区列表
-            httpMethod.qryArea = function(param) {
+
+            //查询属性离散值
+            httpMethod.qryAttrValueByAttrIds = function(param) {
                 var defer = $q.defer();
                 $http({
-                    url: httpConfig.siteUrl + '/common/qryArea',
+                    url: httpConfig.siteUrl + '/pub/qryAttrValueByAttrIds',
                     method: 'POST',
                     headers: httpConfig.requestHeader,
                     data: 'param=' + JSON.stringify(param)
@@ -96,239 +126,254 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 return defer.promise;
             };
 
-            //资源查询
-            httpMethod.qryResource = function(param) {
-                var defer = $q.defer();
-                $http({
-                    url: httpConfig.siteUrl + '/rsc/qryResource',
-                    method: 'POST',
-                    headers: httpConfig.requestHeader,
-                    data: 'param=' + JSON.stringify(param)
-                }).success(function(data, header, config, status) {
-                    if (status != 200) {
-                        //跳转403页面
-                    }
-                    defer.resolve(data);
-                }).error(function(data, status, headers, config) {
-                    defer.reject(data);
-                });
-                return defer.promise;
-            };
 
             if (httpConfig.isMock) {
-                //地区查询
-                Mock.mock(httpConfig.siteUrl + '/common/qryArea', {
+                //查询属性离散值
+                Mock.mock(httpConfig.siteUrl + '/pub/qryAttrValueByAttrIds', {
                     'rsphead': 's',
                     'success': true, //是否成功
                     'code': null,
                     'msg': null, //失败信息
                     'data': {
-                        'area|21': [{
-                            'areaId': '@id', //地区ID
-                            'areaName': '@city', //地区名称
-                            'name': '@city' //地区名称
+                        'attributeList|5': [{
+                            'attrId|+1': ['210003', '210004', '210005', '210006', '210008'], //属性ID
+                            'attrCode': '', //属性编码
+                            'name|+1': ['新用户是否可领', '老用户是否可领', '领取身份限制', '用户运营商', '防止URL转发'], //属性名称
+                            'description': '', //属性描述
+                            'dsTypeCd': '', //数据源类型
+                            'dsTypeName': '', //数据源名称
+                            'dataTypeCd': '', //数据类型
+                            'dataTypeName': '', //数据类型名称
+                            'attrSpecTypeCd': '', //属性规格类型
+                            'attrSpecTypeName': '', //属性规格名称
+                            'defaultValue': '', //缺省值
+                            'AttributeValueList|2': [{
+                                'attrValueId': '@id', //属性离散值ID
+                                'attrValueCode': '@cword(4)', //属性离散值编码（这个用于option的页面展现）
+                                'attrValueName': '', //属性离散值名称
+                                'attrValueDesc': '', //属性离散值描述
+                                'attrId': '', //属性ID(查询条件)
+                                'upDate': '', //更新时间
+                                'createDate': '' //创建时间
+                            }]
                         }]
                     },
                     'errors': null
                 });
-
-                //资源查询
-                Mock.mock(httpConfig.siteUrl + '/rsc/qryResource', {
-                    'rsphead': 's',
-                    'success': true, //是否成功
-                    'code': null,
-                    'msg': null, //失败信息
-                    'data': {
-                        'resources|5': [{
-                            'rscId': '@id', //资源ID
-                            'rscCode': '@id', //资源Code
-                            'rscName': '@cword(4)', //资源名称
-                            'value': '', //面值
-                            'templet': '', //模板(类型)
-                            'state': '' //状态
-                        }],
-                        'total|1-100': 10 //总条数
-                    },
-                    'errors': null
-                });
-            }
+            };
 
             return httpMethod;
         }])
-        .controller('activityApplyFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
-            $scope.showInformation = true;
-            $scope.toggleShow = function() {
-                $scope.showInformation = !$scope.showInformation;
-            };
-            $scope.activityApply = {
-                'applyCompany': '',
-                'applyProvinceId': '2', // 固定的四川省的AreaID
-                'applyProvinceName': '四川省', // 固定的四川省
-                'applyStateDate': '',
-                'applyStateCd': '', // 0：保存，1：提交审批，2：修改
-                'applyMan': '',
-                'linkTele': '',
-                'linkEmail': '',
-                'activityTplId': '4' // 现金红包固定值
-            };
-            $scope.$watch('activityApply', function(newValue) {
-                paramData.activityApply = newValue;
-            });
-            //时间控件
-            $scope.startDateOptions = {
-                formatYear: 'yy',
-                maxDate: '',
-                startingDay: 1,
-                showWeeks: false
-            };
-            $scope.startOpen = function() {
-                $timeout(function() {
-                    $scope.startPopupOpened = true;
-                });
-            };
-            $scope.startPopupOpened = false;
-        }])
         .controller('redPacketCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
-            $scope.showRedpacket = true;
-            $scope.toggleShow = function() {
-                $scope.showRedpacket = !$scope.showRedpacket;
-            };
+
+            //210003 新用户是否可领; 210004 老用户是否可领; 210005 领取身份限制; 210006 用户运营商; 210008 防止URL转发
             var param = {
-                'level': '3', //地区级别，3为地市，4为区县
-                'parentAreaId': '' //父地区ID,可空
+                attrIdList: ['210003', '210004', '210005', '210006', '210008']
             };
-
-            httpMethod.qryArea(param).then(function(rsp) {
-                $scope.cityList = rsp.data.area;
-                $log.log('获取州/市列表成功.');
+            httpMethod.qryAttrValueByAttrIds(param).then(function(rsp) {
+                var attributeList = rsp.data.attributeList;
+                $scope.newUserman = [];
+                $scope.oldUserman = [];
+                $scope.receiveLimit = [];
+                $scope.userHouse = [];
+                $scope.forbidUrl = [];
+                _.map(attributeList, function(item, index) {
+                    switch (item.attrId) {
+                        case '210003':
+                            $scope.newUserman = item.AttributeValueList;
+                            break;
+                        case '210004':
+                            $scope.oldUserman = item.AttributeValueList;
+                            break;
+                        case '210005':
+                            $scope.receiveLimit = item.AttributeValueList;
+                            break;
+                        case '210006':
+                            $scope.userHouse = item.AttributeValueList;
+                            break;
+                        case '210008':
+                            $scope.forbidUrl = item.AttributeValueList;
+                            break;
+                    }
+                });
+                $log.log('获取属性离散值列表成功.');
             }, function() {
-                $log.log('获取州/市列表失败.');
+                $log.log('获取属性离散值列表失败.');
             });
-            // TODO activityAttr数组结构，双向绑定
-            $scope.activityInfo = {
-                'activityId': '0', // 固定的值
-                'activityName': '',
-                'activityDesc': '',
-                'activityAreaRels': [{
-                    'areaId': '0',
-                    'areaName': '0'
-                }],
-                'activityStartDate': '',
-                'activityEndDate': '',
-                'activityAttr': [{
-                    'attrId': '110028',
-                    'attrValue': '',
-                    'attrName': '发红包商户（编码）'
-                }, {
-                    'attrId': '110029',
-                    'attrValue': '',
-                    'attrName': '祝福语'
-                }, {
-                    'attrId': '110030',
-                    'attrValue': '',
-                    'attrName': '分配方式'
-                }, {
-                    'attrId': '110031',
-                    'attrValue': '',
-                    'attrName': '领取用户是否实名'
-                }, {
-                    'attrId': '110032',
-                    'attrValue': '',
-                    'attrName': '是否为绑卡用户'
-                }, {
-                    'attrId': '110033',
-                    'attrValue': '',
-                    'attrName': '收红包白名单'
-                }, {
-                    'attrId': '110034',
-                    'attrValue': '',
-                    'attrName': '用户类型'
-                }, {
-                    'attrId': '110035',
-                    'attrValue': '',
-                    'attrName': '红包主题'
-                }]
-            };
-            $scope.$watch('activityInfo', function(newValue) {
-                paramData.activityInfo = newValue;
-            });
-            //时间控件
-            $scope.startDateOptions = {
-                formatYear: 'yy',
-                maxDate: $scope.activityInfo.activityStartDate,
-                startingDay: 1,
-                showWeeks: false
-            };
-            $scope.endDateOptions = {
-                formatYear: 'yy',
-                minDate: $scope.activityInfo.activityEndDate,
-                startingDay: 1,
-                showWeeks: false
-            };
-            $scope.$watch('activityInfo.activityStartDate', function(newValue) {
-                $scope.endDateOptions.minDate = newValue;
-                paramData.activityInfo.activityStartDate = $filter('date')(newValue, 'yyyy-MM-dd');
-                _.map(paramData.resources, function(item, index) {
-                    item.effDate = $filter('date')(newValue, 'yyyy-MM-dd');
-                });
-            });
-            $scope.$watch('activityInfo.activityEndDate', function(newValue) {
-                $scope.startDateOptions.maxDate = newValue;
-                paramData.activityInfo.activityEndDate = $filter('date')(newValue, 'yyyy-MM-dd');
-                _.map(paramData.resources, function(item, index) {
-                    item.expDate = $filter('date')(newValue, 'yyyy-MM-dd');
-                });
-            });
-            $scope.startOpen = function() {
-                $timeout(function() {
-                    $scope.startPopupOpened = true;
-                });
-            };
-            $scope.endOpen = function() {
-                $timeout(function() {
-                    $scope.endPopupOpened = true;
-                });
-            };
-            $scope.startPopupOpened = false;
-            $scope.endPopupOpened = false;
 
-            $scope.$watch('activityInfo.activityName', function(newValue) {
-                paramData.activityInfo.activityName = newValue;
+            $scope.middlewave = {
+                receiveEmail: '', //红包链接接收邮箱
+                redCashNums: '', //红包内代金券总张数
+                redCashUrlForid: '', //红包链接限制 
+                singleUserman: '', //单用户领取次数  
+                redCashChildNums: '', //子红包代金券总张数
+                storeName: '', //商户简称
+                redCashChildTime: '', //子红包链接有效时间（小时）
+                receiveWishes: '', //领取页面祝福语
+                urlAbateTime: '', //链接指定失效时间 
+                shareUrlTitle: '', //分享链接标题 
+                shareUrlWishes: '', //分享链接祝福语
+                winningRate: '', //中奖率
+                winApplication: '', //中奖跳转应用 
+                winRemind: '', //中奖提示 
+                noWinUrl: '', //未中奖链接
+                noWinRemind: '' //未中奖提示 
+            };
+
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            $scope.$watch('middlewave', function(newObj) {
+                _.map(rscAttrs, function(item, index) {
+                    switch (item.attrId) {
+                        case '210007':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.receiveEmail);
+                            break;
+                        case '210012':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.redCashNums);
+                            break; 
+                        case '210043':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.redCashUrlForid);
+                            break; 
+                        case '210009':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.singleUserman);
+                            break;
+                        case '210014':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.redCashChildNums);
+                            break; 
+                        case '210044':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.storeName);
+                            break; 
+                        case '210015':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.redCashChildTime);
+                            break;
+                        case '210016':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.receiveWishes);
+                            break; 
+                        case '210017':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.urlAbateTime);
+                            break;
+                        case '210018':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.shareUrlTitle);
+                            break;
+                        case '210019':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.shareUrlWishes);
+                            break;
+                        case '210020':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.winningRate);
+                            break;
+                        case '210021':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.winApplication);
+                            break;
+                        case '210022':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.winRemind);
+                            break;
+                        case '210023':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.noWinUrl);
+                            break;
+                        case '210024':
+                            _.set(rscAttrs, [index, 'attrValue'], newObj.noWinRemind);
+                            break;     
+                    }
+                })
+                
             });
+        
+            $scope.$watch('faceMoney', function(newValue) {
+                paramData.faceMoney = newValue;
+            });
+            $scope.$watch('rscName', function(newValue) {
+                paramData.rscName = newValue
+            });
+        }])
+        .controller('newUsermanMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
+            var vm = this;
+            vm.checkedList = [];
+            vm.changeCallback = function(item, model) {
+                var arr = [];
+                _.map(vm.checkedList, function(item, index) {
+                    arr.push(item.attrValueId);
+                });
+                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var index = _.findIndex(rscAttrs, function(item) {
+                    return item.attrId === '210003';
+                });
+                _.set(rscAttrs, [index, 'attrValue'], arr.join(','));
+            };
+        }])
+        .controller('oldUsermanMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
+            var vm = this;
+            vm.checkedList = [];
+            vm.changeCallback = function(item, model) {
+                var arr = [];
+                _.map(vm.checkedList, function(item, index) {
+                    arr.push(item.attrValueId);
+                });
+                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var index = _.findIndex(rscAttrs, function(item) {
+                    return item.attrId === '210004';
+                });
+                _.set(rscAttrs, [index, 'attrValue'], arr.join(','));
+            };
+        }])
+        .controller('receiveLimitMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
+            var vm = this;
+            vm.checkedList = [];
+            vm.changeCallback = function(item, model) {
+                var arr = [];
+                _.map(vm.checkedList, function(item, index) {
+                    arr.push(item.attrValueId);
+                });
+                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var index = _.findIndex(rscAttrs, function(item) {
+                    return item.attrId === '210005';
+                });
+                _.set(rscAttrs, [index, 'attrValue'], arr.join(','));
+            };
+        }])
+        .controller('userHouseMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
+            var vm = this;
+            vm.checkedList = [];
+            vm.changeCallback = function(item, model) {
+                var arr = [];
+                _.map(vm.checkedList, function(item, index) {
+                    arr.push(item.attrValueId);
+                });
+                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var index = _.findIndex(rscAttrs, function(item) {
+                    return item.attrId === '210006';
+                });
+                _.set(rscAttrs, [index, 'attrValue'], arr.join(','));
+            };
+        }])
+        .controller('forbidUrlMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
+            var vm = this;
+            vm.checkedList = [];
+            vm.changeCallback = function(item, model) {
+                var arr = [];
+                _.map(vm.checkedList, function(item, index) {
+                    arr.push(item.attrValueId);
+                });
+                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var index = _.findIndex(rscAttrs, function(item) {
+                    return item.attrId === '210008';
+                });
+                _.set(rscAttrs, [index, 'attrValue'], arr.join(','));
+            };
         }])
         .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
-            $scope.showFoundation = true;
-            $scope.toggleShow = function() {
-                $scope.showFoundation = !$scope.showFoundation;
-            };
-            $scope.resources = [];
-            $scope.$watch('resources', function(newValue) {
-                paramData.resources = newValue;
+            $scope.subResources = [];
+            $scope.$watch('subResources', function(newValue) {
+                paramData.subResources = newValue;
             });
             $scope.addNewLine = function() {
-                var obj = {
-                    'rscName': '', // 命名规则：活动名称-金额-数量 TODO:提交的时候拼接
-                    'totalMoney': null,
-                    'totalNum': null,
-                    'rscSpecCd': '3', // 固定的值
-                    'rscStateCd': '1', // 固定的值
-                    'effDate': paramData.activityInfo.activityStartDate,
-                    'expDate': paramData.activityInfo.activityEndDate
-                };
-                $scope.resources.push(obj);
+
             };
+            $scope.delLine = function(index) {
+                $scope.splice(index, 1);
+            }
         }])
-        .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
+        .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function(sign) {
-                switch(sign) {
-                    case 'save':
-                        paramData.activityApply.applyStateCd = 0;
-                        break;
-                    case 'apply':
-                        paramData.activityApply.applyStateCd = 1;
-                        break;
-                }
+                $log.log(paramData, 'paramData');
             }
         }])
 });
-
