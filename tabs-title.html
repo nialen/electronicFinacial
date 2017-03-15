@@ -1,0 +1,10 @@
+<div class="tabs-title fn-clear">
+	<ul>
+		<li class="title fn-left" ng-class="{true: 'current'}[$index==selectedIndex]" ng-repeat="tab in tabs" ng-click="changeTab($index)">
+			<em class="title-line" ng-show="$index==selectedIndex"></em>
+	        {{tab.title}}
+	        <i class="iconfont close" ng-click="removeTab($index)">&#xe611;</i>
+		</li>
+	</ul>
+	<span class="line"></span>
+</div>
