@@ -1,0 +1,5 @@
+<div class="tabs-content">
+    <div ng-show="$index==selectedIndex" ng-repeat="tab in tabs">
+        <iframe ng-src="{{tab.url}}" id="{{tab.id}}" data="{{tab.data}}" class="iframe-box" frameborder="0"></iframe>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<p class="accordion-title"><i class="iconfont {{tabsTitle.icon}}"></i><span ng-bind="tabsTitle.title"></span></p>
+<ul id="accordion-tabs">
+    <li class="accordion-tabs" ng-repeat="item in menuInfo">
+        <div ng-if="item.submenu && item.submenu.length">
+            <input type="checkbox" name="group-{{$index}}" id="group-{{$index}}">
+            <label for="group-{{$index}}">
+                <!-- <icon-directive url={{item.iconNew}}></icon-directive> -->
+                <span ng-bind="item.name"></span>
+            </label>
+            <ul style="display:none">
+                <li class="accordion-tabs-list" ng-repeat="i in item.submenu"
+                    ng-click="addTab(i.name, i.url, i.id, i.data)">
+                    {{i.name}}
+                </li>
+            </ul>
+        </div>
+        <div ng-if="!item.submenu">
+            <label class="link" ng-click="addTab(item.name, item.url, item.id, item.data)">
+                <!-- <icon-directive url={{item.iconNew}}></icon-directive> -->
+                <span ng-bind="item.name"></span>
+            </label>
+        </div>
+    </li>
+</ul>
