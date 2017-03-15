@@ -492,6 +492,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     switch (sign) {
                         case 'save':
                             paramData.activityApply.applyStateCd = 0;
+                            $log.log(paramData, 'paramData');
                             httpMethod.apply(paramData).then(function(rsp) {
                                 if (rsp.success) {
                                     swal({

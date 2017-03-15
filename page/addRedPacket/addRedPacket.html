@@ -41,7 +41,7 @@
 		        					</td>
 		        					<td width="25%">红包名称</td>
 		        					<td width="25%">
-		        						<input type="text" class="form-control redpacket-input" ng-model="resources.rscName"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="rscName"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
@@ -67,7 +67,7 @@
 		        				<tr>
 		        					<td>红包链接限制</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="redCashUrlForid"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashUrlForid"/>
 		        					</td>
 		        					<td>用户运营商</td>
 		        					<td>
@@ -82,7 +82,7 @@
 		        				<tr>
 		        					<td>红包链接接收邮箱</td>
 		        					<td>
-										<input type="text" class="form-control redpacket-input" ng-model="receiveEmail" />
+										<input type="text" class="form-control redpacket-input" ng-model="middlewave.receiveEmail" />
 		        					</td>
 		        					<td>防止URL转发</td>
 		        					<td>
@@ -97,32 +97,40 @@
 		        				<tr>
 		        					<td>单用户领取次数</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="singleUserman"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.singleUserman"/>
 		        					</td>
 		        					<td>红包内含子红包个数</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="resources.totalNum"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="totalNum"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
 		        					<td>商户简称</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="storeName"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.storeName"/>
 		        					</td>
 		        					<td>红包内代金券总张数</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="redCashNums"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashNums"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
-		        					<td>子红包总金额（单个红包总金额）</td>
+		        					<td>子红包总金额</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="resources.faceMoney"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="faceMoney"/>
 		        					</td>
 		        					<td>子红包代金券总张数</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="redCashChildNums"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashChildNums"/>
 		        					</td>
+		        				</tr>
+		        				<tr>
+		        					<td>单个红包总金额</td>
+		        					<td>
+		        						<input type="text" class="form-control redpacket-input" ng-model="totalMoney" disabled/>
+		        					</td>
+		        					<td></td>
+		        					<td></td>
 		        				</tr>
 		        			</tbody>
 		        		</table>
@@ -146,53 +154,54 @@
 		        				<tr>
 		        					<td width="25%">子红包链接有效时间（小时）</td>
 		        					<td width="25%">
-		        						<input type="text" class="form-control redpacket-input" ng-model="redCashChildTime"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashChildTime"/>
 		        					</td>
 		        					<td width="25%">领取页面祝福语</td>
 		        					<td width="25%">
-		        						<input type="text" class="form-control redpacket-input" ng-model="receiveWishes"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.receiveWishes"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
 		        					<td>链接指定失效时间</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="urlAbateTime"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.urlAbateTime"/>
 		        					</td>
 		        					<td>分享链接标题</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="shareUrlTitle"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.shareUrlTitle"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
 		        					<td>分享链接祝福语</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="shareUrlWishes"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.shareUrlWishes"/>
 		        					</td>
 		        					<td>中奖率</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="winningRate"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.winningRate"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
 		        					<td>中奖跳转应用</td>
 		        					<td>
-										<input type="text" class="form-control redpacket-input" ng-model="winApplication"/>
+										<input type="text" class="form-control redpacket-input" ng-model="middlewave.winApplication"/>
 		        					</td>
 		        					<td>中奖提示</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="winRemind"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.winRemind"/>
 		        					</td>
 		        				</tr>
 		        				<tr>
 		        					<td>未中奖链接</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="noWinUrl"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.noWinUrl"/>
 		        					</td>
 		        					<td>未中奖提示</td>
 		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="noWinRemind"/>
+		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.noWinRemind"/>
 		        					</td>
 		        				</tr>
+
 		        			</tbody>
 		        		</table>
 		        	</div>

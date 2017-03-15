@@ -20,7 +20,11 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     'attrValue': '',
                     'attrName': '红包类型'
                 }, {
-                    'attrId': '210002',
+                    'attrId': '210043',
+                    'attrValue': '',
+                    'attrName': '红包链接限制'
+                }, {
+                    'attrId': '210044',
                     'attrValue': '',
                     'attrName': '商户简称'
                 }, {
@@ -274,15 +278,21 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                             break;     
                     }
                 })
-                
-            });
-        
-            $scope.$watch('faceMoney', function(newValue) {
-                paramData.faceMoney = newValue;
-            });
+            }, true);
+
             $scope.$watch('rscName', function(newValue) {
                 paramData.rscName = newValue
             });
+
+            $scope.$watch('faceMoney', function(newValue) {
+                paramData.faceMoney = newValue;
+                paramData.totalMoney = $scope.totalMoney = newValue * paramData.totalNum || 0;
+            });
+            $scope.$watch('totalNum', function(newValue) {
+                paramData.totalNum = newValue;
+                paramData.totalMoney = $scope.totalMoney = newValue * paramData.faceMoney || 0;
+            });
+            
         }])
         .controller('newUsermanMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
@@ -292,7 +302,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210003';
                 });
@@ -307,7 +317,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210004';
                 });
@@ -322,7 +332,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210005';
                 });
@@ -337,7 +347,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210006';
                 });
@@ -352,7 +362,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'activityInfo.rscAttrs');
+                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210008';
                 });
