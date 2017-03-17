@@ -21,3 +21,7 @@
     * 活动资源信息-添加红包 **addRedPacket**
     * 商户现金红包申请 **merchantCashRedEnvelopes**
     * 商户代金券红包申请 **merchantVoucherRedEnvelopes**
+
+
+* 活动列表查询 **activitylistQuery**
+* 活动申请管理 **activityApplyfor**
