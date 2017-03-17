@@ -25,3 +25,5 @@
 
 * 活动列表查询 **activitylistQuery**
 * 活动申请管理 **activityApplyfor**
+* 活动审批管理 **activityRequestManagement**
+* 审批流程图 **approvalProcess**
