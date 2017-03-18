@@ -327,6 +327,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             });
             $scope.addNewLine = function() {
                 // TODO 打开红包设置页面-新建
+                parent.angular.element(parent.$('#tabs')).scope().addTab('修改权限规格', '/psm/page/modifyOperate/modifyOperate.html', 'modifyOperate', JSON.stringify($rootScope.modifiedQueryOperate));
             };
             $scope.editLine = function(index) {
                 // TODO 打开红包设置页面-编辑
