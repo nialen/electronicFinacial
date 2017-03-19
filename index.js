@@ -131,6 +131,7 @@ define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], fun
              * @data 传递给DOM的数据
              */
             $scope.addTab = function(title, view, id, data) {
+                
                 if(httpConfig.isDevEnvironment){
                     var index = view.indexOf('/', 1);
                     view = view.slice(index);
