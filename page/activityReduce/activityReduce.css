@@ -192,11 +192,6 @@
     width: 100% !important;
 }
 
-.datepicker-input {
-    position: relative;
-    width: 45%;
-}
-
 .datepicker-text {
     width: 10%;
     height: 25px;
@@ -294,6 +289,7 @@
     padding: 1px;
 }
 
+/* 表单提示 */
 .prompt {
     position: absolute;
     right: -100px;
@@ -304,35 +300,33 @@
     color: #ff0000;
 }
 
-
 /* select2 */
-
 .ui-select-multiple.ui-select-bootstrap {
     width: 100%;
     height: 25px;
     padding: 0 5px;
     border-radius: 4px;
 }
-
 .ui-select-multiple.ui-select-bootstrap>div {
-    height: 23px;
-    line-height: 23px;
-    overflow: hidden;
+    line-height: 19px;
+    text-align: left;
+    overflow-y: auto;
 }
-
 .ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
     line-height: 18px;
 }
-
 .ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
-    height: 20px;
+    height: 18px;
     margin-right: 4px;
-    line-height: 20px;
+    line-height: 18px;
     border: none;
     background-color: #f5f5f5;
     color: #333;
     border-radius: 2px;
 }
+
+
+
 
 .areaname::after {
     content: ',';
@@ -605,7 +599,7 @@
 }
 
 .activity-content .datepicker-input {
-    width: 50%;
+    width: 100%;
 }
 
 .activity-content .datepicker-input .icon_time {
@@ -700,4 +694,54 @@
 
 .modal-content .activity-content td{
     padding: 2px 5px !important;
+}
+
+.area-select{
+    position: relative;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.redpacket-wrap .table-bordered {
+    border: 0;
+    margin-bottom: 0;
+}
+.redpacket-wrap .table-bordered > thead > tr > th {
+    height: 20px;
+    padding: 5px;
+    line-height: 20px;
+    background-color: #f5fafa;
+    border: 0;
+    color: #faa214;
+}
+.table-bordered > tbody > tr > td {
+    padding: 2px 20px;
+    border-left: 0;
+    text-align: center;
+}
+.redpacket-wrap .table-bordered > tbody > tr:last-of-type >td {
+    border-bottom: none;
+}
+.redpacket-wrap table{
+    border-bottom: 1px solid #ddd!important;
+}
+.redpacket-item {
+    height: 25px;
+    line-height: 25px;
+}
+.redpacket-input {
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+
+.datepicker-input {
+    position: relative;
+    width: 100%;
+}
+.datepicker-input input {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
 }
