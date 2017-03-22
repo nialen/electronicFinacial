@@ -15,15 +15,16 @@
     * 资源管理编辑 **resourceManagementEdit**
     * 资源管理详情 **resourceManagementDetail**
     
-**活动申请**
+**活动申请(包括交互逻辑)**
     * 营销活动立减 **activityReduce**
     * 营销活动立返 **activityReturn**
     * 活动资源信息-添加红包 **addRedPacket**
+    * 活动资源信息-子红包代金券 **addRedPacketVoucher**
     * 商户现金红包申请 **merchantCashRedEnvelopes**
     * 商户代金券红包申请 **merchantVoucherRedEnvelopes**
 
-
-* 活动列表查询 **activitylistQuery**
-* 活动申请管理 **activityApplyfor**
-* 活动审批管理 **activityRequestManagement**
-* 审批流程图 **approvalProcess**
+**活动审批(静态页面)**
+    * 活动列表查询 **activitylistQuery**
+    * 活动申请管理 **activityApplyfor**
+    * 活动审批管理 **activityRequestManagement**
+    * 审批流程图 **approvalProcess**

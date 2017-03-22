@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>代金券申请信息填写</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link href="../../resources/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="addRedPacketVoucher.css">
+</head>
+
+<body>
+    <div class="operate-spec add-redpacket">
+        <p class="redpacket-name"><span class="activity-name">活动名称：xxxx</span><span class="red-envelope">所属红包名称：xxxx</span></p>
+        <div class="detail-operate-result" ng-controller="vouchersCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_money.png">
+                        <p class="title-cn">代金券制券信息</p>
+                        <p class="title-en">Vouchers for ticket information</p>
+                    </div>
+                </div>
+            </div>
+            <div class="result-content result-content-activity">
+                <div class="activity-content">
+                    <table class="table table-hove" ng-cloak>
+                        <tbody>
+                            <tr>
+                                <td width="25%">代金券类型</td>
+                                <td width="25%">
+                                    <ui-select ng-controller="voucherTypeMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                        <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                        <ui-select-choices repeat="area in voucherTypeList | filter:$select.search">
+                                            {{area.attrValueCode}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td width="25%">代金券名称</td>
+                                <td width="25%">
+                                    <input type="text" class="form-control redpacket-input" ng-model="middlewave.voucherName" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>业务券开展省份</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" ng-model="middlewave.provinceName" disabled />
+                                </td>
+                                <td>业务券开展城市</td>
+                                <td>
+                                    <ui-select ng-controller="areaMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
+                                        <ui-select-match>{{$item.name}}</ui-select-match>
+                                        <ui-select-choices repeat="area in $ctrl.areaList | filter:$select.search">
+                                            {{area.name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>有效期类型</td>
+                                <td>
+                                    <ui-select ng-controller="validityTypeMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
+                                        <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                        <ui-select-choices repeat="area in validityTypeList | filter:$select.search">
+                                            {{area.attrValueCode}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td>是否开票</td>
+                                <td>
+                                    <ui-select ng-controller="invoiceListMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
+                                        <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                        <ui-select-choices repeat="area in invoiceList | filter:$select.search">
+                                            {{area.attrValueCode}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>指定周期（天）</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" ng-model="middlewave.cycle" />
+                                </td>
+                                <td>生效间隔（天）</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" ng-model="middlewave.interval" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>生效日期</td>
+                                <td>
+                                    <div class="datepicker-input">
+                                        <input type="text" class="form-control modify-input" uib-datepicker-popup readonly ng-model="effDate" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                        <span class="icon_time" ng-click="startOpen()"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </td>
+                                <td>失效日期</td>
+                                <td>
+                                    <div class="datepicker-input">
+                                        <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="expDate" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                        <span class="icon_time" ng-click="endOpen()"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>制券面值</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" ng-model="faceMoney" />
+                                </td>
+                                <td>制券数量</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" ng-model="totalNum" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>制券总金额</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" ng-model="totalMoney" />
+                                </td>
+                                <td>券消费限额</td>
+                                <td>
+                                    <input type="text" class="form-control redpacket-input" disabled />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>消费渠道（可多选）</td>
+                                <td>
+                                    <ui-select ng-controller="salesChannelMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
+                                        <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                        <ui-select-choices repeat="area in salesChannelList | filter:$select.search">
+                                            {{area.attrValueCode}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td>用户等级（可多选）</td>
+                                <td>
+                                    <ui-select ng-controller="userLevelMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
+                                        <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                        <ui-select-choices repeat="area in userLevelList | filter:$select.search">
+                                            {{area.attrValueCode}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>代金券使用规则描述</td>
+                                <td colspan="3">
+                                    <input type="text" class="form-control redpacket-input" ng-model="middlewave.ruleDescription" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>代金券默认短信模版</td>
+                                <td colspan="3">
+                                    <input type="text" class="form-control redpacket-input" ng-model="middlewave.SMSTemplate" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="detail-operate-result" ng-controller="merchantCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_store.png">
+                        <p class="title-cn">商户列表</p>
+                        <p class="title-en">Merchant link</p>
+                    </div>
+                </div>
+            </div>
+            <div class="result-content result-content-activity">
+                <div class="activity-content">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <td width="45%">商户数量</td>
+                                <td width="45%">
+                                    <p ng-bind="merchantList.length"></p>
+                                </td>
+                                <td width="10%">
+                                    <button class="btn btn-xs btn-set" ng-click="editMerchant()"><i class="iconfont">&#xe63e;</i> 编辑</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="detail-operate-result" ng-controller="costCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_basicInfo_blue.png">
+                        <p class="title-cn">成本分摊表</p>
+                        <p class="title-en">Cost allocation table</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button class="btn btn-xs btn-set" ng-click="editCostAllocation()"><i class="iconfont">&#xe63e;</i> 修改</button>
+                </div>
+            </div>
+            <div class="result-content result-content-activity no-bdl">
+                <div class="activity-content activity-content-s">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="8%">成本分摊方</th>
+                                <th width="10%">成本比例</th>
+                                <th width="10%">成本支付方式</th>
+                                <th width="28%">付款单位机构名称／预付费查询名称</th>
+                                <th width="28%">付款机构代码／预付款查询号</th>
+                                <th>结算方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p class="overflow-handle">地市公司地市公司</p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle">付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称</p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="overflow-handle">商户</p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="activity-action-btns text-center" ng-controller="submitCtrl">
+            <button class="btn btn-submit" ng-click="submitApply('save')">保存</button>
+            <button class="btn btn-cancel" ng-click="close()">关闭</button>
+        </div>
+    </div>
+    <!-- 成本配置 -->
+    <script type="text/ng-template" id="costSharingModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon_config.png">成本配置</h3>
+        </div>
+        <div class="result-list">
+            <div class="row activity-header activity-header-s">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_list_green.png">
+                        <p>成本分摊表</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="addLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增分摊方</button>
+                </div>
+            </div>
+            <div class="activity-content activity-content-s">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="8%">成本分摊方</th>
+                            <th width="14%">成本比例</th>
+                            <th width="14%">成本支付方式</th>
+                            <th>付款单位机构名称／预付费查询名称</th>
+                            <th width="28%">付款机构代码／预付款查询号</th>
+                            <th width="100">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in $ctrl.items">
+                            <td>
+                                <p class="overflow-handle"></p>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" />
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" />
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" />
+                            </td>
+                            <td>
+                                <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe7ac;</i> 清空</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">保存</button>
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+        </div>
+    </script>
+    <!-- 活动商户 -->
+    <script type="text/ng-template" id="merchantModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon_store_modal.png">活动商户</h3>
+        </div>
+        <div class="result-list">
+            <div class="row activity-header activity-header-s">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_info_green.png">
+                        <p>营销活动商户列表/代金券商户列表</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="merchantImport()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
+                    <button ng-click="addMerchant()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增分摊方</button>
+                </div>
+            </div>
+            <div class="activity-content activity-content-s">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="15%">编码</th>
+                            <th width="15%">商户名称</th>
+                            <th width="20%">商户地址</th>
+                            <th width="10%">所属地区</th>
+                            <th>所属分支局</th>
+                            <th width="8%">商户状态</th>
+                            <th width="10%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in currentPageList">
+                            <td>
+                                <p ng-bind="item.merchantCode" class="overflow-handle"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.merchantName" class="overflow-handle"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.merchantAddr" class="overflow-handle"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.areaName" class="overflow-handle"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.orgName" class="overflow-handle"></p>
+                            </td>
+                            <td>
+                                <p ng-bind="item.merchantStateCd | merchantStateCdFilter"></p>
+                            </td>
+                            <td>
+                                <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe610;</i> 删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-bind="totalNum"></span>条记录，当前显示第<span class="number" ng-bind="currentPage"></span>页</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+        </div>
+    </script>
+    <!-- 活动商户导入 -->
+    <script type="text/ng-template" id="merchantImportModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="merchant-import-title"><img class="icon" src="../../resources/images/icon_import.png">商户导入</h3>
+        </div>
+        <div class="temp-down">
+            <span class="temp-down-name">模板下载：</span>
+            <a ng-href="{{$ctrl.grantUploadTemplete}}" class="temp-down-link" target="_blank">模板下载</a>
+            <span class="temp-down-tip">* 提醒：导入之前请下载最新模版</span>
+        </div>
+        <div class="temp-import">
+            <span class="temp-import-name">选择Excel文件：</span>
+            <label class="temp-import-link">选择文件
+                <input type="file" id="merchantImportInput" ng-click="$ctrl.checkFiles()" />
+            </label>
+            <div class="temp-import-files" ng-repeat="file in $ctrl.files">
+                <p class="import-file-name" ng-bind="file.name"></p>
+                <progress style="width:100%;" value="{{file.loaded}}" max="{{file.size}}"></progress>
+                <p class="import-file-state" ng-cloak ng-if="$ctrl.resp">导入结果：{{$ctrl.resp.success ? '成功' : '失败'}} <span class="import-file-result" ng-cloak ng-if="!$ctrl.resp.success">失败原因：{{$ctrl.resp.msg}}</span></p>
+            </div>
+        </div>
+        <div class="modal-footer" id="merchant-import-footer">
+            <button class="btn btn-submit" type="button" ng-disabled="$ctrl.isNotAllowUpload" ng-click="$ctrl.btn_upload()">确定导入</button>
+            <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
+        </div>
+    </script>
+    <script src="../../resources/js/require.js" data-main="entry"></script>
+</body>
