@@ -125,6 +125,25 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 return defer.promise;
             };
 
+            // 商户查询接口
+            httpMethod.qryMerchantPage = function(param) {
+                var defer = $q.defer();
+                $http({
+                    url: httpConfig.siteUrl + '/merchant/qryMerchantPage',
+                    method: 'POST',
+                    headers: httpConfig.requestHeader,
+                    data: 'param=' + JSON.stringify(param)
+                }).success(function(data, header, config, status) {
+                    if (status != 200) {
+                        //跳转403页面
+                    }
+                    defer.resolve(data);
+                }).error(function(data, status, headers, config) {
+                    defer.reject(data);
+                });
+                return defer.promise;
+            };
+
             if (httpConfig.isMock) {
                 //查询属性离散值
                 Mock.mock(httpConfig.siteUrl + '/pub/qryAttrValueByAttrIds', {
@@ -173,6 +192,27 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                         }]
                     },
                     'errors': null
+                });
+
+                //商户查询接口
+                Mock.mock(httpConfig.siteUrl + '/merchant/qryMerchantPage', {
+                    "rsphead": "s",
+                    "success": "true", //是否成功true/失败false
+                    "code": null,
+                    "msg": null, //失败信息
+                    "error": null,
+                    "data": {
+                        "merchants|5": [{
+                            "merchantId": "@id", //商户ID
+                            "merchantName": "@cword(8)", //商户名称
+                            "merchantCode": "@id", //商户编码
+                            "merchantAddr": "@cword(12)", //商户地址
+                            "areaName": "@cword(6)", //地区名称
+                            "orgName": "@cword(4)", //分支局名称
+                            "merchantStateCd|1": [0, 1, 2, 3], //商户状态
+                        }],
+                        "total": 100 //总条数
+                    }
                 });
 
                 //活动商户导入
@@ -536,7 +576,9 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             $ctrl.cancel = function() {
                 var merchantsList = _.get($ctrl.resp, 'data.merchants');
                 _.map(merchantsList, function(item) {
-                    var obj = _.assign(item, { rscId: 0 });
+                    var obj = _.assign(item, {
+                        rscId: 0
+                    });
                     items.unshift(obj);
                 });
                 $uibModalInstance.dismiss('cancel');
@@ -660,7 +702,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             };
 
             $ctrl.ok = function() {
-                $rootScope.activeMerchantsList.push($ctrl.todoChecked);
+                $ctrl.items.push($ctrl.todoChecked);
                 $uibModalInstance.close();
             };
             $ctrl.cancel = function() {
