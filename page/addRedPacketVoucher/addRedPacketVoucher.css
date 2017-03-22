@@ -230,6 +230,7 @@
     width: 100%;
     height: 25px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     background: #fff url('../../resources/images/select_bg.jpg') no-repeat 98% center;
     overflow: hidden;
 }
