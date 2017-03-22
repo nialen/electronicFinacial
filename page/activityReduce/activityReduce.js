@@ -398,6 +398,31 @@ angular
                 'errors': null
             });
 
+            //活动商户导入
+            Mock.mock(httpConfig.siteUrl + '/activity/activityMerchantUpload', {
+                'rsphead': 's',
+                'success': true, //是否成功,
+                'code': '0',
+                'msg': '', //失败信息
+                'error': null,
+                'data': {
+                    'merchants|15': [{
+                        'merchantId': '@id', //商户ID
+                        'merchantName': '@cword(6)', //商户名称
+                        'merchantCode': '@id', //商户编码
+                        'merchantAddr': '', //商户地址
+                        'areaName': '@city', //地区名称
+                        'orgName': '@cword(6)', //分支局名称
+                        'merchantStateCd|1': ['0', '1', '2', '3'], //商户状态 0待生效;1在用;2暂停;3注销
+
+                    }],
+                    'fileName': '', //文件名
+                    'total|100-200': 100, //数据总量
+                    'successNum|1-100': 1, //成功数量
+                    'failNum|1-100': 1, //失败数量
+                }
+            });
+
         }
         return httpMethod;
     }])
@@ -1202,6 +1227,7 @@ angular
                 }
             });
         };
+
     }])
     .controller('merchantChooseCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', '$uibModal', 'items', 'httpMethod', function($uibModalInstance, $scope, $rootScope, $log, $uibModal, items, httpMethod) {
         var $ctrl = this;
