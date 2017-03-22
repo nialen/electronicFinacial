@@ -2,7 +2,6 @@
  * Auth 丁少华
  * Date 2016-09-06
  */
-
 define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], function(angular, $, swal, httpConfig) {
     angular.module('indexModule', ['ngAnimate'])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
@@ -49,25 +48,25 @@ define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], fun
             };
             $scope.menuInfo = [{
                 "name": "营销活动立减",
-                "id": "1",
+                "id": "activityReduce",
                 "imgUrl": "null",
                 "submenu": "",
                 "url": "/page/activityReduce/activityReduce.html"
             }, {
                 "name": "营销活动立返",
-                "id": "1",
+                "id": "activityReturn",
                 "imgUrl": "null",
                 "submenu": "",
                 "url": "/page/activityReturn/activityReturn.html"
-            },  {
+            }, {
                 "name": "商户现金红包申请",
-                "id": "1",
+                "id": "merchantCashRedEnvelopes",
                 "imgUrl": "null",
                 "submenu": "",
                 "url": "/page/merchantCashRedEnvelopes/merchantCashRedEnvelopes.html"
             }, {
                 "name": "商户代金券红包申请",
-                "id": "2",
+                "id": "merchantVoucherRedEnvelopes",
                 "imgUrl": "null",
                 "submenu": "",
                 "url": "/page/merchantVoucherRedEnvelopes/merchantVoucherRedEnvelopes.html"
@@ -131,8 +130,13 @@ define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], fun
              * @data 传递给DOM的数据
              */
             $scope.addTab = function(title, view, id, data) {
+<<<<<<< HEAD
                 
                 if(!httpConfig.isDevEnvironment){
+=======
+
+                if (!httpConfig.isDevEnvironment) {
+>>>>>>> 5bfa171a6edf195aeea6ecb42046d69a6a5ae02b
                     var index = view.indexOf('/', 1);
                     view = view.slice(index);
                 }

@@ -1,68 +1,56 @@
 .display-inline-block {
     display: inline-block;
 }
-
 .iconfont {
     display: inline-block;
 }
-
 .operate-spec {
     padding: 10px 20px 0;
     font-size: 12px;
     font-family: 'microsoft yahei';
     color: #333;
 }
-
 .operate-spec-query {
     padding: 10px 15px;
     border: 1px solid #ddd;
 }
-
 .control-label {
     width: 90px;
 }
-
 .query-input {
     width: 220px !important;
     padding: 0 6px;
     height: 25px;
     line-height: 25px;
 }
-
 .operate-spec-result {
     margin-top: 10px;
 }
-
 .result-header {
     height: 37px;
     margin: 0;
     line-height: 32px;
     border: 1px solid #ddd;
 }
-
 .result-header .title {
     position: relative;
     padding-top: 4px;
     padding-left: 32px;
     line-height: 16px;
 }
-
 .result-header .title img {
     position: absolute;
     top: 4px;
     left: 0;
 }
-
 .result-header .title .title-cn {
     color: #4c9ef5;
     font-size: 14px;
 }
-
 .result-header .title .title-en {
     color: #ddd;
     font-size: 12px;
 }
-
 .btn-set {
     margin-left: 5px;
     padding-left: 15px;
@@ -73,20 +61,16 @@
     font-size: 12px;
     margin-top: 2px;
 }
-
-.btn-set:focus,
-.btn-set.focus {
+.btn-set:focus, .btn-set.focus {
     background-color: #e4ae0c;
     border-color: #e4ae0c;
     color: #fff;
 }
-
 .btn-set:hover {
     background-color: #e4ae0c;
     border-color: #e4ae0c;
     color: #fff;
 }
-
 .result-table table th {
     background-color: #f5fafa;
     border-bottom-width: 1px !important;
@@ -94,38 +78,30 @@
     font-weight: 800;
     text-align: center;
 }
-
 .result-table table td {
     padding: 2px !important;
     text-align: center;
 }
-
 .result-table table td p {
     height: 25px;
     line-height: 25px;
 }
-
 .btn-edit {
     background-color: #b1cc00;
     color: #fff;
     margin-top: 2px;
 }
-
 .btn-edit i {
     font-size: 12px;
 }
-
-.btn-edit:focus,
-.btn-edit.focus {
+.btn-edit:focus, .btn-edit.focus {
     background-color: #a4bc04;
     color: #fff;
 }
-
 .btn-edit:hover {
     background-color: #a4bc04;
     color: #fff;
 }
-
 .modal-body .form-group .detail-input {
     border: 0;
     background: #fff;
@@ -135,40 +111,31 @@
     width: 100px !important;
     padding: 0;
 }
-
 .modal-content {
     border-radius: 0;
 }
-
 .modal-title .iconfont {
     margin-right: 6px;
 }
-
 .modal-header {
     background-color: #ffb319;
 }
-
 .modal-title {
     color: #fff;
     font-size: 14px;
     font-weight: bold;
 }
-
 .modal-footer {
     text-align: center !important;
 }
-
-.table-bordered > thead > tr > th,
-.table-bordered > thead > tr > td {
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
     padding: 5px 0;
 }
-
 .form-group {
     position: relative;
     width: 100% !important;
     padding-left: 120px;
 }
-
 .form-group label {
     position: absolute;
     left: 0;
@@ -176,34 +143,24 @@
     line-height: 25px;
     text-align: right;
 }
-
 .form-group input[type="text"] {
     width: 100% !important;
     height: 25px;
     padding: 0 12px;
     line-height: 25px;
 }
-
 .form-group select {
     width: 100% !important;
 }
-
 .form-group textarea {
     width: 100% !important;
 }
-
-.datepicker-input {
-    position: relative;
-    width: 45%;
-}
-
 .datepicker-text {
     width: 10%;
     height: 25px;
     line-height: 25px;
     text-align: center;
 }
-
 .icon_time {
     position: absolute;
     top: 5px;
@@ -211,13 +168,11 @@
     color: #ffb366;
     cursor: pointer;
 }
-
 .page {
     position: relative;
     height: 26px;
     margin-bottom: 10px;
 }
-
 .page-num {
     position: absolute;
     top: 5px;
@@ -226,7 +181,6 @@
     color: #4c4c4c;
     line-height: 16px;
 }
-
 .page-num .number {
     display: inline-block;
     height: 16px;
@@ -237,32 +191,22 @@
     border-radius: 5px;
     color: #fff;
 }
-
-[ng\:cloak],
-[ng-cloak],
-[data-ng-cloak],
-[x-ng-cloak],
-.ng-cloak,
-.x-ng-cloak,
-.ng-hide:not(.ng-hide-animate) {
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
     display: none !important;
 }
 
-
 /* select */
-
 .select-box {
     width: 100%;
     height: 25px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     background: #fff url('../../resources/images/select_bg.jpg') no-repeat 98% center;
     overflow: hidden;
 }
-
 .table .select-box-half {
     width: 50%;
 }
-
 .set-select {
     width: calc(100% + 32px) !important;
     height: 20px;
@@ -272,7 +216,6 @@
     border: none;
     outline: 0;
 }
-
 .select-box select {
     width: calc(100% + 32px) !important;
     height: 25px;
@@ -285,15 +228,14 @@
     -moz-appearance: none;
     -webkit-appearance: none;
 }
-
 .select-box select::-ms-expand {
     display: none;
 }
-
 .dropdown-menu {
     padding: 1px;
 }
 
+/* 表单提示 */
 .prompt {
     position: absolute;
     right: -100px;
@@ -304,46 +246,37 @@
     color: #ff0000;
 }
 
-
 /* select2 */
-
 .ui-select-multiple.ui-select-bootstrap {
     width: 100%;
     height: 25px;
     padding: 0 5px;
     border-radius: 4px;
 }
-
 .ui-select-multiple.ui-select-bootstrap>div {
-    height: 23px;
-    line-height: 23px;
-    overflow: hidden;
+    line-height: 19px;
+    text-align: left;
+    overflow-y: auto;
 }
-
 .ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
     line-height: 18px;
 }
-
 .ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
-    height: 20px;
+    height: 18px;
     margin-right: 4px;
-    line-height: 20px;
+    line-height: 18px;
     border: none;
     background-color: #f5f5f5;
     color: #333;
     border-radius: 2px;
 }
-
 .areaname::after {
     content: ',';
 }
-
 .areaname:last-child::after {
     content: '';
 }
-
-.form-group .modal-input,
-.activity-content .modal-input {
+.form-group .modal-input, .activity-content .modal-input {
     position: relative;
     width: 100%;
     height: 25px;
@@ -355,7 +288,6 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     overflow: hidden;
 }
-
 .modal-input .new-name {
     display: inline-block;
     height: 25px;
@@ -363,11 +295,9 @@
     padding: 0 12px;
     font-size: 12px;
 }
-
 .form-control {
     font-size: 12px;
 }
-
 .add-new-btn {
     position: absolute;
     top: 2px;
@@ -382,11 +312,9 @@
     color: #ffb319;
     text-align: center;
 }
-
 .query-keyword-box {
     margin: 10px;
 }
-
 .btn-keyword {
     position: absolute;
     top: 0;
@@ -404,32 +332,26 @@
     font-size: 12px;
     text-align: center;
 }
-
-.btn-keyword:focus,
-.btn-keyword.focus {
+.btn-keyword:focus, .btn-keyword.focus {
     background-color: #ffb319;
     border-color: #ffb319;
     color: #fff;
 }
-
 .btn-keyword:hover {
     background-color: #ffb319;
     border-color: #ffb319;
     color: #fff;
 }
-
 .label-keyword {
     display: inline-block;
     height: 25px;
     line-height: 25px;
 }
-
 .form-keyword {
     position: relative;
     display: inline-block;
     width: 350px;
 }
-
 .form-keyword input[type="text"] {
     width: 100% !important;
     height: 25px;
@@ -437,54 +359,44 @@
     line-height: 25px;
     border-radius: 14px;
 }
-
 .model-header {
     height: 25px;
     line-height: 25px;
 }
-
 .model-img {
     float: left;
     width: 20px;
     height: 20px;
     margin: 2px 4px;
 }
-
 .model-title {
     color: #3cc250;
     font-size: 14px;
 }
-
 .modal-title .iconfont {
     margin-right: 6px;
 }
-
 .modal-title .icon {
     float: left;
     width: 20px;
     height: 20px;
     margin-right: 5px;
 }
-
 .query-hall-box {
     padding: 15px 20px 10px 10px;
 }
-
 .reduce {
     display: inline-block;
     width: calc(100% - 70px) !important;
 }
-
 .btn-query {
     height: 24px;
 }
-
 .query-hall-box .form-group {
     position: relative;
     width: 100% !important;
     padding-left: 80px;
 }
-
 .query-hall-box .form-group label {
     position: absolute;
     left: 0;
@@ -492,95 +404,74 @@
     line-height: 25px;
     text-align: right;
 }
-
 .query-hall-box .form-group input[type="text"] {
     width: 100% !important;
     height: 25px;
     padding: 0 12px;
     line-height: 25px;
 }
-
 .query-hall-box .form-group select {
     width: 100% !important;
     height: 25px;
     padding: 0 12px;
     line-height: 25px;
 }
-
 .query-hall-box .form-group textarea {
     width: 100% !important;
 }
-
 .query-hall-box .form-group .detail-input {
     height: 25px;
     line-height: 25px;
     overflow: hidden;
 }
-
 .query-hall-box .form-group .detail-input .city-span {
     margin-right: 3px;
 }
-
 .result-list {
     padding: 5px;
 }
-
 .result-modal-header {
     border: 1px solid #ddd;
     border-bottom: none;
 }
-
 .detail-operate-result {
     margin-bottom: 10px;
 }
-
 .result-content {
     padding: 6px;
     border: 1px solid #ddd;
     border-top: none;
 }
-
-.result-content .form-control {
-    border-radius: 0;
-}
-
 .result-content-activity {
     padding: 0;
     border-right: none;
     border-bottom: none;
 }
-
 .activity-header {
     height: 28px;
     background-color: #f5fafa;
     border-right: 1px solid #ddd;
 }
-
 .activity-header .title {
     position: relative;
     padding-left: 32px;
     line-height: 28px;
 }
-
 .activity-header .title img {
     position: absolute;
     top: 8px;
     left: 13px;
 }
-
 .activity-header .title p {
     font-size: 12px;
     color: #faa214;
 }
-
 .activity-content {
     border-bottom: 1px solid #ddd;
 }
-
 .activity-content .table {
     margin-bottom: 0;
 }
-
 .activity-content td {
     padding: 2px 15px !important;
     line-height: 24px !important;
@@ -589,44 +480,35 @@
     text-align: center;
     color: #4c4c4c;
 }
-
 .activity-content .uib-datepicker-popup td, .activity-content .uib-datepicker-popup th {
     padding: 0 !important;
 }
-
 .activity-content .form-control {
     height: 24px;
     padding: 0 12px;
     border-radius: 0;
 }
-
 .activity-content .form-control-half {
     width: 50%;
 }
-
 .activity-content .datepicker-input {
-    width: 50%;
+    width: 100%;
 }
-
 .activity-content .datepicker-input .icon_time {
     line-height: normal;
 }
-
 .activity-content .modal-input {
     text-align: left;
 }
-
 .activity-content .modal-input-half {
     width: 50%;
 }
-
 .activity-content .iconfont {
     margin-left: 6px;
     line-height: 24px;
     color: #fdb26c;
     font-size: 16px;
 }
-
 .activity-header-s {
     height: 30px;
     margin: 0;
@@ -634,26 +516,21 @@
     border-left: 1px solid #ddd;
     background-color: #fff;
 }
-
 .activity-header-s .title {
     line-height: 30px;
 }
-
 .activity-header-s .title img {
     top: 6px;
     left: 8px;
 }
-
 .activity-header-s .title p {
     color: #3cc250;
 }
-
 .activity-content-s {
     position: relative;
     top: -1px;
     border-bottom: none;
 }
-
 .activity-content thead th {
     padding: 2px 15px;
     line-height: 24px;
@@ -661,43 +538,81 @@
     background-color: #f5fafa;
     border-bottom-width: 1px !important;
 }
-
 .activity-content .table .iconfont {
     color: #fff;
 }
-
 .activity-header-s .btn {
     margin-right: -7px;
 }
-
 .activity-content .table .btn {
     margin: 0;
 }
-
 .activity-action-btns {
     margin-bottom: 10px;
 }
-
 .result-header .btn .iconfont {
     transition: all linear 0.3s;
 }
-
 .arrow-down {
     -moz-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
 }
-
 .modal-content .page {
     margin-top: 10px;
 }
-
-.modal-content .activity-content .table .iconfont{
+.modal-content .activity-content .table .iconfont {
     font-size: 12px;
     line-height: normal;
 }
-
-.modal-content .activity-content td{
+.modal-content .activity-content td {
     padding: 2px 5px !important;
+}
+.area-select {
+    position: relative;
+    width: 100% !important;
+    margin: 0 !important;
+}
+.redpacket-wrap .table-bordered {
+    border: 0;
+    margin-bottom: 0;
+}
+.redpacket-wrap .table-bordered > thead > tr > th {
+    height: 20px;
+    padding: 5px;
+    line-height: 20px;
+    background-color: #f5fafa;
+    border: 0;
+    color: #faa214;
+}
+.table-bordered > tbody > tr > td {
+    padding: 2px 20px;
+    border-left: 0;
+    text-align: center;
+}
+.redpacket-wrap .table-bordered > tbody > tr:last-of-type >td {
+    border-bottom: none;
+}
+.redpacket-wrap table {
+    border-bottom: 1px solid #ddd !important;
+}
+.redpacket-item {
+    height: 25px;
+    line-height: 25px;
+}
+.redpacket-input {
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+.datepicker-input {
+    position: relative;
+    width: 100%;
+}
+.datepicker-input input {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
 }
