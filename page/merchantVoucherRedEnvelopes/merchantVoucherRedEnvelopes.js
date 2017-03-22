@@ -2,6 +2,7 @@
  * Auth 丁少华
  * Date 2017-3-9
  */
+
 define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate', 'angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
     angular
         .module('merchantVoucherRedEnvelopesModule', ['ui.bootstrap', 'ui.select', 'ngAnimate'])
@@ -189,6 +190,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             return httpMethod;
         }])
+        .controller('merchantVoucherCtrl', ['$scope', '$rootScope', '$log', '$window', function($scope, $rootScope, $log, $window) {
+            $($window).on("message", function(e){
+                debugger
+                $rootScope.redPacket = event.data;
+                // console.log(event.data, 'postMessage');
+            });
+        }])
         .controller('activityApplyFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
             $scope.showInformation = true;
             $scope.toggleShow = function() {
@@ -327,13 +335,16 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             });
             $scope.addNewLine = function() {
                 // TODO 打开红包设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('修改权限规格', '/psm/page/modifyOperate/modifyOperate.html', 'modifyOperate', JSON.stringify($rootScope.modifiedQueryOperate));
+                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify());
             };
             $scope.editLine = function(index) {
                 // TODO 打开红包设置页面-编辑
             }
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
+            // $rootScope.$on('merchantVoucherRedEnvelopesModule.postmessage', function(ev, data, targetOrigin) {
+            //     console.log(JSON.stringify(data), 'postmessage');
+            // })
             $scope.submitApply = function(sign) {
                 var activityApply = paramData.activityApply;
                 var flag = activityApply.applyCompany.trim() === '' || activityApply.applyStateDate === null || activityApply.applyMan.trim() === '' || activityApply.linkTele.trim() === '' || activityApply.linkEmail.trim() === '';

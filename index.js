@@ -132,7 +132,7 @@ define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], fun
              */
             $scope.addTab = function(title, view, id, data) {
                 
-                if(httpConfig.isDevEnvironment){
+                if(!httpConfig.isDevEnvironment){
                     var index = view.indexOf('/', 1);
                     view = view.slice(index);
                 }
