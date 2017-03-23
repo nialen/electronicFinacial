@@ -2,6 +2,7 @@
  * Auth 丁少华
  * Date 2017-3-9
  */
+
 define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate', 'angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
     angular
         .module('merchantVoucherRedEnvelopesModule', ['ui.bootstrap', 'ui.select', 'ngAnimate'])
@@ -316,24 +317,42 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 });
             };
         }])
-        .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
+        .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', '$window', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, $window, paramData) {
             $scope.showFoundation = true;
             $scope.toggleShow = function() {
                 $scope.showFoundation = !$scope.showFoundation;
             };
-            $scope.resources = []; // TODO 接收postMessage传过来的数据，update；
+            $scope.resources = paramData.resources; // TODO 接收postMessage传过来的数据，update；
+            $($window).on("message", function() {
+                var redPacketObj = event.data,
+                    index = _.findIndex($scope.resources, function(item) {
+                        return item.rscId === redPacketObj.rscId;
+                    });
+                if (index === -1) {
+                    _.set(redPacketObj, 'rscId', _.now());
+                    $scope.resources.push(redPacketObj);
+                    $scope.$apply();
+                } else {
+                    $scope.resources.splice(index, 1, redPacketObj);
+                    $scope.$apply();
+                };
+            });
+
             $scope.$watch('resources', function(newValue) {
                 paramData.resources = newValue;
             });
             $scope.addNewLine = function() {
                 // TODO 打开红包设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('修改权限规格', '/psm/page/modifyOperate/modifyOperate.html', 'modifyOperate', JSON.stringify($rootScope.modifiedQueryOperate));
+                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify());
             };
             $scope.editLine = function(index) {
                 // TODO 打开红包设置页面-编辑
             }
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
+            // $rootScope.$on('merchantVoucherRedEnvelopesModule.postmessage', function(ev, data, targetOrigin) {
+            //     console.log(JSON.stringify(data), 'postmessage');
+            // })
             $scope.submitApply = function(sign) {
                 var activityApply = paramData.activityApply;
                 var flag = activityApply.applyCompany.trim() === '' || activityApply.applyStateDate === null || activityApply.applyMan.trim() === '' || activityApply.linkTele.trim() === '' || activityApply.linkEmail.trim() === '';
