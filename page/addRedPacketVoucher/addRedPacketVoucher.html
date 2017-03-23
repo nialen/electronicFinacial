@@ -208,7 +208,7 @@
                     <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th width="12%">成本分摊方</th>
+                                <th width="8%">成本分摊方</th>
                                 <th width="10%">成本比例</th>
                                 <th width="10%">成本支付方式</th>
                                 <th width="28%">付款单位机构名称／预付费查询名称</th>
@@ -217,24 +217,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in subResources" ng-if="item.shareRatio > 0">
+                            <tr>
                                 <td>
-                                    <p ng-bind="item.partakeName" class="overflow-handle"></p>
+                                    <p class="overflow-handle">地市公司地市公司</p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.shareRatio" class="overflow-handle"></p>
+                                    <p class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.shareType.shareMethodName" class="overflow-handle"></p>
+                                    <p class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.paymentDept" class="overflow-handle"></p>
+                                    <p class="overflow-handle">付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称</p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.prepaymentQryNbr" class="overflow-handle"></p>
+                                    <p class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p ng-bind="item.settlementMethod | settlementMethodFilter" class="overflow-handle"></p>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="overflow-handle">商户</p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p class="overflow-handle"></p>
                                 </td>
                             </tr>
                         </tbody>
@@ -261,42 +281,45 @@
                         <p>成本分摊表</p>
                     </div>
                 </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="addLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增分摊方</button>
+                </div>
             </div>
             <div class="activity-content activity-content-s">
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th width="12%">成本分摊方</th>
-                            <th width="12%">成本比例</th>
-                            <th>成本支付方式</th>
-                            <th width="25%">付款单位机构名称／预付费查询名称</th>
-                            <th width="25%">付款机构代码／预付款查询号</th>
-                            <th width="10%">操作</th>
+                            <th width="8%">成本分摊方</th>
+                            <th width="14%">成本比例</th>
+                            <th width="14%">成本支付方式</th>
+                            <th>付款单位机构名称／预付费查询名称</th>
+                            <th width="28%">付款机构代码／预付款查询号</th>
+                            <th width="100">操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="opt in shareMethodList">
+                        <tr ng-repeat="item in $ctrl.items">
                             <td>
-                                <p class="overflow-handle" ng-bind="opt.partakeName"></p>
+                                <p class="overflow-handle"></p>
                             </td>
                             <td>
-                                <input class="form-control text-center" type="number" min="0" max="" ng-model="opt.shareRatio" required />
+                                <input class="form-control" type="text" />
                             </td>
                             <td>
                                 <div class="select-box">
-                                    <select class="form-control" ng-model="opt.shareType" ng-options="item as item.shareMethodName for item in opt.shareTypeList">
-                                        <option value="">请选择支付方式</option>
+                                    <select class="form-control">
+                                        <option value=""></option>
                                     </select>
                                 </div>
                             </td>
                             <td>
-                                <input class="form-control" type="text" ng-model="opt.paymentDept" />
+                                <input class="form-control" type="text" />
                             </td>
                             <td>
-                                <input class="form-control" type="text" ng-model="opt.prepaymentQryNbr" />
+                                <input class="form-control" type="text" />
                             </td>
                             <td>
-                                <button ng-click="delLine(opt)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe7ac;</i> 清空</button>
+                                <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe7ac;</i> 清空</button>
                             </td>
                         </tr>
                     </tbody>
@@ -304,7 +327,7 @@
             </div>
             <div class="text-center page">
                 <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
-                <div class="page-num">共<span class="number" ng-bind="totalNum"></span>条记录，当前显示第<span class="number" ng-bind="currentPage"></span>页</div>
+                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
             </div>
         </div>
         <div class="modal-footer">
@@ -328,7 +351,7 @@
                 </div>
                 <div class="col-xs-8 text-right">
                     <button ng-click="merchantImport()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
-                    <button ng-click="addMerchant()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增一行</button>
+                    <button ng-click="addMerchant()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增分摊方</button>
                 </div>
             </div>
             <div class="activity-content activity-content-s">
@@ -404,114 +427,6 @@
         <div class="modal-footer" id="merchant-import-footer">
             <button class="btn btn-submit" type="button" ng-disabled="$ctrl.isNotAllowUpload" ng-click="$ctrl.btn_upload()">确定导入</button>
             <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
-        </div>
-    </script>
-    <!-- 商户选择 -->
-    <script type="text/ng-template" id="merchantChoose.html">
-        <div class="modal-header">
-            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
-            <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon_store_modal.png">商户选择</h3>
-        </div>
-        <!-- 查询 -->
-        <div class="query-hall-box">
-            <form name="queryHall" class="form-inline" role="form">
-                <div class="row mb10">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label">编码：</label>
-                            <input type="text" class="form-control" ng-model="$ctrl.merchantCode">
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label">名称：</label>
-                            <input type="text" class="form-control" ng-model="$ctrl.merchantName">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label">州/市：</label>
-                            <div class="select-box">
-                                <select class="form-control" ng-model="$ctrl.cityId">
-                                    <option value="">请选择州/市</option>
-                                    <option ng-repeat="item in $ctrl.cityList" value="{{item.areaId}}">{{item.name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label">区/县：</label>
-                            <div class="select-box reduce">
-                                <select class="form-control" ng-model="$ctrl.districtId">
-                                    <option value="">请选择区/县</option>
-                                    <option ng-repeat="item in $ctrl.districtList" value="{{item.areaId}}">{{item.name}}</option>
-                                </select>
-                            </div>
-                            <button type="submit" ng-click="$ctrl.conditionQuery()" class="btn btn-sm btn-query fn-right"><i class="iconfont">&#xe600;</i> 查询</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!-- 结果列表 -->
-        <div class="result-list">
-            <div class="result-modal-header">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <div class="model-header">
-                            <img class="model-img" src="../../resources/images/icon_businesslist.png">
-                            <p class="model-title">商户列表</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="result-table">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="8%">选择</th>
-                            <th width="20%">编码</th>
-                            <th width="20%">名称</th>
-                            <th width="25%">商户地址</th>
-                            <th width="10%">所属地区</th>
-                            <th>所属分支局</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in $ctrl.businessList">
-                            <td>
-                                <input type="radio" name="radio" ng-click="$ctrl.check(item)">
-                            </td>
-                            <td>
-                                <p ng-bind="item.merchantCode"></p>
-                            </td>
-                            <td>
-                                <p ng-bind="item.merchantName"></p>
-                            </td>
-                            <td>
-                                <p ng-bind="item.merchantAddr" class="overflow-handle"></p>
-                            </td>
-                            <td>
-                                <p ng-bind="item.areaName" class="overflow-handle"></p>
-                            </td>
-                            <td>
-                                <p ng-bind="item.orgName" class="overflow-handle"></p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="text-center page">
-                <ul uib-pagination total-items="$ctrl.totalNum" items-per-page="$ctrl.rowNumPerPage" ng-model="$ctrl.currentPage" max-size="$ctrl.maxSize" ng-change="$ctrl.pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
-                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
-            </div>
-        </div>
-        <div class="modal-footer" id="hall-modal-footer">
-            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
-            <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
         </div>
     </script>
     <script src="../../resources/js/require.js" data-main="entry"></script>
