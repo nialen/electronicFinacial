@@ -1131,6 +1131,33 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             });
 
             $uibModalInstance.close();
+            }
+        }])
+        .controller('costSharingModalCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', 'items', 'httpMethod', 'paramData', function($uibModalInstance, $scope, $rootScope, $log, items, httpMethod, paramData) {
+            var $ctrl = this;
+            $ctrl.items = items;
+
+            $scope.currentPage = 1; //当前页
+            $scope.rowNumPerPage = 10; //每页显示行数
+            $scope.totalNum = 0; //总条数
+            $scope.maxSize = 4; //最大显示页码数
+            $rootScope.costSharingList = [];
+            if ($rootScope.costSharingList.length != 0) {
+                $rootScope.shareMethodList = [];
+                $rootScope.shareMethodList = _.cloneDeep($rootScope.costSharingList);
+                _.map($rootScope.shareMethodList, function(item) {
+                    _.set(item, '$$hashKey', null);
+                });
+            } else {
+                httpMethod.queryPartakeShareMethod().then(function(rsp) {
+                    $rootScope.shareMethodList = rsp.data.shareMethodList;
+                    $scope.totalNum = rsp.data.total;
+                    $log.log('查询成本分摊方式成功.');
+                }, function() {
+                    $log.log('查询成本分摊方式失败.');
+                });
+            };
+>>>>>>> 3acc70ca6ad2d9c0ae1bf8dac287eae69930afb8
 
             paramData.activityCostSharings = [];
             _.map($rootScope.shareMethodList, function(item, index) {
