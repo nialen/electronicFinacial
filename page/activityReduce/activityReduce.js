@@ -2,192 +2,162 @@
  * Auth heyue
  * Date 2017-03-13
  */
-define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate','angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
-angular
-    .module('activityReduceModule', ['ui.bootstrap', 'ui.select', 'ui.uploader'])
-    .run(['$rootScope', function($rootScope){
-        $rootScope.activeMerchantsList = []; //活动商户列表
-    }])
-    .factory('paramData', [function() {
-        var paramData = {
-            "activityApply": {
-                "applyCompany": '', //申请单位
-                "applyProvinceId": '', //申请省份
-                "applyStateDate": '', //申请状态时间
-                "applyStateCd": '1', //活动状态
-                "applyMan": '', //申请人
-                "linkTele": '', //联系电话
-                "linkEmail": '', //联系邮箱
-                "activityTplId": '2', //活动模板类型
-                "applyOptType": '' //动作类型，0：保存，1：提交审批，2：修改
-            },
-            "activityInfo": {
-                "activityId": '0', //活动Id
-                "activityName": '', //活动名称
-                "activityDesc": '', //活动描述
-                "activityRange": '', //活动使用范围1、全国范围，2、省区域内，3、县市内
-                "activityStartDate": '', //活动开始日期
-                "activityEndDate": '', //活动结束日期
-                "execCycle": '', //活动执行周期1、每天，2、每周中某几天，3、每月中某几天
-                "execCyclePoint": '', 
-                //活动执行周期时间点 EXECCYCLE为1时该字段为空且为全天，EXECCYCLE为2或3时，标识每周的周几，或每月的几号，多个值用逗号隔开
-                "execStartTime": '', //每日开始时间,格式为时分秒（000000），为空时为全天
-                "execEndTime": '', //每日结束时间, 格式为时分秒（000000），为空时为全天
-                "areaIds": [],
-                "activityAttr": [
-                    {
+define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate', 'angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
+    angular
+        .module('activityReduceModule', ['ui.bootstrap', 'ui.select', 'ui.uploader'])
+        .run(['$rootScope', function($rootScope) {
+            $rootScope.activeMerchantsList = []; //活动商户列表
+        }])
+        .factory('paramData', [function() {
+            var paramData = {
+                "activityApply": {
+                    "applyCompany": '', //申请单位
+                    "applyProvinceId": '', //申请省份
+                    "applyStateDate": '', //申请状态时间
+                    "applyMan": '', //申请人
+                    "linkTele": '', //联系电话
+                    "linkEmail": '', //联系邮箱
+                    "applyStateCd": '1', //活动状态
+                    "activityTplId": '2', //活动模板类型
+                    "applyOptType": '' //动作类型，0：保存，1：提交审批，2：修改
+                },
+                "activityInfo": {
+                    "activityId": '0', //活动Id
+                    "activityName": '', //活动名称
+                    "activityDesc": '', //活动描述
+                    "activityRange": '', //活动使用范围1、全国范围，2、省区域内，3、县市内
+                    "activityStartDate": '', //活动开始日期
+                    "activityEndDate": '', //活动结束日期
+                    "execCycle": '', //活动执行周期1、每天，2、每周中某几天，3、每月中某几天
+                    "execCyclePoint": '',
+                    //活动执行周期时间点 EXECCYCLE为1时该字段为空且为全天，EXECCYCLE为2或3时，标识每周的周几，或每月的几号，多个值用逗号隔开
+                    "execStartTime": '', //每日开始时间,格式为时分秒（000000），为空时为全天
+                    "execEndTime": '', //每日结束时间, 格式为时分秒（000000），为空时为全天
+                    "areaIds": [],
+                    "activityAttr": [{
                         "attrId": "110001",
                         "attrValue": "",
                         "attrName": "立减对象"
-                    },
-                    {
+                    }, {
                         "attrId": "110002",
                         "attrValue": "",
                         "attrName": "活动总成本"
-                    },
-                    {
+                    }, {
                         "attrId": "110003",
                         "attrValue": "",
                         "attrName": "活动类型"
-                    },
-                    {
+                    }, {
                         "attrId": "110004",
                         "attrValue": "",
                         "attrName": "立减物品类型"
-                    },
-                    {
+                    }, {
                         "attrId": "110006",
                         "attrValue": "",
                         "attrName": "用户立减维度"
-                    },
-                    {
+                    }, {
                         "attrId": "110007",
                         "attrValue": "",
                         "attrName": "用户类型"
-                    },
-                    {
+                    }, {
                         "attrId": "110008",
                         "attrValue": "",
                         "attrName": "名单管理"
-                    },
-                    {
+                    }, {
                         "attrId": "110009",
                         "attrValue": "",
                         "attrName": "活动所属事业群"
-                    },
-                    {
+                    }, {
                         "attrId": "110010",
                         "attrValue": "",
                         "attrName": "补充联合活动事业群"
-                    },
-                    {
+                    }, {
                         "attrId": "110011",
                         "attrValue": "",
                         "attrName": "是否为首单活动"
-                    },
-                    {
+                    }, {
                         "attrId": "110012",
                         "attrValue": "",
                         "attrName": "首单渠道"
-                    },
-                    {
+                    }, {
                         "attrId": "110013",
                         "attrValue": "",
                         "attrName": "用户日立减最大笔数"
-                    },
-                    {
+                    }, {
                         "attrId": "110014",
                         "attrValue": "",
                         "attrName": "活动当日立减最大笔数"
-                    },
-                    {
+                    }, {
                         "attrId": "110015",
                         "attrValue": "",
                         "attrName": "用户活动期间立减最大笔数"
-                    },
-                    {
+                    }, {
                         "attrId": "110016",
                         "attrValue": "",
                         "attrName": "整个活动立减最大笔数"
-                    },
-                    {
+                    }, {
                         "attrId": "110017",
                         "attrValue": "",
                         "attrName": "用户日立减最大金额"
-                    },
-                    {
+                    }, {
                         "attrId": "110018",
                         "attrValue": "",
                         "attrName": "活动当日立减最大金额"
-                    },
-                    {
+                    }, {
                         "attrId": "110019",
                         "attrValue": "",
                         "attrName": "用户活动期间立减最大金额"
-                    },
-                    {
+                    }, {
                         "attrId": "120001",
                         "attrValue": "",
                         "attrName": "用户等级"
-                    },
-                    {
+                    }, {
                         "attrId": "120002",
                         "attrValue": "",
                         "attrName": "交易渠道"
-                    },
-                    {
+                    }, {
                         "attrId": "120003",
                         "attrValue": "",
                         "attrName": "外部交易类型"
-                    },
-                    {
+                    }, {
                         "attrId": "120015",
                         "attrValue": "",
                         "attrName": "用户限额维度"
-                    },
-                    {
+                    }, {
                         "attrId": "120016",
                         "attrValue": "",
                         "attrName": "立减方式"
-                    },
-                    {
+                    }, {
                         "attrId": "120018",
                         "attrValue": "",
                         "attrName": "固定立减基数"
-                    },
-                    {
+                    }, {
                         "attrId": "120019",
                         "attrValue": "",
                         "attrName": "固定立减金额"
-                    },
-                    {
+                    }, {
                         "attrId": "120025",
                         "attrValue": "",
                         "attrName": "最低消费金额"
-                    },
-                    {
+                    }, {
                         "attrId": "120026",
                         "attrValue": "",
                         "attrName": "最高消费金额"
-                    },
-                    {
+                    }, {
                         "attrId": "120029",
                         "attrValue": "",
                         "attrName": "用户立减每笔最小金额"
-                    },
-                    {
+                    }, {
                         "attrId": "120030",
                         "attrValue": "",
                         "attrName": "用户立减每笔最大金额"
-                    }
-                ]
-            },
-            "activityCostSharings": [], //成本配置
-            "merchants": []     //商户配置
-        }
+                    }]
+                },
+                "activityCostSharings": [], //成本配置
+                "merchants": [] //商户配置
+            }
 
-        return paramData;
-    }])
+            return paramData;
+        }])
 
     .factory('httpMethod', ['$http', '$q', function($http, $q) {
         var httpMethod = {};
@@ -235,24 +205,6 @@ angular
                 method: 'POST',
                 headers: httpConfig.requestHeader,
                 data: 'param=' + JSON.stringify(param)
-            }).success(function(data, header, config, status) {
-                if (status != 200) {
-                    //跳转403页面
-                }
-                defer.resolve(data);
-            }).error(function(data, status, headers, config) {
-                defer.reject(data);
-            });
-            return defer.promise;
-        };
-        // 商户导入模板下载
-        httpMethod.merchantTemplete = function() {
-            var defer = $q.defer();
-            $http({
-                url: httpConfig.siteUrl + '/activity/downLoad/merchantTemplete',
-                method: 'POST',
-                headers: httpConfig.requestHeader,
-                // data: 'param=' + JSON.stringify(param)
             }).success(function(data, header, config, status) {
                 if (status != 200) {
                     //跳转403页面
@@ -327,15 +279,13 @@ angular
                 "msg": null,
                 "error": null,
                 "data": {
-                    "shareMethodList|5": [
-                        {
-                            "partakeId": "@id",
-                            "partakeName|1": ['支付公司', '省公司', '地市公司', '商户', '第三方'],
-                            "stateCd|1": [1,2,3,4],
-                            "shareMethod|1": [10,11,12,13],
-                            "shareMethodName": "@cword(4)"
-                        }
-                    ],
+                    "shareMethodList|5": [{
+                        "partakeId": "@id",
+                        "partakeName|1": ['支付公司', '省公司', '地市公司', '商户', '第三方'],
+                        "stateCd|1": [1, 2, 3, 4],
+                        "shareMethod|1": [10, 11, 12, 13],
+                        "shareMethodName": "@cword(4)"
+                    }],
                     "total": 5
                 }
             });
@@ -343,23 +293,21 @@ angular
             //商户查询接口
             Mock.mock(httpConfig.siteUrl + '/merchant/qryMerchantPage', {
                 "rsphead": "s",
-                "success": "true",//是否成功true/失败false
+                "success": "true", //是否成功true/失败false
                 "code": null,
-                "msg": null,//失败信息
+                "msg": null, //失败信息
                 "error": null,
                 "data": {
-                    "merchants|5": [
-                        {
-                            "merchantId": "@id",//商户ID
-                            "merchantName": "@cword(8)",//商户名称
-                            "merchantCode": "@id",//商户编码
-                            "merchantAddr": "@cword(12)",//商户地址
-                            "areaName": "@cword(6)",//地区名称
-                            "orgName": "@cword(4)",//分支局名称
-                            "merchantStateCd|1": [0,1,2,3],//商户状态
-                        }
-                    ],
-                   "total":100//总条数
+                    "merchants|5": [{
+                        "merchantId": "@id", //商户ID
+                        "merchantName": "@cword(8)", //商户名称
+                        "merchantCode": "@id", //商户编码
+                        "merchantAddr": "@cword(12)", //商户地址
+                        "areaName": "@cword(6)", //地区名称
+                        "orgName": "@cword(4)", //分支局名称
+                        "merchantStateCd|1": [0, 1, 2, 3], //商户状态
+                    }],
+                    "total": 100 //总条数
                 }
             });
 
@@ -410,10 +358,10 @@ angular
                         'merchantId': '@id', //商户ID
                         'merchantName': '@cword(6)', //商户名称
                         'merchantCode': '@id', //商户编码
-                        'merchantAddr': '', //商户地址
+                        'merchantAddr': '@cword(12)', //商户地址
                         'areaName': '@city', //地区名称
                         'orgName': '@cword(6)', //分支局名称
-                        'merchantStateCd|1': ['0', '1', '2', '3'], //商户状态 0待生效;1在用;2暂停;3注销
+                        'merchantStateCd|1': [0, 1, 2, 3], //商户状态 0待生效;1在用;2暂停;3注销
 
                     }],
                     'fileName': '', //文件名
@@ -426,9 +374,10 @@ angular
         }
         return httpMethod;
     }])
+
     //活动使用范围 1、全国范围，2、省区域内，3、县市内 转换文本
-    .filter('activityRangeType', function () {
-        return function (stateValue) {
+    .filter('activityRangeType', function() {
+        return function(stateValue) {
             switch (stateValue) {
                 case 1:
                     return '全国范围';
@@ -444,26 +393,26 @@ angular
     })
     //商户状态 0、待生效；1、在用；2、暂停；3、注销
     .filter('merchantStateCdFilter', function() {
-            return function(stateValue) {
-                switch (stateValue) {
-                    case 0:
-                        return '待生效';
-                        break;
-                    case 1:
-                        return '在用';
-                        break;
-                    case 2:
-                        return '暂停';
-                        break;
-                    case 3:
-                        return '注销';
-                        break;
-                }
+        return function(stateValue) {
+            switch (stateValue) {
+                case 0:
+                    return '待生效';
+                    break;
+                case 1:
+                    return '在用';
+                    break;
+                case 2:
+                    return '暂停';
+                    break;
+                case 3:
+                    return '注销';
+                    break;
             }
-        })
+        }
+    })
     //活动执行周期1、每天，2、每周中某几天，3、每月中某几天
-    .filter('execCycleType', function () {
-        return function (stateValue) {
+    .filter('execCycleType', function() {
+        return function(stateValue) {
             switch (stateValue) {
                 case 1:
                     return '每天';
@@ -479,8 +428,16 @@ angular
     })
 
     //总控制器
-    .controller('pageCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', function($scope, $rootScope, $log, httpMethod) {
-        $scope.isShow1 = $scope.isShow2 = $scope.isShow3 = $scope.isShow4 = true;
+    .controller('pageCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
+            $scope.isShow1 = $scope.isShow2 = $scope.isShow3 = $scope.isShow4 = true;
+            $scope.reduceSubmit = function(item){
+                paramData.activityApply.applyOptType = item;
+                httpMethod.apply(paramData).then(function(rsp) {
+                    $log.log('立减申请提交成功.');
+                }, function() {
+                    $log.log('立减申请提交失败.');
+                });
+            }
     }])
     //申请人信息控制器
     .controller('applicantInfoFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
@@ -518,7 +475,7 @@ angular
         };
         $scope.startapplication = false;
     }])
-    
+
     //活动信息
     .controller('ActivityInfoCtrl', ['$scope', '$rootScope', '$filter', '$timeout', '$log', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $timeout, $log, paramData, httpMethod) {
 
@@ -603,7 +560,7 @@ angular
             $log.log('获取属性离散值列表失败.');
         });
 
-         $scope.activityInfo = {
+        $scope.activityInfo = {
             activityId: '0', //活动Id
             activityName: '', //活动名称
             activityDesc: '', //活动描述
@@ -611,7 +568,7 @@ angular
             activityStartDate: '', //活动开始日期
             activityEndDate: '', //活动结束日期
             execCycle: '', //活动执行周期1、每天，2、每周中某几天，3、每月中某几天
-            execCyclePoint: '', 
+            execCyclePoint: '',
             //活动执行周期时间点EXECCYCLE为1时该字段为空且为全天，EXECCYCLE为2或3时，标识每周的周几，或每月的几号，多个值用逗号隔开
             execStartTime: '', //每日开始时间,格式为时分秒（000000），为空时为全天
             execEndTime: '', //每日结束时间, 格式为时分秒（000000），为空时为全天
@@ -740,7 +697,7 @@ angular
             });
             _.set(activityAttr, [index, 'attrValue'], newObj);
         });
-        
+
 
         $scope.activityReduceForm = {
             createStartDt: '', //制单日期开始
@@ -769,7 +726,7 @@ angular
             paramData.activityInfo.activityEndDate = $filter('date')(newValue, 'yyyy-MM-dd HH:mm:ss');
         });
 
-        $scope.submit = function(){
+        $scope.submit = function() {
             $log.log(paramData);
         }
 
@@ -1061,9 +1018,7 @@ angular
 
     //成本配置
     .controller('costSharingCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', 'paramData', function($scope, $rootScope, $log, $uibModal, httpMethod, paramData) {
-
-        $rootScope.costSharingList = [];
-
+        $scope.costSharingList = paramData.activityCostSharings;
         $scope.costSharing = function(item) {
             var modalInstance = $uibModal.open({
                 animation: 'true',
@@ -1085,18 +1040,20 @@ angular
     .controller('costSharingModalCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', 'items', 'httpMethod', 'paramData', function($uibModalInstance, $scope, $rootScope, $log, items, httpMethod, paramData) {
         var $ctrl = this;
 
+        $ctrl.items = items;
+
         $scope.currentPage = 1; //当前页
         $scope.rowNumPerPage = 10; //每页显示行数
         $scope.totalNum = 0; //总条数
         $scope.maxSize = 4; //最大显示页码数
 
-        if($rootScope.costSharingList.length!=0){
+        if ($ctrl.items.length != 0) {
             $rootScope.shareMethodList = [];
-            $rootScope.shareMethodList = _.cloneDeep($rootScope.costSharingList);
+            $rootScope.shareMethodList = _.cloneDeep($ctrl.items);
             _.map($rootScope.shareMethodList, function(item) {
                 _.set(item, '$$hashKey', null);
             });
-        }else{
+        } else {
             httpMethod.queryPartakeShareMethod().then(function(rsp) {
                 $rootScope.shareMethodList = rsp.data.shareMethodList;
                 $scope.totalNum = rsp.data.total;
@@ -1106,17 +1063,15 @@ angular
             });
         };
 
-        $scope.delLine = function(index){
+        $scope.delLine = function(index) {
             $rootScope.shareMethodList[index].shareRatio = '';
             $rootScope.shareMethodList[index].paymentDept = '';
             $rootScope.shareMethodList[index].prepaymentQryNbr = '';
         };
 
         $ctrl.ok = function() {
-
-            $rootScope.costSharingList = [];
-
-            _.map($rootScope.shareMethodList, function(item, index){
+            $ctrl.items.length = 0;
+            _.map($rootScope.shareMethodList, function(item, index) {
                 var param_activity = {};
                 _.set(param_activity, 'retailShopItem', item.retailShopItem ? item.retailShopItem : '');
                 _.set(param_activity, 'shareMethod', item.shareMethod ? item.shareMethod : '');
@@ -1128,14 +1083,14 @@ angular
                 _.set(param_activity, 'paymentDept', item.paymentDept ? item.paymentDept : '');
                 _.set(param_activity, 'prepaymentQryNbr', item.prepaymentQryNbr ? item.prepaymentQryNbr : '');
                 _.set(param_activity, 'settlementMethod', item.settlementMethod ? item.settlementMethod : '');
-                $rootScope.costSharingList.push(param_activity);
+                $ctrl.items.push(param_activity);
             });
 
             $uibModalInstance.close();
 
             paramData.activityCostSharings = [];
-            _.map($rootScope.shareMethodList, function(item, index){
-                if(item.shareRatio > 0){
+            _.map($rootScope.shareMethodList, function(item, index) {
+                if (item.shareRatio > 0) {
                     var param_activity = {};
                     _.set(param_activity, 'partakeId', item.partakeId ? item.partakeId : '');
                     _.set(param_activity, 'shareRatio', item.shareRatio ? item.shareRatio : '');
@@ -1154,9 +1109,8 @@ angular
     }])
 
     //商户信息
-    .controller('merchantInfoCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', function($scope, $rootScope, $log, $uibModal, httpMethod) {
-
-        $scope.merchantList = [];
+    .controller('merchantInfoCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', 'paramData', function($scope, $rootScope, $log, $uibModal, httpMethod, paramData) {
+        $scope.merchantList = paramData.merchants;
         $scope.merchantEdit = function(item) {
             var modalInstance = $uibModal.open({
                 animation: 'true',
@@ -1178,22 +1132,45 @@ angular
 
         var $ctrl = this;
         $ctrl.items = items;
-        $ctrl.currentPage = 1; //当前页
-        $ctrl.rowNumPerPage = 10; //每页显示行数
-        $ctrl.totalNum = 0; //总条数
-        $ctrl.maxSize = 4; //最大显示页码数
+        $scope.currentPage = 1; //当前页
+        $scope.rowNumPerPage = 5; //每页显示行数
+        $scope.totalNum = 0; //总条数
+        $scope.maxSize = 8; //最大显示页码数
 
-        $scope.addLine = function(){
-            // $ctrl.items.push({});
-        }
+        $scope.currentPageList = _.chunk($ctrl.items, $scope.rowNumPerPage)[$scope.currentPage - 1]; //当前分页数据列表
+        //切换页
+        $scope.pageChanged = function() {
+            $scope.currentPageList = _.chunk($ctrl.items, $scope.rowNumPerPage)[$scope.currentPage - 1];
+        };
+        $scope.$watch('$ctrl.items', function(newValue) {
+            $scope.totalNum = _.size(newValue);
+            $scope.currentPageList = _.chunk(newValue, $scope.rowNumPerPage)[$scope.currentPage - 1];
+        }, true);
 
-        $scope.delLine = function(index){
-            $rootScope.activeMerchantsList.splice(index, 1);
+        $scope.merchantImport = function(item) {
+                var modalInstance = $uibModal.open({
+                    backdrop: 'static',
+                    keyboard: false,
+                    animation: 'true',
+                    templateUrl: 'merchantImportModal.html',
+                    controller: 'merchantImportModalCtrl',
+                    controllerAs: '$ctrl',
+                    size: 'lg',
+                    resolve: {
+                        items: function() {
+                            return $ctrl.items;
+                        }
+                    }
+                });
+            };
+
+        $scope.delLine = function(index) {
+            $ctrl.items.splice(index, 1);
         }
 
         $ctrl.ok = function() {
             paramData.merchants = [];
-            _.map($rootScope.activeMerchantsList, function(item, index){
+            _.map($ctrl.items, function(item, index) {
                 var param_merchants = {};
                 _.set(param_merchants, 'merchantId', item.merchantId ? item.merchantId : '');
                 _.set(param_merchants, 'merchantCode', item.merchantCode ? item.merchantCode : '');
@@ -1201,8 +1178,6 @@ angular
 
                 paramData.merchants.push(param_merchants);
             });
-
-            $log.log(paramData);
 
             $uibModalInstance.close();
         };
@@ -1222,35 +1197,79 @@ angular
                 size: 'lg',
                 resolve: {
                     items: function() {
-                        return $scope.merchantList;
+                        return $ctrl.items;
                     }
                 }
             });
         };
-
     }])
-    .controller('merchantChooseCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', '$uibModal', 'items', 'httpMethod', function($uibModalInstance, $scope, $rootScope, $log, $uibModal, items, httpMethod) {
+    .controller('merchantImportModalCtrl', ['$uibModalInstance', '$scope', '$log', 'uiUploader', 'items', 'httpMethod', function($uibModalInstance, $scope, $log, uiUploader, items, httpMethod) {
         var $ctrl = this;
-        $ctrl.items = items;
-        $ctrl.currentPage = 1; //当前页
-        $ctrl.rowNumPerPage = 10; //每页显示行数
-        $ctrl.totalNum = 0; //总条数
-        $ctrl.maxSize = 4; //最大显示页码数
-
         $ctrl.ok = function() {
             $uibModalInstance.close();
         };
-
         $ctrl.cancel = function() {
+            var merchantsList = _.get($ctrl.resp, 'data.merchants');
+            _.map(merchantsList, function(item) {
+                var obj = _.assign(item, { rscId: 0 });
+                items.unshift(obj);
+            });
             $uibModalInstance.dismiss('cancel');
         };
+        $ctrl.resp = null; //上传完毕接口返回的response信息；
+        $ctrl.files = []; //上传的文件列表；
+        $ctrl.isNotAllowClose = false; //是否不允许关闭弹框；
+        $ctrl.isNotAllowUpload = true; //是否不允许上传；
+        $ctrl.grantUploadTemplete = httpConfig.siteUrl + '/activity/downLoad/merchantTemplete'; //模板下载地址
+        $ctrl.btn_remove = function(file) {
+            uiUploader.removeFile(file);
+        };
+        $ctrl.btn_clean = function() {
+            uiUploader.removeAll();
+        };
+        $ctrl.btn_upload = function() {
+            $ctrl.isNotAllowClose = true;
+            uiUploader.startUpload({
+                url: httpConfig.siteUrl + '/activity/activityMerchantUpload',
+                concurrency: 1,
+                onProgress: function(file) {
+                    $log.info(file.name + '=' + file.humanSize);
+                    $scope.$apply();
+                },
+                onCompleted: function(file, response) {
+                    $ctrl.isNotAllowClose = false;
+                    $ctrl.isNotAllowUpload = true;
+                    $ctrl.resp = JSON.parse(response);
+                    $scope.$apply();
+                }
+            });
+        };
+        $ctrl.checkFiles = function() {
+            var element = document.getElementById('merchantImportInput');
+            if (element) {
+                element.addEventListener('change', function(e) {
+                    $ctrl.resp = null;
+                    $ctrl.files = uiUploader.removeAll();
+                    $ctrl.isNotAllowUpload = true;
+                    var files = e.target.files;
+                    uiUploader.addFiles(files);
+                    $ctrl.files = uiUploader.getFiles();
+                    $ctrl.isNotAllowUpload = false;
+                    $scope.$apply();
+                });
+            }
+        };
+    }])
+    .controller('merchantChooseCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', 'items', function($uibModalInstance, $scope, $rootScope, $log, $uibModal, httpMethod, items) {
 
         var $ctrl = this;
+        $ctrl.items = items;
         $ctrl.merchantName = ''; //名称
         $ctrl.merchantCode = ''; //商户编码
         $ctrl.cityId = ''; //地市ID
         $ctrl.districtId = ''; //区县ID
         $ctrl.businessList = []; //商户列表
+
         $ctrl.currentPage = 1; //当前页
         $ctrl.rowNumPerPage = 10; //每页显示行数
         $ctrl.totalNum = 0; //总条数
@@ -1272,10 +1291,11 @@ angular
         });
 
         $scope.$watch('$ctrl.cityId', function(newValue) {
+            $ctrl.districtId = '';
             if (newValue) {
                 var param = {
                     level: '4',
-                    parentAreaId: $ctrl.cityId
+                    parentAreaId: newValue
                 };
                 httpMethod.qryArea(param).then(function(rsp) {
                     $ctrl.districtList = rsp.data.area;
@@ -1289,15 +1309,14 @@ angular
         });
 
         //条件查询
-
         $ctrl.conditionQuery = function() {
             var param = {
                 merchantName: $ctrl.merchantName, //厅店名称
                 merchantCode: $ctrl.merchantCode, //厅店ID
                 cityId: $ctrl.cityId, //地市ID
                 districtId: $ctrl.districtId, //区县ID
-                areaList: [],//活动地区
-                stateCdList: [],//状态列表
+                areaList: [], //活动地区
+                stateCdList: [], //状态列表
                 pageSize: $ctrl.rowNumPerPage, //每页条数
                 curPage: $ctrl.currentPage //当前页
             };
@@ -1317,7 +1336,7 @@ angular
         };
 
         $ctrl.ok = function() {
-            $rootScope.activeMerchantsList.push($ctrl.todoChecked);
+            $ctrl.items.push($ctrl.todoChecked);
             $uibModalInstance.close();
         };
         $ctrl.cancel = function() {
