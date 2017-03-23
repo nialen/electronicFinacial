@@ -371,6 +371,16 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 }
             });
 
+            //营销活动-立减申请提交
+            Mock.mock(httpConfig.siteUrl + '/efmp-activity-web/activity/apply', {
+                'rsphead': 's',
+                'success': 'true',
+                'code': null,
+                'msg': null,//失败信息
+                'error': null,
+                'data': null
+            });
+
         }
         return httpMethod;
     }])
@@ -443,10 +453,34 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     applyOptType: item
                 }
                 paramData.activityApply = param;
+                var swaltitle = '';
+                switch (item) {
+                    case 0:
+                        swaltitle = '保存';
+                        break;
+                    case 1:
+                        swaltitle = '提交审批';
+                        break;
+                };
                 httpMethod.apply(paramData).then(function(rsp) {
-                    $log.log('立减申请提交成功.');
-                }, function() {
-                    $log.log('立减申请提交失败.');
+                    if (rsp.success) {
+                        swal({
+                            title: '恭喜你.',
+                            text: '营销活动立减'+ swaltitle +'成功',
+                            type: 'success',
+                            confirmButtonText: '确定'
+                        });     
+                        $log.log('调用提交营销活动立减接口成功.');           
+                    } else {
+                        swal({
+                            title: 'OMG!',
+                            text: '营销活动立减'+ swaltitle +'失败',
+                            type: 'error',
+                            confirmButtonText: '确定'
+                        });
+                        $log.log('调用提交营销活动立减接口失败.');
+                    };
+                    
                 });
             }
     }])
