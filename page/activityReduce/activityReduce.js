@@ -431,7 +431,18 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
     .controller('pageCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             $scope.isShow1 = $scope.isShow2 = $scope.isShow3 = $scope.isShow4 = true;
             $scope.reduceSubmit = function(item){
-                paramData.activityApply.applyOptType = item;
+                var param = {
+                    applyCompany: $rootScope.activityApply.applyCompany ? $rootScope.activityApply.applyCompany  : '',
+                    applyProvinceId: $rootScope.activityApply.applyProvinceId ? $rootScope.activityApply.applyProvinceId  : '',
+                    applyStateDate: $rootScope.activityApply.applyStateDate ? $rootScope.activityApply.applyStateDate  : '',
+                    applyStateCd: $rootScope.activityApply.applyStateCd ? $rootScope.activityApply.applyStateCd  : '',
+                    applyMan: $rootScope.activityApply.applyMan ? $rootScope.activityApply.applyMan  : '',
+                    linkTele: $rootScope.activityApply.linkTele ? $rootScope.activityApply.linkTele  : '',
+                    linkEmail: $rootScope.activityApply.linkEmail ? $rootScope.activityApply.linkEmail  : '',
+                    activityTplId: $rootScope.activityApply.activityTplId ? $rootScope.activityApply.activityTplId  : '',
+                    applyOptType: item
+                }
+                paramData.activityApply = param;
                 httpMethod.apply(paramData).then(function(rsp) {
                     $log.log('立减申请提交成功.');
                 }, function() {
@@ -442,7 +453,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
     //申请人信息控制器
     .controller('applicantInfoFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
 
-        $scope.activityApply = {
+        $rootScope.activityApply = {
             applyCompany: '', //申请单位
             applyProvinceId: '000000', //申请省份id
             applyProvinceName: '四川省', //申请省份
@@ -450,6 +461,9 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             applyMan: '', //申请人
             linkTele: '', //联系电话
             linkEmail: '', //联系邮箱
+            applyStateCd: '1', //活动状态
+            activityTplId: '2', //活动模板类型
+            applyOptType: ''
         };
 
         //时间控件
@@ -461,11 +475,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         };
 
         $scope.$watch('applyStateDate', function(newValue) {
-            $scope.activityApply.applyStateDate = $filter('date')(newValue, 'yyyy-MM-dd HH:mm:ss');
-        });
-
-        $scope.$watch('activityApply', function(newValue) {
-            paramData.activityApply = newValue;
+            $rootScope.activityApply.applyStateDate = $filter('date')(newValue, 'yyyy-MM-dd HH:mm:ss');
         });
 
         $scope.applicationOpen = function() {
