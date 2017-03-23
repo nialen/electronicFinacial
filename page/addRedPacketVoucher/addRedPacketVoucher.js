@@ -932,6 +932,9 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             } else {
                 httpMethod.queryPartakeShareMethod().then(function(rsp) {
                     $scope.shareMethodList = rsp.data.shareMethodList;
+                    _.map($scope.shareMethodList, function(item) {
+                        $ctrl.items.push(item);
+                    });
                     $scope.totalNum = rsp.data.total;
                 });
             };
@@ -946,15 +949,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     'paymentDept': '', // 付款单位机构名称
                     'prepaymentQryNbr': '', // 付款机构代码
                 });
-            };
-
-            $ctrl.ok = function() {
-                if (!_.size($ctrl.items)) {
-                    _.map($scope.shareMethodList, function(item) {
-                        $ctrl.items.push(item);
-                    });
-                };
-                $uibModalInstance.close();
             };
 
             $ctrl.cancel = function() {

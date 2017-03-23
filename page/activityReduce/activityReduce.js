@@ -632,8 +632,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                             text: '营销活动立减'+ swaltitle +'成功',
                             type: 'success',
                             confirmButtonText: '确定'
-                        });     
-                        $log.log('调用提交营销活动立减接口成功.');           
+                        });
+                        $log.log('调用提交营销活动立减接口成功.');
                     } else {
                         swal({
                             title: 'OMG!',
@@ -643,7 +643,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                         });
                         $log.log('调用提交营销活动立减接口失败.');
                     };
-                    
+
                 });
             }
     }])
@@ -1223,7 +1223,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
     }])
     //成本配置
     .controller('costCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', '$uibModal', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, $uibModal, paramData) {
-
         $scope.subResources = paramData.activityCostSharings;
 
         $scope.editCostAllocation = function() {
@@ -1255,6 +1254,9 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         } else {
             httpMethod.queryPartakeShareMethod().then(function(rsp) {
                 $scope.shareMethodList = rsp.data.shareMethodList;
+                _.map($scope.shareMethodList, function(item) {
+                    $ctrl.items.push(item);
+                });
                 $scope.totalNum = rsp.data.total;
             });
         };
@@ -1269,32 +1271,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 'paymentDept': '', // 付款单位机构名称
                 'prepaymentQryNbr': '', // 付款机构代码
             });
-        };
-
-        $ctrl.ok = function() {
-            if (!_.size($ctrl.items)) {
-                _.map($scope.shareMethodList, function(item) {
-                    $ctrl.items.push(item);
-                });
-            };
-
-            paramData.activityCostSharings = [];
-            _.map($ctrl.items, function(item, index) {
-                if(item.shareRatio > 0){
-                    var param_activityCostSharings = {};
-                    _.set(param_activityCostSharings, 'partakeId', item.partakeId ? item.partakeId : '');
-                    _.set(param_activityCostSharings, 'shareRatio', item.shareRatio ? item.shareRatio : '');
-                    _.set(param_activityCostSharings, 'shareMethod', item.shareType.shareMethod ? item.shareType.shareMethod : '');
-                    _.set(param_activityCostSharings, 'paymentDept', item.paymentDept ? item.paymentDept : '');
-                    _.set(param_activityCostSharings, 'prepaymentQryNbr', item.prepaymentQryNbr ? item.prepaymentQryNbr : '');
-                    _.set(param_activityCostSharings, 'settlementMethod', item.settlementMethod ? item.settlementMethod : '');
-
-                    paramData.activityCostSharings.push(param_activityCostSharings);
-                }
-            });
-
-
-            $uibModalInstance.close();
         };
 
         $ctrl.cancel = function() {
@@ -1360,20 +1336,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
         $scope.delLine = function(index) {
             $ctrl.items.splice(index, 1);
-        }
-
-        $ctrl.ok = function() {
-            paramData.merchants = [];
-            _.map($ctrl.items, function(item, index) {
-                var param_merchants = {};
-                _.set(param_merchants, 'merchantId', item.merchantId ? item.merchantId : '');
-                _.set(param_merchants, 'merchantCode', item.merchantCode ? item.merchantCode : '');
-                _.set(param_merchants, 'merchantName', item.merchantName ? item.merchantName : '');
-
-                paramData.merchants.push(param_merchants);
-            });
-
-            $uibModalInstance.close();
         };
 
         $ctrl.cancel = function() {
