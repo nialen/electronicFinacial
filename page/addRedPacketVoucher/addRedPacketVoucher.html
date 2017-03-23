@@ -208,7 +208,7 @@
                     <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th width="8%">成本分摊方</th>
+                                <th width="12%">成本分摊方</th>
                                 <th width="10%">成本比例</th>
                                 <th width="10%">成本支付方式</th>
                                 <th width="28%">付款单位机构名称／预付费查询名称</th>
@@ -217,44 +217,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr ng-repeat="item in subResources" ng-if="item.shareRatio > 0">
                                 <td>
-                                    <p class="overflow-handle">地市公司地市公司</p>
+                                    <p ng-bind="item.partakeName" class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p class="overflow-handle"></p>
+                                    <p ng-bind="item.shareRatio" class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p class="overflow-handle"></p>
+                                    <p ng-bind="item.shareType.shareMethodName" class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p class="overflow-handle">付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称付款单位机构名称／预付费查询名称</p>
+                                    <p ng-bind="item.paymentDept" class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p class="overflow-handle"></p>
+                                    <p ng-bind="item.prepaymentQryNbr" class="overflow-handle"></p>
                                 </td>
                                 <td>
-                                    <p class="overflow-handle"></p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p class="overflow-handle">商户</p>
-                                </td>
-                                <td>
-                                    <p class="overflow-handle"></p>
-                                </td>
-                                <td>
-                                    <p class="overflow-handle"></p>
-                                </td>
-                                <td>
-                                    <p class="overflow-handle"></p>
-                                </td>
-                                <td>
-                                    <p class="overflow-handle"></p>
-                                </td>
-                                <td>
-                                    <p class="overflow-handle"></p>
+                                    <p ng-bind="item.settlementMethod | settlementMethodFilter" class="overflow-handle"></p>
                                 </td>
                             </tr>
                         </tbody>
@@ -281,45 +261,42 @@
                         <p>成本分摊表</p>
                     </div>
                 </div>
-                <div class="col-xs-8 text-right">
-                    <button ng-click="addLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 新增分摊方</button>
-                </div>
             </div>
             <div class="activity-content activity-content-s">
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th width="8%">成本分摊方</th>
-                            <th width="14%">成本比例</th>
-                            <th width="14%">成本支付方式</th>
-                            <th>付款单位机构名称／预付费查询名称</th>
-                            <th width="28%">付款机构代码／预付款查询号</th>
-                            <th width="100">操作</th>
+                            <th width="12%">成本分摊方</th>
+                            <th width="12%">成本比例</th>
+                            <th>成本支付方式</th>
+                            <th width="25%">付款单位机构名称／预付费查询名称</th>
+                            <th width="25%">付款机构代码／预付款查询号</th>
+                            <th width="10%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in $ctrl.items">
+                        <tr ng-repeat="opt in shareMethodList">
                             <td>
-                                <p class="overflow-handle"></p>
+                                <p class="overflow-handle" ng-bind="opt.partakeName"></p>
                             </td>
                             <td>
-                                <input class="form-control" type="text" />
+                                <input class="form-control text-center" type="number" min="0" max="" ng-model="opt.shareRatio" required />
                             </td>
                             <td>
                                 <div class="select-box">
-                                    <select class="form-control">
-                                        <option value=""></option>
+                                    <select class="form-control" ng-model="opt.shareType" ng-options="item as item.shareMethodName for item in opt.shareTypeList">
+                                        <option value="">请选择支付方式</option>
                                     </select>
                                 </div>
                             </td>
                             <td>
-                                <input class="form-control" type="text" />
+                                <input class="form-control" type="text" ng-model="opt.paymentDept" />
                             </td>
                             <td>
-                                <input class="form-control" type="text" />
+                                <input class="form-control" type="text" ng-model="opt.prepaymentQryNbr" />
                             </td>
                             <td>
-                                <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe7ac;</i> 清空</button>
+                                <button ng-click="delLine(opt)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe7ac;</i> 清空</button>
                             </td>
                         </tr>
                     </tbody>
@@ -327,7 +304,7 @@
             </div>
             <div class="text-center page">
                 <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
-                <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+                <div class="page-num">共<span class="number" ng-bind="totalNum"></span>条记录，当前显示第<span class="number" ng-bind="currentPage"></span>页</div>
             </div>
         </div>
         <div class="modal-footer">
@@ -496,11 +473,11 @@
                     <thead>
                         <tr>
                             <th width="8%">选择</th>
-                            <th width="25%">编码</th>
-                            <th width="25%">名称</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th width="20%">编码</th>
+                            <th width="20%">名称</th>
+                            <th width="25%">商户地址</th>
+                            <th width="10%">所属地区</th>
+                            <th>所属分支局</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -515,13 +492,13 @@
                                 <p ng-bind="item.merchantName"></p>
                             </td>
                             <td>
-                                <p></p>
+                                <p ng-bind="item.merchantAddr" class="overflow-handle"></p>
                             </td>
                             <td>
-                                <p></p>
+                                <p ng-bind="item.areaName" class="overflow-handle"></p>
                             </td>
                             <td>
-                                <p></p>
+                                <p ng-bind="item.orgName" class="overflow-handle"></p>
                             </td>
                         </tr>
                     </tbody>
