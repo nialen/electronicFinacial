@@ -190,13 +190,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             return httpMethod;
         }])
-        .controller('merchantVoucherCtrl', ['$scope', '$rootScope', '$log', '$window', function($scope, $rootScope, $log, $window) {
-            $($window).on("message", function(e){
-                debugger
-                $rootScope.redPacket = event.data;
-                // console.log(event.data, 'postMessage');
-            });
-        }])
         .controller('activityApplyFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
             $scope.showInformation = true;
             $scope.toggleShow = function() {
@@ -324,12 +317,27 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 });
             };
         }])
-        .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
+        .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', '$window', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, $window, paramData) {
             $scope.showFoundation = true;
             $scope.toggleShow = function() {
                 $scope.showFoundation = !$scope.showFoundation;
             };
-            $scope.resources = []; // TODO 接收postMessage传过来的数据，update；
+            $scope.resources = paramData.resources; // TODO 接收postMessage传过来的数据，update；
+            $($window).on("message", function() {
+                var redPacketObj = event.data,
+                    index = _.findIndex($scope.resources, function(item) {
+                        return item.rscId === redPacketObj.rscId;
+                    });
+                if (index === -1) {
+                    _.set(redPacketObj, 'rscId', _.now());
+                    $scope.resources.push(redPacketObj);
+                    $scope.$apply();
+                } else {
+                    $scope.resources.splice(index, 1, redPacketObj);
+                    $scope.$apply();
+                };
+            });
+
             $scope.$watch('resources', function(newValue) {
                 paramData.resources = newValue;
             });
