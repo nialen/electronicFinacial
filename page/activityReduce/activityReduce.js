@@ -272,23 +272,174 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             });
 
             //成本分摊方式查询
-            Mock.mock(httpConfig.siteUrl + '/efmp-common-web/pub/queryPartakeShareMethod', {
-                "rsphead": "s",
-                "success": "true",
-                "code": null,
-                "msg": null,
-                "error": null,
-                "data": {
-                    "shareMethodList|5": [{
-                        "partakeId": "@id",
-                        "partakeName|1": ['支付公司', '省公司', '地市公司', '商户', '第三方'],
-                        "stateCd|1": [1, 2, 3, 4],
-                        "shareMethod|1": [10, 11, 12, 13],
-                        "shareMethodName": "@cword(4)"
-                    }],
-                    "total": 5
-                }
-            });
+                Mock.mock(httpConfig.siteUrl + '/efmp-common-web/pub/queryPartakeShareMethod', {
+                    'rsphead': 's',
+                    'success': 'true',
+                    'code': null,
+                    'msg': null,
+                    'error': null,
+                    'data': {
+                        'shareMethodList': [{
+                            'partakeDesc': '描述',
+                            'partakeId': 1,
+                            'partakeName': '集团支付公司',
+                            'shareTypeList': [{
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 1,
+                                'shareMethodName': '支付公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 2,
+                                'shareMethodName': '省公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 3,
+                                'shareMethodName': '预付款'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 4,
+                                'shareMethodName': '外部成本'
+                            }],
+                            'stateCd': 1,
+                            'stateDate': '2017-03-13 18:05:02',
+                            'shareRatio': 0, // 分摊比例
+                            'shareType': {
+                                'shareMethod': '',
+                                'shareMethodName': ''
+                            },
+                            'paymentDept': '', // 付款单位机构名称
+                            'prepaymentQryNbr': '', // 付款机构代码
+                            'settlementMethod': '1' // 结算方式
+                        }, {
+                            'partakeDesc': '描述',
+                            'partakeId': 2,
+                            'partakeName': '省公司',
+                            'shareTypeList': [{
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 1,
+                                'shareMethodName': '支付公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 2,
+                                'shareMethodName': '省公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 3,
+                                'shareMethodName': '预付款'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 4,
+                                'shareMethodName': '外部成本'
+                            }],
+                            'stateCd': 1,
+                            'stateDate': '2017-03-13 18:05:02',
+                            'shareRatio': 0, // 分摊比例
+                            'shareType': {
+                                'shareMethod': '',
+                                'shareMethodName': ''
+                            },
+                            'paymentDept': '', // 付款单位机构名称
+                            'prepaymentQryNbr': '', // 付款机构代码
+                            'settlementMethod': '1' // 结算方式
+                        }, {
+                            'partakeDesc': '描述',
+                            'partakeId': 3,
+                            'partakeName': '地市公司',
+                            'shareTypeList': [{
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 1,
+                                'shareMethodName': '支付公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 2,
+                                'shareMethodName': '省公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 3,
+                                'shareMethodName': '预付款'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 4,
+                                'shareMethodName': '外部成本'
+                            }],
+                            'stateCd': 1,
+                            'stateDate': '2017-03-13 18:05:02',
+                            'shareRatio': 0, // 分摊比例
+                            'shareType': {
+                                'shareMethod': '',
+                                'shareMethodName': ''
+                            },
+                            'paymentDept': '', // 付款单位机构名称
+                            'prepaymentQryNbr': '', // 付款机构代码
+                            'settlementMethod': '1' // 结算方式
+                        }, {
+                            'partakeDesc': '描述',
+                            'partakeId': 4,
+                            'partakeName': '商户',
+                            'shareTypeList': [{
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 1,
+                                'shareMethodName': '支付公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 2,
+                                'shareMethodName': '省公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 3,
+                                'shareMethodName': '预付款'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 4,
+                                'shareMethodName': '外部成本'
+                            }],
+                            'stateCd': 1,
+                            'stateDate': '2017-03-13 18:05:02',
+                            'shareRatio': 0, // 分摊比例
+                            'shareType': {
+                                'shareMethod': '',
+                                'shareMethodName': ''
+                            },
+                            'paymentDept': '', // 付款单位机构名称
+                            'prepaymentQryNbr': '', // 付款机构代码
+                            'settlementMethod': '1' // 结算方式
+                        }, {
+                            'partakeDesc': '描述',
+                            'partakeId': 5,
+                            'partakeName': '第三方',
+                            'shareTypeList': [{
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 1,
+                                'shareMethodName': '支付公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 2,
+                                'shareMethodName': '省公司成本'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 3,
+                                'shareMethodName': '预付款'
+                            }, {
+                                'createDate': '2017-03-13 18:05:02',
+                                'shareMethod': 4,
+                                'shareMethodName': '外部成本'
+                            }],
+                            'stateCd': 1,
+                            'stateDate': '2017-03-13 18:05:02',
+                            'shareRatio': 0, // 分摊比例
+                            'shareType': {
+                                'shareMethod': '',
+                                'shareMethodName': ''
+                            }, // 选择的成本支付方式
+                            'shareMethodName': '', // 成本支付名称
+                            'paymentDept': '', // 付款单位机构名称
+                            'prepaymentQryNbr': '', // 付款机构代码
+                            'settlementMethod': '1' // 结算方式
+                        }],
+                        'total': 5
+                    }
+
+                });
 
             //商户查询接口
             Mock.mock(httpConfig.siteUrl + '/merchant/qryMerchantPage', {
@@ -420,6 +571,18 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             }
         }
     })
+    .filter('settlementMethodFilter', function() {
+            return function(stateValue) {
+                switch (stateValue) {
+                    case '1':
+                        return '全额结算';
+                        break;
+                    case '2':
+                        return '分批结算';
+                        break;
+                }
+            }
+        })
     //活动执行周期1、每天，2、每周中某几天，3、每月中某几天
     .filter('execCycleType', function() {
         return function(stateValue) {
@@ -1058,120 +1221,80 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             _.set(activityAttr, [index, 'attrValue'], arr.join(','));
         };
     }])
-
-
     //成本配置
-    .controller('costSharingCtrl', ['$scope', '$rootScope', '$log', '$uibModal', 'httpMethod', 'paramData', function($scope, $rootScope, $log, $uibModal, httpMethod, paramData) {
-        $scope.costSharingList = paramData.activityCostSharings;
-        $scope.costSharing = function(item) {
+    .controller('costCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', '$uibModal', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, $uibModal, paramData) {
+
+        $scope.subResources = paramData.activityCostSharings;
+
+        $scope.editCostAllocation = function() {
             var modalInstance = $uibModal.open({
                 animation: 'true',
-                ariaLabelledBy: 'resources-modal-title',
-                ariaDescribedBy: 'resources-modal-body',
                 templateUrl: 'costSharingModal.html',
-                controller: 'costSharingModalCtrl',
+                controller: 'costModalCtrl',
                 controllerAs: '$ctrl',
                 size: 'lg',
                 resolve: {
                     items: function() {
-                        return $scope.costSharingList;
+                        return $scope.subResources;
                     }
                 }
             });
         };
-
     }])
-    .controller('costSharingModalCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', 'items', 'httpMethod', 'paramData', function($uibModalInstance, $scope, $rootScope, $log, items, httpMethod, paramData) {
+    .controller('costModalCtrl', ['$uibModalInstance', '$scope', '$log', 'items', 'httpMethod', 'paramData', function($uibModalInstance, $scope, $log, items, httpMethod, paramData) {
         var $ctrl = this;
-
         $ctrl.items = items;
-
+        $scope.shareMethodList = [];
         $scope.currentPage = 1; //当前页
         $scope.rowNumPerPage = 10; //每页显示行数
         $scope.totalNum = 0; //总条数
         $scope.maxSize = 4; //最大显示页码数
 
-        if ($ctrl.items.length != 0) {
-            $rootScope.shareMethodList = [];
-            $rootScope.shareMethodList = _.cloneDeep($ctrl.items);
-            _.map($rootScope.shareMethodList, function(item) {
-                _.set(item, '$$hashKey', null);
-            });
+        if (_.size($ctrl.items)) {
+            $scope.shareMethodList = $ctrl.items;
         } else {
             httpMethod.queryPartakeShareMethod().then(function(rsp) {
-                $rootScope.shareMethodList = rsp.data.shareMethodList;
+                $scope.shareMethodList = rsp.data.shareMethodList;
                 $scope.totalNum = rsp.data.total;
-                $log.log('查询成本分摊方式成功.');
-            }, function() {
-                $log.log('查询成本分摊方式失败.');
             });
         };
 
-        $scope.delLine = function(index) {
-            $rootScope.shareMethodList[index].shareRatio = '';
-            $rootScope.shareMethodList[index].paymentDept = '';
-            $rootScope.shareMethodList[index].prepaymentQryNbr = '';
+        $scope.delLine = function(item) {
+            item = _.assign(item, {
+                'shareType': {
+                    'shareMethod': '', // 成本支付方式
+                    'shareMethodName': '' // 成本支付名称
+                },
+                'shareRatio': 0, // 分摊比例
+                'paymentDept': '', // 付款单位机构名称
+                'prepaymentQryNbr': '', // 付款机构代码
+            });
         };
 
         $ctrl.ok = function() {
-            $ctrl.items.length = 0;
-            _.map($rootScope.shareMethodList, function(item, index) {
-                var param_activity = {};
-                _.set(param_activity, 'retailShopItem', item.retailShopItem ? item.retailShopItem : '');
-                _.set(param_activity, 'shareMethod', item.shareMethod ? item.shareMethod : '');
-                _.set(param_activity, 'shareMethodName', item.shareMethodName ? item.shareMethodName : '');
-                _.set(param_activity, '$$hashKey', item.$$hashKey ? item.$$hashKey : '');
-                _.set(param_activity, 'partakeName', item.partakeName ? item.partakeName : '');
-                _.set(param_activity, 'partakeId', item.partakeId ? item.partakeId : '');
-                _.set(param_activity, 'shareRatio', item.shareRatio ? item.shareRatio : '');
-                _.set(param_activity, 'paymentDept', item.paymentDept ? item.paymentDept : '');
-                _.set(param_activity, 'prepaymentQryNbr', item.prepaymentQryNbr ? item.prepaymentQryNbr : '');
-                _.set(param_activity, 'settlementMethod', item.settlementMethod ? item.settlementMethod : '');
-                $ctrl.items.push(param_activity);
-            });
-
-            $uibModalInstance.close();
-            }
-        }])
-        .controller('costSharingModalCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', 'items', 'httpMethod', 'paramData', function($uibModalInstance, $scope, $rootScope, $log, items, httpMethod, paramData) {
-            var $ctrl = this;
-            $ctrl.items = items;
-
-            $scope.currentPage = 1; //当前页
-            $scope.rowNumPerPage = 10; //每页显示行数
-            $scope.totalNum = 0; //总条数
-            $scope.maxSize = 4; //最大显示页码数
-            $rootScope.costSharingList = [];
-            if ($rootScope.costSharingList.length != 0) {
-                $rootScope.shareMethodList = [];
-                $rootScope.shareMethodList = _.cloneDeep($rootScope.costSharingList);
-                _.map($rootScope.shareMethodList, function(item) {
-                    _.set(item, '$$hashKey', null);
-                });
-            } else {
-                httpMethod.queryPartakeShareMethod().then(function(rsp) {
-                    $rootScope.shareMethodList = rsp.data.shareMethodList;
-                    $scope.totalNum = rsp.data.total;
-                    $log.log('查询成本分摊方式成功.');
-                }, function() {
-                    $log.log('查询成本分摊方式失败.');
+            if (!_.size($ctrl.items)) {
+                _.map($scope.shareMethodList, function(item) {
+                    $ctrl.items.push(item);
                 });
             };
->>>>>>> 3acc70ca6ad2d9c0ae1bf8dac287eae69930afb8
 
             paramData.activityCostSharings = [];
-            _.map($rootScope.shareMethodList, function(item, index) {
-                if (item.shareRatio > 0) {
-                    var param_activity = {};
-                    _.set(param_activity, 'partakeId', item.partakeId ? item.partakeId : '');
-                    _.set(param_activity, 'shareRatio', item.shareRatio ? item.shareRatio : '');
-                    _.set(param_activity, 'shareMethod', item.shareMethod ? item.shareMethod : '');
-                    _.set(param_activity, 'paymentDept', item.paymentDept ? item.paymentDept : '');
-                    _.set(param_activity, 'prepaymentQryNbr', item.prepaymentQryNbr ? item.prepaymentQryNbr : '');
-                    _.set(param_activity, 'settlementMethod', item.settlementMethod ? item.settlementMethod : '');
-                    paramData.activityCostSharings.push(param_activity);
+            _.map($ctrl.items, function(item, index) {
+                if(item.shareRatio > 0){
+                    var param_activityCostSharings = {};
+                    _.set(param_activityCostSharings, 'partakeId', item.partakeId ? item.partakeId : '');
+                    _.set(param_activityCostSharings, 'shareRatio', item.shareRatio ? item.shareRatio : '');
+                    _.set(param_activityCostSharings, 'shareMethod', item.shareType.shareMethod ? item.shareType.shareMethod : '');
+                    _.set(param_activityCostSharings, 'paymentDept', item.paymentDept ? item.paymentDept : '');
+                    _.set(param_activityCostSharings, 'prepaymentQryNbr', item.prepaymentQryNbr ? item.prepaymentQryNbr : '');
+                    _.set(param_activityCostSharings, 'settlementMethod', item.settlementMethod ? item.settlementMethod : '');
+
+                    paramData.activityCostSharings.push(param_activityCostSharings);
                 }
             });
+
+
+            $uibModalInstance.close();
         };
 
         $ctrl.cancel = function() {

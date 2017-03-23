@@ -520,7 +520,7 @@
                     </div>
                 </div>
             </div>
-            <div class="detail-operate-result" ng-controller="costSharingCtrl">
+            <!-- <div class="detail-operate-result" ng-controller="costSharingCtrl">
                 <div class="row result-header">
                     <div class="col-xs-4">
                         <div class="title">
@@ -582,7 +582,59 @@
                         </table>
                     </div>
                 </div>
+            </div> -->
+            <div class="detail-operate-result" ng-controller="costCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_basicInfo_blue.png">
+                        <p class="title-cn">成本分摊表</p>
+                        <p class="title-en">Cost allocation table</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button class="btn btn-xs btn-set" ng-click="editCostAllocation()"><i class="iconfont">&#xe63e;</i> 修改</button>
+                </div>
             </div>
+            <div class="result-content result-content-activity no-bdl">
+                <div class="activity-content activity-content-s">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="12%">成本分摊方</th>
+                                <th width="10%">成本比例</th>
+                                <th width="10%">成本支付方式</th>
+                                <th width="28%">付款单位机构名称／预付费查询名称</th>
+                                <th width="28%">付款机构代码／预付款查询号</th>
+                                <th>结算方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in subResources" ng-if="item.shareRatio > 0">
+                                <td>
+                                    <p ng-bind="item.partakeName" class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.shareRatio" class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.shareType.shareMethodName" class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.paymentDept" class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.prepaymentQryNbr" class="overflow-handle"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.settlementMethod | settlementMethodFilter" class="overflow-handle"></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
             <div class="detail-operate-result" ng-controller="merchantInfoCtrl">
                 <div class="row result-header">
                     <div class="col-xs-4">
@@ -631,7 +683,72 @@
         </form>
     </div>
     <!-- 成本配置 -->
+    <!-- 成本配置 -->
     <script type="text/ng-template" id="costSharingModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon_config.png">成本配置</h3>
+        </div>
+        <div class="result-list">
+            <div class="row activity-header activity-header-s">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_list_green.png">
+                        <p>成本分摊表</p>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-content activity-content-s">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="12%">成本分摊方</th>
+                            <th width="12%">成本比例</th>
+                            <th>成本支付方式</th>
+                            <th width="25%">付款单位机构名称／预付费查询名称</th>
+                            <th width="25%">付款机构代码／预付款查询号</th>
+                            <th width="10%">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="opt in shareMethodList">
+                            <td>
+                                <p class="overflow-handle" ng-bind="opt.partakeName"></p>
+                            </td>
+                            <td>
+                                <input class="form-control text-center" type="number" min="0" max="" ng-model="opt.shareRatio" required />
+                            </td>
+                            <td>
+                                <div class="select-box">
+                                    <select class="form-control" ng-model="opt.shareType" ng-options="item as item.shareMethodName for item in opt.shareTypeList">
+                                        <option value="">请选择支付方式</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" ng-model="opt.paymentDept" />
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" ng-model="opt.prepaymentQryNbr" />
+                            </td>
+                            <td>
+                                <button ng-click="delLine(opt)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe7ac;</i> 清空</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-bind="totalNum"></span>条记录，当前显示第<span class="number" ng-bind="currentPage"></span>页</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">保存</button>
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+        </div>
+    </script>
+    <!-- <script type="text/ng-template" id="costSharingModal.html">
         <div class="modal-header">
             <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
             <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon_config.png">成本配置</h3>
@@ -695,7 +812,7 @@
             <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">保存</button>
             <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
         </div>
-    </script>
+    </script> -->
     <!-- 活动商户 -->
     <script type="text/ng-template" id="merchantModal.html">
         <div class="modal-header">
