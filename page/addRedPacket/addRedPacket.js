@@ -8,6 +8,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         //活动确认保存入参
         .factory('paramData', [function() {
             var paramData = {
+                'rscId': null,
                 'rscSpecCd': '2', //固定值
                 'rscName': '',
                 'faceMoney': '',
@@ -375,15 +376,26 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 paramData.subResources = newValue;
             });
             $scope.addNewLine = function() {
-
+                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher', JSON.stringify());
             };
             $scope.delLine = function(index) {
                 $scope.splice(index, 1);
             }
         }])
-        .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
-            $scope.submitApply = function(sign) {
-                $log.log(paramData, 'paramData');
+        .controller('submitCtrl', ['$scope', '$rootScope', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $log, $timeout, paramData, httpMethod) {
+            $scope.submitApply = function() {          
+                var frame = window.parent.frames['merchantVoucherRedEnvelopes'];
+                if(frame){
+                    //发送消息
+                    frame.contentWindow.postMessage(paramData, '*');
+                }else{
+                    swal({
+                        title: '操作提醒',
+                        text: '请勿关闭商户代金券红包申请页面',
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                }                
             }
         }])
 });

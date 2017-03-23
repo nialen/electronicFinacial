@@ -205,13 +205,13 @@
                             <tbody>
                                 <tr ng-repeat="item in resources">
                                     <td>
-                                        <input type="number" class="form-control redpacket-input" ng-model="item.totalMoney">
+                                        <p ng-bind="item.rscId"></p>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control redpacket-input" ng-model="item.totalNum">
+                                        <p ng-bind="item.rscName"></p>
                                     </td>
                                     <td>
-                                        <button ng-click="editLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60d;</i> 编辑</button>
+                                        <button ng-click="editLine(item)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe60d;</i> 编辑</button>
                                     </td>
                                 </tr>
                             </tbody>
