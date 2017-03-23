@@ -1029,7 +1029,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             $scope.rowNumPerPage = 10; //每页显示行数
             $scope.totalNum = 0; //总条数
             $scope.maxSize = 4; //最大显示页码数
-
+            $rootScope.costSharingList = [];
             if ($rootScope.costSharingList.length != 0) {
                 $rootScope.shareMethodList = [];
                 $rootScope.shareMethodList = _.cloneDeep($rootScope.costSharingList);
