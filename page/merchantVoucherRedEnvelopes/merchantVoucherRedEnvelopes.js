@@ -190,6 +190,22 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             return httpMethod;
         }])
+        // 资源类型转换文本
+        .filter('rscSpecName', function () {
+            return function (rscSpecCd) {
+                switch (rscSpecCd) {
+                    case 2:
+                        return '翼支付代金券红包';
+                        break;
+                    case 3:
+                        return '翼支付现金红包';
+                        break;
+                    case 4:
+                        return '翼支付子代金券';
+                        break;
+                }
+            }
+        })
         .controller('activityApplyFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, paramData) {
             $scope.showInformation = true;
             $scope.toggleShow = function() {

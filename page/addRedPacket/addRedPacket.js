@@ -8,8 +8,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         //活动确认保存入参
         .factory('paramData', [function() {
             var paramData = {
-                'rscId': null,
-                'rscSpecCd': '2', //固定值
+                'rscSpecCd': 2, //固定值
                 'rscName': '',
                 'faceMoney': '',
                 'totalNum': '',
@@ -169,6 +168,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             return httpMethod;
         }])
+        
         .controller('redPacketCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
 
             //210003 新用户是否可领; 210004 老用户是否可领; 210005 领取身份限制; 210006 用户运营商; 210008 防止URL转发
@@ -388,6 +388,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 if(frame){
                     //发送消息
                     frame.contentWindow.postMessage(paramData, '*');
+                    parent.angular.element(parent.$('#tabs')).scope().removeTab();
                 }else{
                     swal({
                         title: '操作提醒',
