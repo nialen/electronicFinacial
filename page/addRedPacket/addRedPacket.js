@@ -383,12 +383,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function() {
-                // $log.log(paramData, 'paramData');
-                //发送消息
-                var redPacket = JSON.stringify(paramData);
-                debugger
-                // window.postMessage('test', 'http://192.168.16.127:8080/page/merchantVoucherRedEnvelopes/merchantVoucherRedEnvelopes.html');
-                window.parent.frames['merchantVoucherRedEnvelopes'].contentWindow.postMessage('redPacket', '*');
+                //发送消息               
+                window.parent.frames['merchantVoucherRedEnvelopes'].contentWindow.postMessage(paramData, '*');
             }
         }])
 });
