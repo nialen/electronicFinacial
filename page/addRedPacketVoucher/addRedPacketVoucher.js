@@ -5,10 +5,12 @@
 define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'select', 'uploader', 'ui-bootstrap-tpls', 'angular-animate', 'angular-locale_zh-cn'], function(angular, $, httpConfig, swal, _, Mock) {
     angular
         .module('addRedPacketVoucherModule', ['ui.bootstrap', 'ui.select', 'ui.uploader', 'ngAnimate'])
-        .factory('paramData', [function() {
-            var paramData = {
+        .service('paramData', [function() {
+            var id = window.frameElement && window.frameElement.id || '',
+                obj = parent.$('#' + id).attr('data');
+            var paramData = obj ? JSON.parse(obj) : {
                 'rscSpecCd': '', // 代金券红包2；现金红包3；代金券4
-                'rscName': '', // 活动名称-资源数量-面值
+                'rscName': '', // 活动名称
                 'faceMoney': '',
                 'totalNum': '',
                 'totalMoney': '',
@@ -79,6 +81,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
             var httpMethod = {};
+            // 获取对应属性的默认值
+            httpMethod.getAttrValue = function(attrList, attrId) {
+                var index = _.findIndex(attrList, function(item) {
+                    return item.attrId === attrId;
+                });
+                return _.get(attrList, [index, 'attrValue']);
+            };
 
             //查询属性离散值
             httpMethod.qryAttrValueByAttrIds = function(param) {
@@ -489,38 +498,38 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 $log.log('获取属性离散值列表失败.');
             });
 
-
-            $scope.effDate = ''; // 代金券生效日期 210033
-            $scope.expDate = ''; // 代金券失效日期 210034
-            $scope.faceMoney = null; // 制券面值
-            $scope.totalNum = null; // 制券数量
-            $scope.totalMoney = 0; // 制券总金额
+            $scope.effDate = paramData.effDate ? new Date(paramData.effDate) : ''; // 代金券生效日期 210033
+            $scope.expDate = paramData.expDate ? new Date(paramData.expDate) : ''; // 代金券失效日期 210034
+            $scope.faceMoney = paramData.faceMoney || null; // 制券面值
+            $scope.totalNum = paramData.totalNum || null; // 制券数量
+            $scope.totalMoney = paramData.totalMoney || 0; // 制券总金额
             // 券消费限额
             $scope.$watch('faceMoney', function(newObj) {
                 paramData.faceMoney = newObj;
-                $scope.totalMoney = newObj * $scope.totalNum || 0;
+                paramData.totalMoney = $scope.totalMoney = newObj * $scope.totalNum || 0;
             });
             $scope.$watch('totalNum', function(newObj) {
                 paramData.totalNum = newObj;
-                $scope.totalMoney = newObj * $scope.faceMoney || 0;
+                paramData.totalMoney = $scope.totalMoney = newObj * $scope.faceMoney || 0;
             });
 
+            var rscAttrs = _.get(paramData, 'rscAttrs');
             $scope.middlewave = {
-                voucherName: '', // 代金券名称 210026
+                voucherName: httpMethod.getAttrValue(rscAttrs, '210026') || '', // 代金券名称 210026
                 provinceId: '2', // 业务券开展省份 210027
                 provinceName: '四川省',
-                cycle: '', // 指定周期（天） 210031
-                interval: '', // 生效间隔（天） 210032
-                ruleDescription: '', // 代金券使用规则描述 210041
-                SMSTemplate: '', // 代金券默认短信模板 210042
+                cycle: httpMethod.getAttrValue(rscAttrs, '210031') || '', // 指定周期（天） 210031
+                interval: httpMethod.getAttrValue(rscAttrs, '210032') || '', // 生效间隔（天） 210032
+                ruleDescription: httpMethod.getAttrValue(rscAttrs, '210041') || '', // 代金券使用规则描述 210041
+                SMSTemplate: httpMethod.getAttrValue(rscAttrs, '210042') || '', // 代金券默认短信模板 210042
             };
 
-            var rscAttrs = _.get(paramData, 'rscAttrs');
             $scope.$watch('middlewave', function(newObj) {
                 _.map(rscAttrs, function(item, index) {
                     switch (item.attrId) {
                         case '210026':
                             _.set(rscAttrs, [index, 'attrValue'], newObj.voucherName);
+                            _.set(paramData, 'rscName', newObj.voucherName);
                             break;
                         case '210027':
                             _.set(rscAttrs, [index, 'attrValue'], newObj.provinceId);
@@ -957,7 +966,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function() {
-                $log.log(paramData, 'paramData');
                 var frame = window.parent.frames['addRedPacket'];
                 if (frame) {
                     //发送消息
