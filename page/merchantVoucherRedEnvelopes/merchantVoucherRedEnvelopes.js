@@ -347,10 +347,14 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 if (index === -1) {
                     _.set(redPacketObj, 'rscId', _.now());
                     $scope.resources.push(redPacketObj);
-                    $scope.$apply();
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                 } else {
                     $scope.resources.splice(index, 1, redPacketObj);
-                    $scope.$apply();
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                 };
             });
 
@@ -369,9 +373,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             }
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
-            // $rootScope.$on('merchantVoucherRedEnvelopesModule.postmessage', function(ev, data, targetOrigin) {
-            //     console.log(JSON.stringify(data), 'postmessage');
-            // })
             $scope.submitApply = function(sign) {
                 var activityApply = paramData.activityApply;
                 var flag = activityApply.applyCompany.trim() === '' || activityApply.applyStateDate === null || activityApply.applyMan.trim() === '' || activityApply.linkTele.trim() === '' || activityApply.linkEmail.trim() === '';

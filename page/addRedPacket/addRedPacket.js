@@ -222,14 +222,14 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 storeName: '', //商户简称
                 redCashChildTime: '', //子红包链接有效时间（小时）
                 receiveWishes: '', //领取页面祝福语
-                urlAbateTime: '', //链接指定失效时间 
-                shareUrlTitle: '', //分享链接标题 
+                urlAbateTime: '', //链接指定失效时间
+                shareUrlTitle: '', //分享链接标题
                 shareUrlWishes: '', //分享链接祝福语
                 winningRate: '', //中奖率
-                winApplication: '', //中奖跳转应用 
-                winRemind: '', //中奖提示 
+                winApplication: '', //中奖跳转应用
+                winRemind: '', //中奖提示
                 noWinUrl: '', //未中奖链接
-                noWinRemind: '' //未中奖提示 
+                noWinRemind: '' //未中奖提示
             };
 
             var rscAttrs = _.get(paramData, 'rscAttrs');
@@ -391,8 +391,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', '$window', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, $window, paramData) {
             $scope.subResources = paramData.subResources; // TODO 接收postMessage传过来的数据，update；
             $($window).on("message", function() {
-                console.log(event.data, 'data');
-                debugger
                 var redPacketVoucherObj = event.data,
                     index = _.findIndex($scope.subResources, function(item) {
                         return item.rscId === redPacketVoucherObj.rscId;
@@ -400,10 +398,14 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 if (index === -1) {
                     _.set(redPacketVoucherObj, 'rscId', _.now());
                     $scope.subResources.push(redPacketVoucherObj);
-                    $scope.$apply();
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                 } else {
                     $scope.subResources.splice(index, 1, redPacketVoucherObj);
-                    $scope.$apply();
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                 };
             });
             $scope.$watch('subResources', function(newValue) {
