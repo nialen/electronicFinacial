@@ -1622,16 +1622,22 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 paramData.resources = newValue;
             });
             $scope.addNewLine = function() {
-                // TODO 打开红包设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('添加红包', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify());
+                parent.angular.element(parent.$('#tabs')).scope().addTab('设置红包', '/page/addRedPacket/addRedPacket.html', 'returnAddRedPacket');
             };
             $scope.addNewVolume = function() {
-                // TODO 打开代金劵设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('添加代金劵', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher', JSON.stringify());
+                parent.angular.element(parent.$('#tabs')).scope().addTab('设置代金劵', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'retrunAddRedPacketVoucher');
             };
-            $scope.editLine = function(index) {
-                // TODO 打开红包设置页面-编辑
-            }
+            $scope.editLine = function(item) {
+                // TODO 编辑 区别代金券，红包
+                switch(item.rscSpecCd) {
+                    case '3':
+                        parent.angular.element(parent.$('#tabs')).scope().addTab('设置红包', '/page/addRedPacket/addRedPacket.html', 'returnAddRedPacket', JSON.stringify(item));
+                        break;
+                    case '4':
+                        parent.angular.element(parent.$('#tabs')).scope().addTab('设置代金劵', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'retrunAddRedPacketVoucher', JSON.stringify(item));
+                        break;
+                }
+            };
         }])
     // 分页控制器
     .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function($scope, $rootScope, $log) {

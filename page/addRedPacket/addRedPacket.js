@@ -115,6 +115,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 }],
                 'subResources': []
             };
+            paramData.documentId = id; // 区别来源
             return paramData;
         }])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
@@ -448,10 +449,10 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 });
             });
             $scope.addNewLine = function() {
-                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher');
+                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'subAddRedPacketVoucher');
             };
             $scope.editLine = function(item) {
-                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher', JSON.stringify(item));
+                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'subAddRedPacketVoucher', JSON.stringify(item));
             }
             $scope.delLine = function(index) {
                 $scope.subResources.splice(index, 1);
@@ -459,19 +460,24 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function() {
-                var frame = window.parent.frames['merchantVoucherRedEnvelopes'];
-                if (frame) {
-                    //发送消息
-                    frame.contentWindow.postMessage(paramData, '*');
-                    parent.angular.element(parent.$('#tabs')).scope().removeTab();
-                } else {
-                    swal({
-                        title: '操作提醒',
-                        text: '请勿关闭红包申请信息填写页面',
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
-                }
+                switch(paramData.documentId) {
+                    case 'returnAddRedPacket':
+                        var frame = window.parent.frames['activityReturn'];
+                        if (frame) {
+                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                    case 'voucherAddRedPacket':
+                        var frame = window.parent.frames['merchantVoucherRedEnvelopes'];
+                        if (frame) {
+                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                };
             }
         }])
 });

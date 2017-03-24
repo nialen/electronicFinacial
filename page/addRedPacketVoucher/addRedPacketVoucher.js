@@ -77,6 +77,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 'rscMerchantRels': [],
                 'activityCostSharings': []
             };
+            paramData.documentId = id; // 区别来源
             return paramData;
         }])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
@@ -966,19 +967,32 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function() {
-                var frame = window.parent.frames['addRedPacket'];
-                if (frame) {
-                    //发送消息
-                    frame.contentWindow.postMessage(paramData, '*');
-                    parent.angular.element(parent.$('#tabs')).scope().removeTab();
-                } else {
-                    swal({
-                        title: '操作提醒',
-                        text: '请勿关闭红包申请信息填写页面',
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
-                }
+                switch (paramData.documentId) {
+                    case 'retrunAddRedPacketVoucher':
+                        paramData.rscSpecCd = '2';
+                        var frame = window.parent.frames['activityReturn'];
+                        if (frame) {
+                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                    case 'subAddRedPacketVoucher':
+                        var frame;
+                        if (window.parent.frames['addRedPacket']) {
+                            paramData.rscSpecCd = '2';
+                            frame = window.parent.frames['addRedPacket'];
+                        } else if (window.parent.frames['returnAddRedPacket']) {
+                            paramData.rscSpecCd = '4';
+                            frame = window.parent.frames['returnAddRedPacket'];
+                        };
+                        if (frame) {
+                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                };
             }
         }])
 });

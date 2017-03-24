@@ -363,12 +363,12 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             });
             $scope.addNewLine = function() {
                 // TODO 打开红包设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify());
+                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'voucherAddRedPacket', JSON.stringify());
             };
             $scope.editLine = function(index) {
                 // TODO 打开红包设置页面-编辑
                 $scope.redPacket = $scope.resources[index];
-                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify($scope.redPacket));
+                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'voucherAddRedPacket', JSON.stringify($scope.redPacket));
 
             }
         }])
