@@ -13,8 +13,10 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             $rootScope.redCashChildNums = 0; // 210014
         }])
         //活动确认保存入参
-        .factory('paramData', [function() {
-            var paramData = {
+        .service('paramData', [function() {
+            var id = window.frameElement && window.frameElement.id || '',
+                obj = parent.$('#' + id).attr('data');
+            var paramData = obj ? JSON.parse(obj) : {
                 'rscSpecCd': 2, //固定值
                 'rscName': '',
                 'faceMoney': '',
@@ -117,6 +119,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
             var httpMethod = {};
+            // 获取对应属性的默认值
+            httpMethod.getAttrValue = function(attrList, attrId) {
+                var index = _.findIndex(attrList, function(item) {
+                    return item.attrId === attrId;
+                });
+                return _.get(attrList, [index, 'attrValue']);
+            };
 
             //查询属性离散值
             httpMethod.qryAttrValueByAttrIds = function(param) {
@@ -175,9 +184,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             return httpMethod;
         }])
-
-    .controller('redPacketCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
-
+        .controller('redPacketCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
             //210001 红包类型; 210003 新用户是否可领; 210004 老用户是否可领; 210005 领取身份限制; 210006 用户运营商; 210008 防止URL转发
             var param = {
                 attrIdList: ['210001', '210003', '210004', '210005', '210006', '210008']
@@ -216,23 +223,23 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 $log.log('获取属性离散值列表失败.');
             });
 
+            var rscAttrs = _.get(paramData, 'rscAttrs');
             $scope.middlewave = {
-                receiveEmail: '', //红包链接接收邮箱
-                singleUserman: '', //单用户领取次数
-                storeName: '', //商户简称
-                redCashChildTime: '', //子红包链接有效时间（小时）
-                receiveWishes: '', //领取页面祝福语
-                urlAbateTime: '', //链接指定失效时间
-                shareUrlTitle: '', //分享链接标题
-                shareUrlWishes: '', //分享链接祝福语
-                winningRate: '', //中奖率
-                winApplication: '', //中奖跳转应用
-                winRemind: '', //中奖提示
-                noWinUrl: '', //未中奖链接
-                noWinRemind: '' //未中奖提示
+                receiveEmail: httpMethod.getAttrValue(rscAttrs, '210007') || '', //红包链接接收邮箱210007
+                singleUserman: httpMethod.getAttrValue(rscAttrs, '210009') || '', //单用户领取次数210009
+                storeName: httpMethod.getAttrValue(rscAttrs, '210044') || '', //商户简称210044
+                redCashChildTime: httpMethod.getAttrValue(rscAttrs, '210015') || '', //子红包链接有效时间（小时）210015
+                receiveWishes: httpMethod.getAttrValue(rscAttrs, '210016') || '', //领取页面祝福语210016
+                urlAbateTime: httpMethod.getAttrValue(rscAttrs, '210017') || '', //链接指定失效时间210017
+                shareUrlTitle: httpMethod.getAttrValue(rscAttrs, '210018') || '', //分享链接标题210018
+                shareUrlWishes: httpMethod.getAttrValue(rscAttrs, '210019') || '', //分享链接祝福语210019
+                winningRate: httpMethod.getAttrValue(rscAttrs, '210020') || '', //中奖率210020
+                winApplication: httpMethod.getAttrValue(rscAttrs, '210021') || '', //中奖跳转应用210021
+                winRemind: httpMethod.getAttrValue(rscAttrs, '210022') || '', //中奖提示210022
+                noWinUrl: httpMethod.getAttrValue(rscAttrs, '210023') || '', //未中奖链接210023
+                noWinRemind: httpMethod.getAttrValue(rscAttrs, '210024') || '' //未中奖提示210024
             };
 
-            var rscAttrs = _.get(paramData, 'rscAttrs');
             $scope.$watch('middlewave', function(newObj) {
                 _.map(rscAttrs, function(item, index) {
                     switch (item.attrId) {
@@ -278,6 +285,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                     }
                 })
             }, true);
+
+            $scope.rscName = paramData.rscName || '';
 
             $scope.$watch('rscName', function(newValue) {
                 paramData.rscName = newValue
