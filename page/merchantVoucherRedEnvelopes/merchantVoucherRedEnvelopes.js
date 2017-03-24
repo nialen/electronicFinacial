@@ -363,6 +363,9 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             };
             $scope.editLine = function(index) {
                 // TODO 打开红包设置页面-编辑
+                $scope.redPacket = $scope.resources[index];
+                parent.angular.element(parent.$('#tabs')).scope().addTab('红包申请', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify($scope.redPacket));
+
             }
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {

@@ -962,8 +962,21 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             };
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
-            $scope.submitApply = function(sign) {
+            $scope.submitApply = function() {
                 $log.log(paramData, 'paramData');
+                var frame = window.parent.frames['addRedPacket'];
+                if (frame) {
+                    //发送消息
+                    frame.contentWindow.postMessage(paramData, '*');
+                    parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                } else {
+                    swal({
+                        title: '操作提醒',
+                        text: '请勿关闭红包申请信息填写页面',
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                }
             }
         }])
 });
