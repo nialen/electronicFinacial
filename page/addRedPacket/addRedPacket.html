@@ -13,254 +13,258 @@
 </head>
 
 <body>
-	<div class="operate-spec add-redpacket" ng-controller="redPacketCtrl">
-		<form name="activityReduceForm">
-		    <div class="detail-operate-result">
-		        <div class="row result-header">
-		            <div class="col-xs-4">
-		                <div class="title">
-		                    <img src="../../resources/images/icon_redpacket.png">
-		                    <p class="title-cn">红包领取限制</p>
-		                    <p class="title-en">Red envelope restrictions</p>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="result-content result-content-activity">
-		        	<div class="activity-content">
-		        		<table class="table table-hove" ng-cloak>
-		        			<tbody>
-		        				<tr>
-		        					<td width="25%">新用户是否可领</td>
-		        					<td width="25%">
-		        						<ui-select ng-controller="newUsermanMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
-		                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-		                                    <ui-select-choices repeat="area in newUserman | filter:$select.search">
-		                                        {{area.attrValueCode}}
-		                                    </ui-select-choices>
-		                                </ui-select>
-		        					</td>
-		        					<td width="25%">红包名称</td>
-		        					<td width="25%">
-		        						<input type="text" class="form-control redpacket-input" ng-model="rscName"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>领取身份限制</td>
-		        					<td>
-		        						<ui-select ng-controller="receiveLimitMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
-		                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-		                                    <ui-select-choices repeat="area in receiveLimit | filter:$select.search">
-		                                        {{area.attrValueCode}}
-		                                    </ui-select-choices>
-		                                </ui-select>
-		        					</td>
-		        					<td>老用户是否可领</td>
-		        					<td>
-		        						<ui-select ng-controller="oldUsermanMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
-		                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-		                                    <ui-select-choices repeat="area in oldUserman | filter:$select.search">
-		                                        {{area.attrValueCode}}
-		                                    </ui-select-choices>
-		                                </ui-select>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>红包链接限制</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashUrlForid"/>
-		        					</td>
-		        					<td>用户运营商</td>
-		        					<td>
-		        						<ui-select ng-controller="userHouseMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
-		                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-		                                    <ui-select-choices repeat="area in userHouse | filter:$select.search">
-		                                        {{area.attrValueCode}}
-		                                    </ui-select-choices>
-		                                </ui-select>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>红包链接接收邮箱</td>
-		        					<td>
-										<input type="text" class="form-control redpacket-input" ng-model="middlewave.receiveEmail" />
-		        					</td>
-		        					<td>防止URL转发</td>
-		        					<td>
-		        						<ui-select ng-controller="forbidUrlMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
-		                                    <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
-		                                    <ui-select-choices repeat="area in forbidURL | filter:$select.search">
-		                                        {{area.attrValueCode}}
-		                                    </ui-select-choices>
-		                                </ui-select>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>单用户领取次数</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.singleUserman"/>
-		        					</td>
-		        					<td>红包内含子红包个数</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="totalNum"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>商户简称</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.storeName"/>
-		        					</td>
-		        					<td>红包内代金券总张数</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashNums"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>子红包总金额</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="faceMoney"/>
-		        					</td>
-		        					<td>子红包代金券总张数</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashChildNums"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>单个红包总金额</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="totalMoney" disabled/>
-		        					</td>
-		        					<td></td>
-		        					<td></td>
-		        				</tr>
-		        			</tbody>
-		        		</table>
-		        	</div>
-		        </div>
-		    </div>
-		    <div class="detail-operate-result">
-		        <div class="row result-header">
-		            <div class="col-xs-4">
-		                <div class="title">
-		                    <img src="../../resources/images/icon_redpacket.png">
-		                    <p class="title-cn">红包链接</p>
-		                    <p class="title-en">Red link</p>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="result-content result-content-activity">
-		        	<div class="activity-content">
-		        		<table class="table table-hover">
-		        			<tbody>
-		        				<tr>
-		        					<td width="25%">子红包链接有效时间（小时）</td>
-		        					<td width="25%">
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashChildTime"/>
-		        					</td>
-		        					<td width="25%">领取页面祝福语</td>
-		        					<td width="25%">
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.receiveWishes"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>链接指定失效时间</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.urlAbateTime"/>
-		        					</td>
-		        					<td>分享链接标题</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.shareUrlTitle"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>分享链接祝福语</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.shareUrlWishes"/>
-		        					</td>
-		        					<td>中奖率</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.winningRate"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>中奖跳转应用</td>
-		        					<td>
-										<input type="text" class="form-control redpacket-input" ng-model="middlewave.winApplication"/>
-		        					</td>
-		        					<td>中奖提示</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.winRemind"/>
-		        					</td>
-		        				</tr>
-		        				<tr>
-		        					<td>未中奖链接</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.noWinUrl"/>
-		        					</td>
-		        					<td>未中奖提示</td>
-		        					<td>
-		        						<input type="text" class="form-control redpacket-input" ng-model="middlewave.noWinRemind"/>
-		        					</td>
-		        				</tr>
-
-		        			</tbody>
-		        		</table>
-		        	</div>
-		        </div>
-		    </div>
-		    <div class="detail-operate-result" ng-controller="redFoundationCtrl">
-		        <div class="row result-header">
-		            <div class="col-xs-4">
-		                <div class="title">
-		                    <img src="../../resources/images/icon_redpacket.png">
-		                    <p class="title-cn">子红包内代金券</p>
-		                    <p class="title-en">Sub red Neidaijin coupons</p>
-		                </div>
-		            </div>
-		            <div class="col-xs-8 text-right">
-	                    <button  class="btn btn-xs btn-set" ng-click="addNewLine()"><i class="iconfont">&#xe60e;</i> 新增</button>
-	                </div>
-		        </div>
-		        <div class="result-content result-content-activity no-bdl">
-		        	<div class="activity-content activity-content-s">
-		        		<table class="table table-hover table-bordered">
-		                    <thead>
-		                        <tr>
-		                            <th>代金券名称</th>
-			        				<th>代金券面值</th>
-			        				<th>子红包内张数</th>
-			        				<th>子红包内制券总额</th>
-			        				<th width="200">操作</th>
-		                        </tr>
-		                    </thead>
-		                    <tbody>
-		                        <tr ng-repeat="item in subResources">
-		        					<td>
-		        						<p class="overflow-handle">代金券A</p>
-		        					</td>
-		        					<td>
-		        						<p ng-bind="item.faceMoney"></p>
-		        					</td>
-		        					<td>
-		        						<input class="form-control text-center" type="text" ng-model="item.totalNum"/>
-		        					</td>
-		        					<td>
-		        						<p ng-bind="item.totalMoney"></p>
-		        					</td>
-		        					<td>
-										<button class="btn btn-xs btn-set" ng-click="delLine($index)"><i class="iconfont">&#xe610;</i> 删除</button>
-										<button class="btn btn-xs btn-set"><i class="iconfont">&#xe63e;</i> 编辑</button>
-		        					</td>
-		        				</tr>
-		                    </tbody>
-		                </table>
-		        	</div>
-		        </div>
-		    </div>
-		    <div class="activity-action-btns text-center" ng-controller="submitCtrl">
-		    	<button class="btn btn-submit" ng-click="submitApply()">保存</button>
-	            <button class="btn btn-cancel" ng-click="close()">关闭</button>
-	        </div>
-	    </form>
-	</div>
+    <div class="operate-spec add-redpacket" ng-controller="redPacketCtrl">
+        <form name="activityReduceForm">
+            <div class="detail-operate-result">
+                <div class="row result-header">
+                    <div class="col-xs-4">
+                        <div class="title">
+                            <img src="../../resources/images/icon_redpacket.png">
+                            <p class="title-cn">红包领取限制</p>
+                            <p class="title-en">Red envelope restrictions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-content result-content-activity">
+                    <div class="activity-content">
+                        <table class="table table-hove" ng-cloak>
+                            <tbody>
+                                <tr>
+                                    <td width="25%">红包类型</td>
+                                    <td width="25%">
+                                        <ui-select ng-controller="redPacketTypeMultipleCtrl as $ctrl" multiple limit="1" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                            <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                            <ui-select-choices repeat="area in redPacketType | filter:$select.search">
+                                                {{area.attrValueCode}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td width="25%">红包名称</td>
+                                    <td width="25%">
+                                        <input type="text" class="form-control redpacket-input" ng-model="rscName" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>领取身份限制</td>
+                                    <td>
+                                        <ui-select ng-controller="receiveLimitMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                            <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                            <ui-select-choices repeat="area in receiveLimit | filter:$select.search">
+                                                {{area.attrValueCode}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td>老用户是否可领</td>
+                                    <td>
+                                        <ui-select ng-controller="oldUsermanMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                            <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                            <ui-select-choices repeat="area in oldUserman | filter:$select.search">
+                                                {{area.attrValueCode}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="25%">新用户是否可领</td>
+                                    <td width="25%">
+                                        <ui-select ng-controller="newUsermanMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                            <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                            <ui-select-choices repeat="area in newUserman | filter:$select.search">
+                                                {{area.attrValueCode}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td>用户运营商</td>
+                                    <td>
+                                        <ui-select ng-controller="userHouseMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                            <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                            <ui-select-choices repeat="area in userHouse | filter:$select.search">
+                                                {{area.attrValueCode}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>红包链接接收邮箱</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.receiveEmail" />
+                                    </td>
+                                    <td>防止URL转发</td>
+                                    <td>
+                                        <ui-select ng-controller="forbidUrlMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="">
+                                            <ui-select-match>{{$item.attrValueCode}}</ui-select-match>
+                                            <ui-select-choices repeat="area in forbidURL | filter:$select.search">
+                                                {{area.attrValueCode}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>单用户领取次数</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.singleUserman" />
+                                    </td>
+                                    <td>红包内含子红包个数</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="totalNum" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>商户简称</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.storeName" />
+                                    </td>
+                                    <td>红包内代金券总张数</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="redCashNums" disabled/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>子红包总金额</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="faceMoney" disabled/>
+                                    </td>
+                                    <td>子红包代金券总张数</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="redCashChildNums" disabled/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>单个红包总金额</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="totalMoney" disabled/>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-operate-result">
+                <div class="row result-header">
+                    <div class="col-xs-4">
+                        <div class="title">
+                            <img src="../../resources/images/icon_redpacket.png">
+                            <p class="title-cn">红包链接</p>
+                            <p class="title-en">Red link</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-content result-content-activity">
+                    <div class="activity-content">
+                        <table class="table table-hover" ng-cloak>
+                            <tbody>
+                                <tr>
+                                    <td width="25%">子红包链接有效时间（小时）</td>
+                                    <td width="25%">
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.redCashChildTime" />
+                                    </td>
+                                    <td width="25%">领取页面祝福语</td>
+                                    <td width="25%">
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.receiveWishes" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>链接指定失效时间</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.urlAbateTime" />
+                                    </td>
+                                    <td>分享链接标题</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.shareUrlTitle" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>分享链接祝福语</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.shareUrlWishes" />
+                                    </td>
+                                    <td>中奖率</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.winningRate" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>中奖跳转应用</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.winApplication" />
+                                    </td>
+                                    <td>中奖提示</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.winRemind" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>未中奖链接</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.noWinUrl" />
+                                    </td>
+                                    <td>未中奖提示</td>
+                                    <td>
+                                        <input type="text" class="form-control redpacket-input" ng-model="middlewave.noWinRemind" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-operate-result" ng-controller="redFoundationCtrl">
+                <div class="row result-header">
+                    <div class="col-xs-4">
+                        <div class="title">
+                            <img src="../../resources/images/icon_redpacket.png">
+                            <p class="title-cn">子红包内代金券</p>
+                            <p class="title-en">Sub red Neidaijin coupons</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <button class="btn btn-xs btn-set" ng-click="addNewLine()"><i class="iconfont">&#xe60e;</i> 新增</button>
+                    </div>
+                </div>
+                <div class="result-content result-content-activity no-bdl">
+                    <div class="activity-content activity-content-s">
+                        <table class="table table-hover table-bordered" ng-cloak>
+                            <thead>
+                                <tr>
+                                    <th>代金券名称</th>
+                                    <th width="20%">代金券面值</th>
+                                    <th width="20%">子红包内张数</th>
+                                    <th width="20%">子红包内制券总额</th>
+                                    <th width="20%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in subResources">
+                                    <td>
+                                        <p ng-bind="item.rscName" class="overflow-handle"></p>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.faceMoney"></p>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control redpacket-input" ng-model="item.totalNum" />
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.totalMoney"></p>
+                                    </td>
+                                    <td>
+                                        <button ng-click="delLine($index)" class="btn btn-xs btn-set"><i class="iconfont">&#xe610;</i> 删除</button>
+                                        <button ng-click="editLine(item)" class="btn btn-xs btn-set"><i class="iconfont">&#xe63e;</i> 编辑</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-action-btns text-center" ng-controller="submitCtrl">
+                <button class="btn btn-submit" ng-click="submitApply()">保存</button>
+                <button class="btn btn-cancel" ng-click="close()">关闭</button>
+            </div>
+        </form>
+    </div>
     <script src="../../resources/js/require.js" data-main="entry"></script>
 </body>

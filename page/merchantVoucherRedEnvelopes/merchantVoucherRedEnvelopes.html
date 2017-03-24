@@ -205,7 +205,7 @@
                             <tbody>
                                 <tr ng-repeat="item in resources">
                                     <td>
-                                        <p ng-bind="item.rscId"></p>
+                                        <p ng-bind="item.rscSpecCd | rscSpecName"></p>
                                     </td>
                                     <td>
                                         <p ng-bind="item.rscName"></p>
