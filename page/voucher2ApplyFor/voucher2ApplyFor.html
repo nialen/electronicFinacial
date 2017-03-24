@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>代金券2.0申请</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="voucher2ApplyFor.css">
+</head>
+
+<body>
+    <div class="wrapper" ng-cloak>
+        <div class="form-wrap" ng-controller="activityApplyFormCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_list.png">
+                        <p class="title-cn">申请人信息填写</p>
+                        <p class="title-en">Application information</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="toggleShow()" class="btn btn-xs btn-set"><i class="iconfont" ng-class="{'arrow-down': showInformation}">&#xe607;</i> <span ng-bind="showInformation ? '收起':'展开'"></span></button>
+                </div>
+            </div>
+            <div class="information-wrap animate-show" ng-show="showInformation">
+                <form name="activityApplyForm" class="form-inline" role="form">
+                    <div class="row mb10">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="control-label">所属公司：</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="control-label">所属省份：</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="control-label">申请日期：</label>
+                                <input type="text" class="form-control modify-input" uib-datepicker-popup readonly ng-model="activityApply.applyStateDate" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                <span class="icon_time" ng-click="startOpen()"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="control-label">申请人：</label>
+                                <input type="text" class="form-control" ng-model="activityApply.applyMan">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="control-label">联系电话：</label>
+                                <input type="text" class="form-control" ng-model="activityApply.linkTele">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="control-label">联系邮箱：</label>
+                                <input type="text" class="form-control" ng-model="activityApply.linkEmail">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="form-wrap" ng-controller="redPacketCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_store.png">
+                        <p class="title-cn">活动信息填写</p>
+                        <p class="title-en">Activity information</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="toggleShow()" class="btn btn-xs btn-set"><i class="iconfont" ng-class="{'arrow-down': showRedpacket}">&#xe607;</i> <span ng-bind="showRedpacket ? '收起':'展开'"></span></button>
+                </div>
+            </div>
+            <div class="redpacket-wrap animate-show" ng-show="showRedpacket">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="4">/ 活动策划填写</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">活动名称</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input">
+                            </td>
+                            <td>
+                                <p class="redpacket-item">活动编号</p>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control redpacket-input" placeholder="HDBH（自动生成）" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">活动开始时间</p>
+                            </td>
+                            <td>
+                                <div class="datepicker-input">
+                                    <input type="text" id="createStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createStartDt" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="startOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">活动结束时间</p>
+                            </td>
+                            <td>
+                                <div class="datepicker-input">
+                                    <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createEndDt" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="endOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">领取对象</p>
+                            </td>
+                            <td>
+                                <div class="select-box select-box-half">
+                                    <select class="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="redpacket-item">领取范围</p>
+                            </td>
+                            <td>
+                                <div class="select-box select-box-half">
+                                    <select class="form-control">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="redpacket-item">活动地区</p>
+                            </td>
+                            <td colspan="3">
+                                <ui-select ng-controller="areaMultipleCtrl as $ctrl" multiple limit="5" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedAreaList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false" title="最多可以选择5个">
+                                    <ui-select-match>{{$item.name}}</ui-select-match>
+                                    <ui-select-choices repeat="area in $ctrl.areaList | filter:$select.search">
+                                        {{area.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                        </tr>
+                        <tr style="height:50px;">
+                            <td>
+                                <p class="redpacket-item">活动描述</p>
+                            </td>
+                            <td colspan="3">
+                                <textarea></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-wrap" ng-controller="redFoundationCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_store.png">
+                        <p class="title-cn">厅店发放配置</p>
+                        <p class="title-en">Hall store distribution</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button ng-click="toggleShow()" class="btn btn-xs btn-set"><i class="iconfont" ng-class="{'arrow-down': showFoundation}">&#xe607;</i> <span ng-bind="showFoundation ? '收起':'展开'"></span></button>
+                </div>
+            </div>
+            <div class="information-wrap animate-show" ng-show="showFoundation">
+                <div class="staff-man-result">
+                    <div class="row result-header">
+                        <div class="col-xs-4">
+                            <div class="title more">
+                                <img src="../../resources/images/icon_list_green.png">
+                                <p class="title-cn color-green">厅店资源明细</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-8 text-right">
+                            <button ng-click="addNewLine()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60e;</i> 增加一行</button>
+                            <button ng-click="hallImport()" class="btn btn-xs btn-set"><i class="iconfont">&#xe60f;</i> 导入</button>
+                        </div>
+                    </div>
+                    <div class="result-table">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="25%">资源编码</th>
+                                    <th width="15%">资源名称</th>
+                                    <th width="25%">厅店编码</th>
+                                    <th width="15%">厅店名称</th>
+                                    <th width="10%">发放个数</th>
+                                    <th width="10%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in currentPageList">
+                                    <td>
+                                        <span ng-bind="item.resources.rscId"></span>
+                                        <span class="add-new-btn" ng-click="addResources(item)">...</span>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.resources.rscName"></p>
+                                    </td>
+                                    <td>
+                                        <span ng-bind="item.hall.hallId"></span>
+                                        <span class="add-new-btn" ng-click="addHall(item)">...</span>
+                                    </td>
+                                    <td>
+                                        <p ng-bind="item.hall.hallName"></p>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="edit-num-input" ng-model="item.num">
+                                    </td>
+                                    <td>
+                                        <button ng-click="delLine($index)" class="btn btn-xs btn-edit"><i class="iconfont">&#xe610;</i> 删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center page">
+                        <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                        <div class="page-num">共<span class="number" ng-bind="totalNum"></span>条记录，当前显示第<span class="number" ng-bind="currentPage"></span>页</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step-ctrl text-center" ng-cloak ng-controller="submitCtrl">
+            <button ng-click="submitApply()" class="btn btn-cancel">提交审批</button>
+        </div>
+        <!-- 资源选择弹框 -->
+        <script type="text/ng-template" id="resourcesModal.html">
+            <div class="modal-header">
+                <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+                <h3 class="modal-title" id="resources-modal-title"><img class="icon" src="../../resources/images/icon_new.png">资源选择</h3>
+            </div>
+            <!-- 查询 -->
+            <div class="query-keyword-box">
+                <label class="label-keyword">关键字：</label>
+                <div class="form-keyword">
+                    <input type="text" class="form-control" placeholder="请输入关键字进行查询" ng-model="$ctrl.keyword">
+                    <button ng-click="$ctrl.keywordQuery()" class="btn btn-sm btn-keyword"><i class="iconfont">&#xe600;</i> 查询</button>
+                </div>
+            </div>
+            <!-- 结果列表 -->
+            <div class="result-list">
+                <div class="result-modal-header">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="model-header">
+                                <img class="model-img" src="../../resources/images/icon_previlege.png">
+                                <p class="model-title">资源列表</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-table">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="6%">选择</th>
+                                <th width="20%">编码</th>
+                                <th width="20%">名称</th>
+                                <th width="20%">类型</th>
+                                <th width="20%">面值</th>
+                                <th width="14%">状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in $ctrl.resourceList">
+                                <td>
+                                    <input type="radio" name="radio" ng-click="$ctrl.check(item)">
+                                </td>
+                                <td>
+                                    <p ng-bind="item.rscId"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.rscName"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.templet"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.value"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.state"></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center page">
+                    <ul uib-pagination total-items="$ctrl.totalNum" items-per-page="$ctrl.rowNumPerPage" ng-model="$ctrl.currentPage" max-size="$ctrl.maxSize" ng-change="$ctrl.pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                    <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+                </div>
+            </div>
+            <div class="modal-footer" id="resources-modal-footer">
+                <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
+            </div>
+        </script>
+        <!-- 厅店选择弹框 -->
+        <script type="text/ng-template" id="hallModal.html">
+            <div class="modal-header">
+                <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+                <h3 class="modal-title" id="hall-modal-title"><img class="icon" src="../../resources/images/icon_new.png">厅店选择</h3>
+            </div>
+            <!-- 查询 -->
+            <div class="query-hall-box">
+                <form name="queryHall" ng-submit="$ctrl.conditionQuery()" class="form-inline" role="form">
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">厅店编码：</label>
+                                <input type="text" class="form-control" ng-model="$ctrl.hallId">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">厅店名称：</label>
+                                <input type="text" class="form-control" ng-model="$ctrl.hallName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">所属州/市：</label>
+                                <div class="select-box">
+                                    <select class="form-control" ng-model="$ctrl.cityId">
+                                        <option value="">请选择州/市</option>
+                                        <option ng-repeat="item in $ctrl.cityList" value="{{item.areaId}}">{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">所属区/县：</label>
+                                <div class="select-box reduce">
+                                    <select class="form-control" ng-model="$ctrl.districtId">
+                                        <option value="">请选择区/县</option>
+                                        <option ng-repeat="item in $ctrl.districtList" value="{{item.areaId}}">{{item.name}}</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-query fn-right"><i class="iconfont">&#xe600;</i> 查询</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 结果列表 -->
+            <div class="result-list">
+                <div class="result-modal-header">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="model-header">
+                                <img class="model-img" src="../../resources/images/icon_previlege.png">
+                                <p class="model-title">厅店列表</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-table">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="6%">选择</th>
+                                <th width="25%">编码</th>
+                                <th width="35%">名称</th>
+                                <th width="34%">归属分支局</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in $ctrl.hallsList">
+                                <td>
+                                    <input type="radio" name="radio" ng-click="$ctrl.check(item)">
+                                </td>
+                                <td>
+                                    <p ng-bind="item.hallId"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.hallName"></p>
+                                </td>
+                                <td>
+                                    <p ng-bind="item.orgName"></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center page">
+                    <ul uib-pagination total-items="$ctrl.totalNum" items-per-page="$ctrl.rowNumPerPage" ng-model="$ctrl.currentPage" max-size="$ctrl.maxSize" ng-change="$ctrl.pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                    <div class="page-num">共<span class="number" ng-bind="$ctrl.totalNum"></span>条记录，当前显示第<span class="number" ng-bind="$ctrl.currentPage"></span>页</div>
+                </div>
+            </div>
+            <div class="modal-footer" id="hall-modal-footer">
+                <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">确定</button>
+            </div>
+        </script>
+        <!-- 厅店发放导入弹框 -->
+        <script type="text/ng-template" id="hallImportModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title" id="hall-import-title"><img class="icon" src="../../resources/images/icon_import.png">发放明细导入</h3>
+            </div>
+            <div class="temp-down">
+                <span class="temp-down-name">模板下载：</span>
+                <a ng-href="{{$ctrl.grantUploadTemplete}}" class="temp-down-link" target="_blank">模板下载</a>
+                <span class="temp-down-tip">* 提醒：导入之前请下载最新模版</span>
+            </div>
+            <div class="temp-import">
+                <span class="temp-import-name">选择Excel文件：</span>
+                <label class="temp-import-link">选择文件
+                    <input type="file" id="hallImportInput" ng-click="$ctrl.checkFiles()" />
+                </label>
+                <div class="temp-import-files" ng-repeat="file in $ctrl.files">
+                    <p class="import-file-name" ng-bind="file.name"></p>
+                    <progress style="width:100%;" value="{{file.loaded}}" max="{{file.size}}"></progress>
+                    <p class="import-file-state" ng-cloak ng-if="$ctrl.resp">导入结果：{{$ctrl.resp.success ? '成功' : '失败'}} <span class="import-file-result" ng-cloak ng-if="!$ctrl.resp.success">失败原因：{{$ctrl.resp.msg}}</span></p>
+                </div>
+            </div>
+            <div class="modal-footer" id="hall-import-footer">
+                <button class="btn btn-submit" type="button" ng-disabled="$ctrl.isNotAllowUpload" ng-click="$ctrl.btn_upload()">确定导入</button>
+                <button class="btn btn-cancel" type="button" ng-disabled="$ctrl.isNotAllowClose" ng-click="$ctrl.cancel()">关闭</button>
+            </div>
+        </script>
+    </div>
+    <script src="../../resources/js/require.js" data-main="entry"></script>
+</body>
+
+</html>
