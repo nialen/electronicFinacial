@@ -1,14 +1,34 @@
 .display-inline-block {
     display: inline-block;
 }
-.iconfont {
-    display: inline-block;
-}
 .operate-spec {
     padding: 10px 20px 0;
     font-size: 12px;
-    font-family: 'microsoft yahei';
     color: #333;
+}
+.redpacket-name {
+    height: 22px;
+    line-height: 22px;
+    color: #333;
+}
+.datepicker-input {
+    position: relative;
+}
+.datepicker-input input {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+.icon_time {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #ffb366;
+    cursor: pointer;
+}
+.activity-name {
+    margin-right: 100px;
 }
 .operate-spec-query {
     padding: 10px 15px;
@@ -31,6 +51,14 @@
     margin: 0;
     line-height: 32px;
     border: 1px solid #ddd;
+}
+.add-redpacket .result-header {
+    border-bottom: none;
+}
+.redpacket-input {
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
 }
 .result-header .title {
     position: relative;
@@ -59,7 +87,6 @@
     border-color: #ffc619;
     color: #fff;
     font-size: 12px;
-    margin-top: 2px;
 }
 .btn-set:focus, .btn-set.focus {
     background-color: #e4ae0c;
@@ -70,6 +97,21 @@
     background-color: #e4ae0c;
     border-color: #e4ae0c;
     color: #fff;
+}
+.result-content table th {
+    background-color: #f5fafa;
+    border-bottom-width: 1px !important;
+    color: #333;
+    font-weight: 800;
+    text-align: center;
+}
+.result-content table td {
+    padding: 2px !important;
+    text-align: center;
+}
+.result-content table td p {
+    height: 25px;
+    line-height: 25px;
 }
 .result-table table th {
     background-color: #f5fafa;
@@ -155,6 +197,9 @@
 .form-group textarea {
     width: 100% !important;
 }
+.datepicker-input {
+    position: relative;
+}
 .datepicker-text {
     width: 10%;
     height: 25px;
@@ -191,8 +236,6 @@
     border-radius: 5px;
     color: #fff;
 }
-
-/* ng-cloak修复闪跳 */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
     display: none !important;
 }
@@ -236,8 +279,6 @@
 .dropdown-menu {
     padding: 1px;
 }
-
-/* 表单提示 */
 .prompt {
     position: absolute;
     right: -100px;
@@ -246,35 +287,6 @@
     height: 25px;
     line-height: 25px;
     color: #ff0000;
-}
-
-/* select2 */
-.ui-select-multiple.ui-select-bootstrap {
-    width: 100%;
-    height: 25px;
-    padding: 0 5px;
-    border-radius: 4px;
-}
-.ui-select-multiple.ui-select-bootstrap>div {
-    line-height: 25px;
-    height: 25px;
-    text-align: left;
-    overflow-y: auto;
-}
-.ui-select-multiple.ui-select-bootstrap .ui-select-no-choice {
-    display: none;
-}
-.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
-    line-height: 18px;
-}
-.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
-    height: 18px;
-    margin-right: 4px;
-    line-height: 18px;
-    border: none;
-    background-color: #f5f5f5;
-    color: #333;
-    border-radius: 2px;
 }
 .areaname::after {
     content: ',';
@@ -460,7 +472,7 @@
 }
 .activity-header .title {
     position: relative;
-    padding-left: 32px;
+    padding-left: 24px;
     line-height: 28px;
 }
 .activity-header .title img {
@@ -478,7 +490,7 @@
 .activity-content .table {
     margin-bottom: 0;
 }
-.activity-content td {
+.activity-content table td {
     padding: 2px 15px !important;
     line-height: 24px !important;
     border-top: 1px solid #ddd;
@@ -496,9 +508,6 @@
 .activity-content .form-control-half {
     width: 50%;
 }
-.activity-content .datepicker-input {
-    width: 100%;
-}
 .activity-content .datepicker-input .icon_time {
     line-height: normal;
 }
@@ -507,12 +516,6 @@
 }
 .activity-content .modal-input-half {
     width: 50%;
-}
-.activity-content .iconfont {
-    margin-left: 6px;
-    line-height: 24px;
-    color: #fdb26c;
-    font-size: 16px;
 }
 .activity-header-s {
     height: 30px;
@@ -525,8 +528,8 @@
     line-height: 30px;
 }
 .activity-header-s .title img {
-    top: 6px;
-    left: 8px;
+    top: 4px;
+    left: 0;
 }
 .activity-header-s .title p {
     color: #3cc250;
@@ -543,14 +546,8 @@
     background-color: #f5fafa;
     border-bottom-width: 1px !important;
 }
-.activity-content .table .iconfont {
-    color: #fff;
-}
 .activity-header-s .btn {
-    margin-right: -7px;
-}
-.activity-content .table .btn {
-    margin: 0;
+    margin-top: 2px;
 }
 .activity-action-btns {
     margin-bottom: 10px;
@@ -574,54 +571,38 @@
 .modal-content .activity-content td {
     padding: 2px 5px !important;
 }
-.area-select {
-    position: relative;
-    width: 100% !important;
-    margin: 0 !important;
-}
-.redpacket-wrap .table-bordered {
-    border: 0;
-    margin-bottom: 0;
-}
-.redpacket-wrap .table-bordered > thead > tr > th {
-    height: 20px;
-    padding: 5px;
-    line-height: 20px;
-    background-color: #f5fafa;
-    border: 0;
-    color: #faa214;
-}
-.table-bordered > tbody > tr > td {
-    padding: 2px 20px;
-    border-left: 0;
-    text-align: center;
-}
-.redpacket-wrap .table-bordered > tbody > tr:last-of-type >td {
-    border-bottom: none;
-}
-.redpacket-wrap table {
-    border-bottom: 1px solid #ddd !important;
-}
-.redpacket-item {
-    height: 25px;
-    line-height: 25px;
-}
-.redpacket-input {
-    height: 25px;
-    padding: 0 12px;
-    line-height: 25px;
-}
-.datepicker-input {
-    position: relative;
-    width: 100%;
-}
-.datepicker-input input {
-    width: 100% !important;
-    height: 25px;
-    padding: 0 12px;
-    line-height: 25px;
+.result-content-activity.no-bdl {
+    border-left: none;
 }
 
+/* select2 */
+.ui-select-multiple.ui-select-bootstrap {
+    width: 100%;
+    height: 25px;
+    padding: 0 5px;
+    border-radius: 4px;
+}
+.ui-select-multiple.ui-select-bootstrap>div {
+    height: 25px;
+    line-height: 25px;
+    text-align: left;
+    overflow-y: auto;
+}
+.ui-select-multiple.ui-select-bootstrap .ui-select-no-choice {
+    display: none;
+}
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+    line-height: 18px;
+}
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+    height: 18px;
+    margin-right: 4px;
+    line-height: 18px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #333;
+    border-radius: 2px;
+}
 .temp-down {
     height: 30px;
     line-height: 30px;
@@ -688,26 +669,4 @@
 }
 .import-file-result {
     margin-left: 20px;
-}
-
-.red-foundation-head {
-    margin: 0;
-    border: 1px solid #ddd;
-    border-bottom: none;
-}
-.red-foundation-head .title {
-    height: 30px;
-    line-height: 30px;
-    font-size: 0;
-}
-.red-foundation-head .title .icon-title {
-    width: 20px;
-    height: 20px;
-    margin-top: 5px;
-    margin-right: 5px;
-    vertical-align: top;
-}
-.red-foundation-head .title .text-title {
-    color: #3cc250;
-    font-size: 12px;
 }
