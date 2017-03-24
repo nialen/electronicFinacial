@@ -191,6 +191,8 @@
     border-radius: 5px;
     color: #fff;
 }
+
+/* ng-cloak修复闪跳 */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide:not(.ng-hide-animate) {
     display: none !important;
 }
@@ -254,9 +256,13 @@
     border-radius: 4px;
 }
 .ui-select-multiple.ui-select-bootstrap>div {
-    line-height: 19px;
+    line-height: 25px;
+    height: 25px;
     text-align: left;
     overflow-y: auto;
+}
+.ui-select-multiple.ui-select-bootstrap .ui-select-no-choice {
+    display: none;
 }
 .ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
     line-height: 18px;
