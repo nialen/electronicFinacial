@@ -1623,11 +1623,11 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             });
             $scope.addNewLine = function() {
                 // TODO 打开红包设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('添加红包', '/page/returnAddRedPacket/returnAddRedPacket.html', 'returnAddRedPacket', JSON.stringify());
+                parent.angular.element(parent.$('#tabs')).scope().addTab('添加红包', '/page/addRedPacket/addRedPacket.html', 'addRedPacket', JSON.stringify());
             };
             $scope.addNewVolume = function() {
                 // TODO 打开代金劵设置页面-新建
-                parent.angular.element(parent.$('#tabs')).scope().addTab('添加代金劵', '/page/returnAddRedPacketVoucher/returnAddRedPacketVoucher.html', 'returnAddRedPacketVoucher', JSON.stringify());
+                parent.angular.element(parent.$('#tabs')).scope().addTab('添加代金劵', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher', JSON.stringify());
             };
             $scope.editLine = function(index) {
                 // TODO 打开红包设置页面-编辑
