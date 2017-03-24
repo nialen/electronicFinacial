@@ -9,7 +9,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             var id = window.frameElement && window.frameElement.id || '',
                 obj = parent.$('#' + id).attr('data');
             var paramData = obj ? JSON.parse(obj) : {
-                'rscSpecCd': '', // 代金券红包2；现金红包3；代金券4
+                'rscSpecCd': '4', // 代金券红包2；现金红包3；代金券4
                 'rscName': '', // 活动名称
                 'faceMoney': '',
                 'totalNum': '',
@@ -595,7 +595,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('areaMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedAreaList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedAreaList = httpMethod.getAttrValue(rscAttrs, '210028') ? httpMethod.getAttrValue(rscAttrs, '210028').split(',') : [];
             vm.areaList = []; //所有地区列表
             var param = {
                 level: '3'
@@ -611,7 +612,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 _.map(vm.checkedAreaList, function(item, index) {
                     arr.push(item.areaId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210028';
                 });
@@ -620,13 +620,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('voucherTypeMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210025') ? httpMethod.getAttrValue(rscAttrs, '210025').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210025';
                 });
@@ -635,13 +635,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('validityTypeMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210029') ? httpMethod.getAttrValue(rscAttrs, '210029').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210029';
                 });
@@ -650,13 +650,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('invoiceListMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210038') ? httpMethod.getAttrValue(rscAttrs, '210038').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210038';
                 });
@@ -665,13 +665,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('salesChannelMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210039') ? httpMethod.getAttrValue(rscAttrs, '210039').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210039';
                 });
@@ -680,13 +680,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('userLevelMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210040') ? httpMethod.getAttrValue(rscAttrs, '210040').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210040';
                 });
@@ -967,27 +967,25 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $filter, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function() {
+                var frame;
                 switch (paramData.documentId) {
                     case 'retrunAddRedPacketVoucher':
-                        paramData.rscSpecCd = '2';
-                        var frame = window.parent.frames['activityReturn'];
+                        frame = window.parent.frames['activityReturn'];
                         if (frame) {
-                            //发送消息
                             frame.contentWindow.postMessage(paramData, '*');
                             parent.angular.element(parent.$('#tabs')).scope().removeTab();
                         };
                         break;
-                    case 'subAddRedPacketVoucher':
-                        var frame;
-                        if (window.parent.frames['addRedPacket']) {
-                            paramData.rscSpecCd = '2';
-                            frame = window.parent.frames['addRedPacket'];
-                        } else if (window.parent.frames['returnAddRedPacket']) {
-                            paramData.rscSpecCd = '4';
-                            frame = window.parent.frames['returnAddRedPacket'];
-                        };
+                    case 'subReturnRedPacketVoucher':
+                        frame = window.parent.frames['returnAddRedPacket'];
                         if (frame) {
-                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                    case 'subVoucherRedPacketVoucher':
+                        frame = window.parent.frames['voucherAddRedPacket'];
+                        if (frame) {
                             frame.contentWindow.postMessage(paramData, '*');
                             parent.angular.element(parent.$('#tabs')).scope().removeTab();
                         };

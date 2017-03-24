@@ -1628,9 +1628,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 parent.angular.element(parent.$('#tabs')).scope().addTab('设置代金劵', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'retrunAddRedPacketVoucher');
             };
             $scope.editLine = function(item) {
-                // TODO 编辑 区别代金券，红包
                 switch(item.rscSpecCd) {
-                    case '3':
+                    case '2':
                         parent.angular.element(parent.$('#tabs')).scope().addTab('设置红包', '/page/addRedPacket/addRedPacket.html', 'returnAddRedPacket', JSON.stringify(item));
                         break;
                     case '4':
