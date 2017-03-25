@@ -17,7 +17,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
             var id = window.frameElement && window.frameElement.id || '',
                 obj = parent.$('#' + id).attr('data');
             var paramData = obj ? JSON.parse(obj) : {
-                'rscSpecCd': 2, //固定值
+                'rscSpecCd': '2', //固定值
                 'rscName': '',
                 'faceMoney': '',
                 'totalNum': '',
@@ -115,6 +115,7 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 }],
                 'subResources': []
             };
+            paramData.documentId = id; // 区别来源
             return paramData;
         }])
         .factory('httpMethod', ['$http', '$q', function($http, $q) {
@@ -309,13 +310,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('redPacketTypeMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210001') ? httpMethod.getAttrValue(rscAttrs, '210001').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210001';
                 });
@@ -324,13 +325,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('newUsermanMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210003') ? httpMethod.getAttrValue(rscAttrs, '210003').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210003';
                 });
@@ -339,13 +340,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('oldUsermanMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210004') ? httpMethod.getAttrValue(rscAttrs, '210004').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210004';
                 });
@@ -354,13 +355,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('receiveLimitMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210005') ? httpMethod.getAttrValue(rscAttrs, '210005').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210005';
                 });
@@ -369,13 +370,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('userHouseMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210006') ? httpMethod.getAttrValue(rscAttrs, '210006').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210006';
                 });
@@ -384,13 +385,13 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('forbidUrlMultipleCtrl', ['$scope', '$rootScope', '$log', 'httpMethod', 'paramData', function($scope, $rootScope, $log, httpMethod, paramData) {
             var vm = this;
-            vm.checkedList = [];
+            var rscAttrs = _.get(paramData, 'rscAttrs');
+            vm.checkedList = httpMethod.getAttrValue(rscAttrs, '210008') ? httpMethod.getAttrValue(rscAttrs, '210008').split(',') : [];
             vm.changeCallback = function(item, model) {
                 var arr = [];
                 _.map(vm.checkedList, function(item, index) {
                     arr.push(item.attrValueId);
                 });
-                var rscAttrs = _.get(paramData, 'rscAttrs');
                 var index = _.findIndex(rscAttrs, function(item) {
                     return item.attrId === '210008';
                 });
@@ -448,30 +449,50 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 });
             });
             $scope.addNewLine = function() {
-                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher');
+                switch(paramData.documentId) {
+                    case 'returnAddRedPacket':
+                        parent.angular.element(parent.$('#tabs')).scope().addTab('代金券设置', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'subReturnRedPacketVoucher');
+                        break;
+                    case 'voucherAddRedPacket':
+                        parent.angular.element(parent.$('#tabs')).scope().addTab('代金券设置', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'subVoucherRedPacketVoucher');
+                        break;
+                };
             };
             $scope.editLine = function(item) {
-                parent.angular.element(parent.$('#tabs')).scope().addTab('代金券申请', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'addRedPacketVoucher', JSON.stringify(item));
-            }
+                switch(paramData.documentId) {
+                    case 'returnAddRedPacket':
+                        parent.angular.element(parent.$('#tabs')).scope().addTab('代金券设置', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'subReturnRedPacketVoucher', JSON.stringify(item));
+                        break;
+                    case 'voucherAddRedPacket':
+                        parent.angular.element(parent.$('#tabs')).scope().addTab('代金券设置', '/page/addRedPacketVoucher/addRedPacketVoucher.html', 'subVoucherRedPacketVoucher', JSON.stringify(item));
+                        break;
+                };
+            };
             $scope.delLine = function(index) {
                 $scope.subResources.splice(index, 1);
             }
         }])
         .controller('submitCtrl', ['$scope', '$rootScope', '$log', '$timeout', 'paramData', 'httpMethod', function($scope, $rootScope, $log, $timeout, paramData, httpMethod) {
             $scope.submitApply = function() {
-                var frame = window.parent.frames['merchantVoucherRedEnvelopes'];
-                if (frame) {
-                    //发送消息
-                    frame.contentWindow.postMessage(paramData, '*');
-                    parent.angular.element(parent.$('#tabs')).scope().removeTab();
-                } else {
-                    swal({
-                        title: '操作提醒',
-                        text: '请勿关闭红包申请信息填写页面',
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
-                }
+                var frame;
+                switch(paramData.documentId) {
+                    case 'returnAddRedPacket':
+                        frame = window.parent.frames['activityReturn'];
+                        if (frame) {
+                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                    case 'voucherAddRedPacket':
+                        frame = window.parent.frames['merchantVoucherRedEnvelopes'];
+                        if (frame) {
+                            //发送消息
+                            frame.contentWindow.postMessage(paramData, '*');
+                            parent.angular.element(parent.$('#tabs')).scope().removeTab();
+                        };
+                        break;
+                };
             }
         }])
 });
