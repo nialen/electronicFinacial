@@ -339,8 +339,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
                 $scope.showFoundation = !$scope.showFoundation;
             };
             $scope.resources = paramData.resources; // TODO 接收postMessage传过来的数据，update；
-            $($window).on("message", function() {
-                var redPacketObj = event.data,
+            $($window).on("message", function(event) {
+                var redPacketObj = event.originalEvent.data,
                     index = _.findIndex($scope.resources, function(item) {
                         return item.rscId === redPacketObj.rscId;
                     });

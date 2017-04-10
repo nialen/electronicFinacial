@@ -400,8 +400,8 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
         }])
         .controller('redFoundationCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', '$window', 'paramData', function($scope, $rootScope, $filter, $log, $timeout, $window, paramData) {
             $scope.subResources = paramData.subResources; // TODO 接收postMessage传过来的数据，update；
-            $($window).on("message", function() {
-                var redPacketVoucherObj = event.data,
+            $($window).on("message", function(event) {
+                var redPacketVoucherObj = event.originalEvent.data,
                     index = _.findIndex($scope.subResources, function(item) {
                         return item.rscId === redPacketVoucherObj.rscId;
                     });

@@ -129,7 +129,7 @@ define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], fun
              * @id DOM的ID
              * @data 传递给DOM的数据
              */
-            $scope.addTab = function(title, view, id, data) {              
+            $scope.addTab = function(title, view, id, data) {
                 if(!httpConfig.isDevEnvironment){
                     var index = view.indexOf('/', 1);
                     view = view.slice(index);
@@ -202,14 +202,13 @@ define(['angular', 'jquery', 'sweetalert', 'httpConfig', 'angular-animate'], fun
                 link: function($scope, iElm, iAttrs, controller) {
                     if ($('#accordion-tabs').length > 0) {
                         $('#accordion-tabs').each(function() {
-                            var accordion = $(this);
-                            accordion.on('change', 'input[type="checkbox"]', function() {
-                                var checkbox = $(this);
-                                (checkbox.prop('checked')) ? checkbox.siblings('ul').attr('style', 'display:none;').slideDown(300): checkbox.siblings('ul').attr('style', 'display:block;').slideUp(300);
+                            var _this = $(this);
+                            _this.on('click', 'input[type="checkbox"]', function() {
+                                $(this).prop('checked', true).siblings('ul').attr('style', 'display:none;').slideDown(300);
+                                $(this).parents('.accordion-tabs').siblings().find('input[type="checkbox"]').prop('checked', false).siblings('ul').attr('style', 'display:block;').slideUp(0);
                             });
                         });
                     }
-
                 }
             };
         })
