@@ -1,0 +1,169 @@
+.map-box {
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+.map-content{
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 8px;
+    bottom: 46px;
+    width: calc(100% - 40px);
+    min-width: 890px;
+    border: 1px solid #dddddd;
+}
+.map-footer{
+    position: absolute;
+    bottom:0;
+    left:0;
+    padding-top: 8px;
+    height: 46px;
+    width: 100%;
+}
+.search {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 99;
+    width: 400px;
+    height: 40px;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px #b0aca7;
+    border-radius: 2px;
+}
+.search .search-icon{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 59px;
+    height:40px;
+    background: #3084ff;
+    border: none;
+    color: #fff;
+    text-align: center;
+    line-height:40px;
+    overflow: hidden;
+    outline: none;
+}
+.search .search-icon .iconfont{
+    display: block;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.search-input {
+    position: absolute;
+    left: 59px;
+    top: 0;
+    display: block;
+    width: 340px;
+    height: 40px;
+    padding-left: 10px;
+    border: none;
+    outline: none;
+    color: #666;
+}
+
+.lat-lon {
+    position: absolute;
+    top: 23px;
+    right: 8px;
+    z-index: 99;
+    width: 404px;
+    height: 36px;
+}
+
+.lat-lon-value {
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    width: 150px;
+    height: 36px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 0 5px #b0aca7;
+    border-radius: 2px;
+    line-height: 36px;
+    overflow: hidden;
+}
+
+.lat-lon-value .num {
+    height: 0.875rem;
+    padding-left: 7px;
+    border: none;
+    outline: none;
+    color: #333;
+    border-left: 1px solid #9b9b9b;
+}
+
+.lat-lon-loc {
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    width: 241px;
+    height: 36px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px #b0aca7;
+    border-radius: 2px;
+    line-height: 36px;
+    overflow: hidden;
+}
+
+.lat-lon-loc .num {
+    height: 0.875rem;
+    padding-left: 7px;
+    border: none;
+    outline: none;
+    color: #333;
+    border-left: 1px solid #9b9b9b;
+}
+.lat-lon-loc .iconfont, .lat-lon-value .iconfont{
+    padding: 0 5px 0 6px;
+    color: #ffc02b;
+    font-size: 16px;
+}
+
+.zoom-scale {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    margin-top: -108px;
+    width: 36px;
+    height: 215px;
+    box-sizing: border-box;
+    padding: 0 2px;
+    box-shadow: 0 0 5px #b0aca7;
+    border-radius: 2px;
+}
+
+.scale-item {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid #999;
+    color: #333;
+    text-align: center;
+}
+
+.scale-item.current {
+    color: #53bd26;
+}
+
+.scale-item:last-of-type {
+    border-bottom: none;
+}
+
+.scale-title {
+    height: 60px;
+    font-size: 8px;
+    line-height: 12px;
+}
+
+.scale-title .iconfont {
+    display: block;
+    margin-bottom: 6px;
+    padding-top: 10px;
+    color: #ffc02b;
+    font-size: 16px;
+}
