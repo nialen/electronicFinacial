@@ -1,11 +1,5 @@
 .ats-switch {
-  border: 1px solid;
-  cursor: pointer;
-  display: inline-block;
-  text-align: left;
-  overflow: hidden;
-  line-height: 8px;
-  min-width: 100px;
+  margin-left:20px;
 }
 .ats-switch.disabled {
   opacity: 0.5;
@@ -21,16 +15,13 @@
   cursor: pointer;
   display: inline-block;
   float: left;
-  height: 100%;
-  line-height: 20px;
-  padding: 4px;
+  width:24px;
+  height:24px;
+  line-height: 24px; 
+  font-size:12px;
   text-align: center;
-  width: 33%;
-  white-space: nowrap;
-  box-sizing: border-box;
-  -o-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+  background: none;
+  border-radius: 24px;   
 }
 .ats-switch > div {
   position: relative;
@@ -45,10 +36,18 @@
   z-index: 100;
 }
 .ats-switch .switch-on {
-  left: 0%;
+  width:50px;
+  height:26px;
+  line-height: 23px;
+  background: #6fbd4d;
+  border-radius: 15px;
 }
 .ats-switch .switch-off {
-  left: -50%;
+  width:50px;
+  height:26px;
+  line-height: 23px;
+  background: #ccc7c6;
+  border-radius: 15px;
 }
 .ats-switch .swtich-left,
 .ats-switch .switch-right {
@@ -56,11 +55,20 @@
 }
 .ats-switch .switch-left {
   color: #fff;
-  background: #005fcc;
+  margin:1px 0 0 1px;
+}
+.ats-switch .switch-off .switch-left{
+  background: #fff;
+  color:#b2aead;
 }
 .ats-switch .switch-right {
-  color: #333;
-  background: #f0f0f0;
+  margin:1px 1px 0 0;
+  background-color: #fff;
+  color:#6fbd4d;
+}
+.ats-switch .switch-off .switch-right{
+  background: #ccc7c6;
+  color:#fff;
 }
 .ats-switch .switch-animate {
   transition: left 0.5s;

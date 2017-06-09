@@ -314,46 +314,6 @@
 .coding-box.b2 .border-left-none {
     width: calc(100% - 300px);
 }
-.openclose-btn{
-    width:50px;
-    height:26px;
-    line-height: 23px;
-    background: #6fbd4d;
-    border-radius: 15px;
-    margin-left:20px;
-}
-.openclose-btn.grey{
-    background: #ccc7c6;
-}
-.openclose-btn.grey .open{
-    background: #fff;
-    color:#b2aead;
-}
-.openclose-btn.grey .closed{
-    background: #ccc7c6;
-    color:#fff;
-}
-.openclose-btn button{
-    width:24px;
-    height:24px;
-    border:0;
-    background: none;
-    border-radius: 24px;
-    color:#fff; 
-    font-size:12px;  
-    outline: none;
-}
-.openclose-btn .open{
-    float: left;
-    margin:1px 0 0 1px;
-}
-.openclose-btn .closed{
-    float: left;
-    margin:1px 1px 0 0;
-    background-color: #fff;
-    color:#6fbd4d;
-}
-
 /* 分页 */
 .page {
     position: relative;

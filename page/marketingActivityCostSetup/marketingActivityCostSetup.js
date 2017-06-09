@@ -86,21 +86,6 @@ angular
     }])
     .controller('setupActivityCostModalCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', 'items', function($uibModalInstance, $scope, $rootScope, $log, items) {
         var $ctrl = this;
-
-        $ctrl.itemone = true;
-        $ctrl.itemtwo = true;
-        $ctrl.itemthree = true;
-
-        $ctrl.toggleone = function(item){
-            $ctrl.itemone = !item;           
-        };
-        $ctrl.toggletwo = function(item){
-            $ctrl.itemtwo = !item;          
-        };
-        $ctrl.togglethree = function(item){
-            $ctrl.itemthree = !item;          
-        };
-
         $ctrl.ok = function() {
             // swal({
             //     title: '提交成功',

@@ -175,10 +175,9 @@
                                 <option value="">20%</option>
                             </select>
                         </div>
-                        <div class="openclose-btn" ng-class="{'grey': $ctrl.itemone}">
-                            <button class="open" ng-click="$ctrl.toggleone($ctrl.itemone);">开</button>
-                            <button class="closed" ng-click="$ctrl.toggleone($ctrl.itemone);">关</button>
-                        </div>
+                        <p ng-init="itemone = true">
+                            <div toggle-switch class="switch-primary switch-large" on-label='开' off-label='关' ng-model="itemone"></div>
+                        </p>
                     </div>
                 </div>
                 <div class="row mb20">
@@ -190,10 +189,9 @@
                             </select>
                         </div>
                         <input type="text" class="form-control border-left-none">
-                        <div class="openclose-btn" ng-class="{'grey': $ctrl.itemtwo}">
-                            <button class="open" ng-click="$ctrl.toggletwo($ctrl.itemtwo);">开</button>
-                            <button class="closed" ng-click="$ctrl.toggletwo($ctrl.itemtwo);">关</button>
-                        </div>
+                        <p ng-init="itemtwo = true">
+                            <div toggle-switch class="switch-primary switch-large" on-label='开' off-label='关' ng-model="itemtwo"></div>
+                        </p>
                     </div>
                 </div>
                 <div class="row mb20">
@@ -205,10 +203,9 @@
                             </select>
                         </div>
                         <input type="text" class="form-control border-left-none">
-                        <div class="openclose-btn" ng-class="{'grey': $ctrl.itemthree}">
-                            <button class="open" ng-click="$ctrl.togglethree($ctrl.itemthree);">开</button>
-                            <button class="closed" ng-click="$ctrl.togglethree($ctrl.itemthree);">关</button>
-                        </div>
+                        <p ng-init="itemthree = true">
+                            <div toggle-switch class="switch-primary switch-large" on-label='开' off-label='关' ng-model="itemthree"></div>
+                        </p>
                     </div>
                 </div>  
             </div>   
@@ -231,7 +228,7 @@
     <script src="../../resources/js/sweetalert.min.js"></script>
     <script src="../../resources/js/mock.js"></script>
     <script src="../../resources/js/select.js"></script>
-    <script src="../../resources/js/angular-toggle-switch.min.js"></script>
+    <script src="../../resources/js/angular-toggle-switch.js"></script>
     <script src="marketingActivityCostSetup.js"></script>
 </body>
 
