@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>营销活动成本预警配置</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="../../resources/css/angular-toggle-switch.css">
+    <link rel="stylesheet" href="marketingActivityCostSetup.css">
+</head>
+
+<body ng-app="marketingCostSetupModule">
+    <div class="operate-spec">
+        <!-- 查询 -->
+        <div class="operate-spec-query" ng-cloak ng-controller="queryCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_userPrivilege.png">
+                        <p class="title-cn">活动成本警告设置</p>
+                        <p class="title-en">Active component warning settings</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button class="btn btn-xs btn-set" ng-click="activityCostSetup()"><i class="iconfont">&#xe601;</i> 设置</button>
+                </div>
+            </div>
+            <div class="row mb10">
+                <div class="col-xs-5">
+                    <div class="form-group">
+                        <label class="control-label">活动剩余天数：</label>
+                        <div class="select-box sec1">
+                            <select class="form-control">
+                                <option value="">按百分比</option>
+                            </select>
+                        </div>
+                        <div class="select-box">
+                            <select class="form-control">
+                                <option value="">20%</option>
+                            </select>
+                        </div>
+                        <button class="use-btn">已启用</button>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <div class="form-group">
+                        <label class="control-label">活动剩余成本：</label>
+                        <div class="select-box sec1">
+                            <select class="form-control">
+                                <option value="">按固定值</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control border-left-none">
+                        <button class="use-btn none">非启用</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb10">
+                <div class="col-xs-5">
+                    <div class="form-group">
+                        <label class="control-label">剩余成本可开展活动天数：</label>
+                        <div class="select-box sec1">
+                            <select class="form-control">
+                                <option value="">按固定值</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control border-left-none">
+                        <button class="use-btn">已启用</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 结果 -->
+        <div class="operate-spec-result" ng-cloak ng-controller="marketingCostResultCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_userPrivilege.png">
+                        <p class="title-cn">预警手机号码设置</p>
+                        <p class="title-en">Early warning phone number settings</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button class="btn btn-xs btn-set" ng-click="addTel()"><i class="iconfont">&#xe60e;</i> 添加</button>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="28%">手机号码</th>
+                            <th width="28%">归属地市</th>
+                            <th width="28%">设置时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>156XXXXXXXX</p>
+                            </td>
+                            <td>
+                                <p>成都市</p>
+                            </td>
+                            <td>
+                                <p>2017-05-31 16:53:50</p>
+                            </td>
+                            <td>
+                                <button class="btn btn-xs btn-edit"><i class="iconfont">&#xe616;</i> 注销</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="no-data" ng-if="queryOperateResultList && !queryOperateResultList.length">
+                    没有数据
+                </p>
+            </div>
+            <div ng-controller="paginationCtrl" class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="curPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
+            </div>
+        </div>
+        <!-- 添加 -->
+        <script type="text/ng-template" id="addTelModal.html">
+            <div class="modal-header">
+                <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+                <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon-tell.png">添加新预警手机号码</h3>
+            </div>
+            <div class="coding-box">
+                <div class="row mb47 mt30">
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label class="control-label">手机号码：</label>  
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <label class="control-label">归属地市：</label>
+                            <div class="select-box">
+                                <select class="form-control">
+                                    <option value="">成都</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">保存</button>
+                <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">取消</button>
+            </div>
+        </script>
+        <!-- 设置 -->
+        <script type="text/ng-template" id="setupActivityCostModal.html">
+            <div class="modal-header">
+                <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+                <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/icon-setup.png">添加新预警手机号码</h3>
+            </div>
+            <div class="coding-box b2">
+                <div class="row mb20 mt30">
+                    <div class="form-group">
+                        <label class="control-label">活动剩余天数：</label>
+                        <div class="select-box sec1">
+                            <select class="form-control">
+                                <option value="">按百分比</option>
+                            </select>
+                        </div>
+                        <div class="select-box">
+                            <select class="form-control">
+                                <option value="">20%</option>
+                            </select>
+                        </div>
+                        <p ng-init="itemone = true">
+                            <div toggle-switch class="switch-primary switch-large" on-label='开' off-label='关' ng-model="itemone"></div>
+                        </p>
+                    </div>
+                </div>
+                <div class="row mb20">
+                    <div class="form-group">
+                        <label class="control-label">活动剩余成本：</label>
+                        <div class="select-box sec1">
+                            <select class="form-control">
+                                <option value="">按固定值</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control border-left-none">
+                        <p ng-init="itemtwo = true">
+                            <div toggle-switch class="switch-primary switch-large" on-label='开' off-label='关' ng-model="itemtwo"></div>
+                        </p>
+                    </div>
+                </div>
+                <div class="row mb20">
+                    <div class="form-group">
+                        <label class="control-label">剩余成本可开展活动天数：</label>
+                        <div class="select-box sec1">
+                            <select class="form-control">
+                                <option value="">按固定值</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control border-left-none">
+                        <p ng-init="itemthree = true">
+                            <div toggle-switch class="switch-primary switch-large" on-label='开' off-label='关' ng-model="itemthree"></div>
+                        </p>
+                    </div>
+                </div>  
+            </div>   
+            <div class="modal-footer">
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">保存</button>
+                <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">取消</button>
+            </div>
+        </script>
+    </div>
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="../../resources/js/angular-toggle-switch.js"></script>
+    <script src="marketingActivityCostSetup.js"></script>
+</body>
+
+</html>

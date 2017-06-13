@@ -29,4 +29,7 @@
     * 活动申请管理 **activityApplyfor**
     * 活动审批管理 **activityRequestManagement**
     * 审批流程图 **approvalProcess**
-    
+
+**统计报表(静态页面)**
+    * 营销活动成本统计报表 **marketingActivityCostReport**
+    * 营销活动成本预警配置 **marketingActivityCostSetup**

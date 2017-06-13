@@ -1,0 +1,78 @@
+.ats-switch {
+  margin-left:20px;
+}
+.ats-switch.disabled {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  cursor: default !important;
+}
+.ats-switch.disabled .switch-left,
+.ats-switch.disabled .switch-right,
+.ats-switch.disabled .knob {
+  cursor: default !important;
+}
+.ats-switch span {
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  width:24px;
+  height:24px;
+  line-height: 24px; 
+  font-size:12px;
+  text-align: center;
+  background: none;
+  border-radius: 24px;   
+}
+.ats-switch > div {
+  position: relative;
+  width: 150%;
+}
+.ats-switch .knob {
+  background: red;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  background-color: #f5f5f5;
+  width: 34%;
+  z-index: 100;
+}
+.ats-switch .switch-on {
+  width:50px;
+  height:26px;
+  line-height: 23px;
+  background: #6fbd4d;
+  border-radius: 15px;
+}
+.ats-switch .switch-off {
+  width:50px;
+  height:26px;
+  line-height: 23px;
+  background: #ccc7c6;
+  border-radius: 15px;
+}
+.ats-switch .swtich-left,
+.ats-switch .switch-right {
+  z-index: 1;
+}
+.ats-switch .switch-left {
+  color: #fff;
+  margin:1px 0 0 1px;
+}
+.ats-switch .switch-off .switch-left{
+  background: #fff;
+  color:#b2aead;
+}
+.ats-switch .switch-right {
+  margin:1px 1px 0 0;
+  background-color: #fff;
+  color:#6fbd4d;
+}
+.ats-switch .switch-off .switch-right{
+  background: #ccc7c6;
+  color:#fff;
+}
+.ats-switch .switch-animate {
+  transition: left 0.5s;
+  -o-transition: left 0.5s;
+  -moz-transition: left 0.5s;
+  -webkit-transition: left 0.5s;
+}
