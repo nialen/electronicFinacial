@@ -11,6 +11,7 @@
     url('../fonts/iconfont.ttf') format('truetype'),
     url('../fonts/iconfont.svg#iconfont') format('svg');
 }
+
 .iconfont {
     font-family: "iconfont";
     font-size: 14px;
@@ -258,4 +259,20 @@ body {
 
 .form-control {
     font-size: 12px;
+}
+
+/* popover */
+.pop-icon {
+    margin-left: 4px;
+    color: #ffa54c;
+    vertical-align: middle;
+}
+
+.popover {
+    border-color: #ffb31a;
+    border-radius: 0;
+}
+
+.popover.right > .arrow {
+    border-right-color: #ffb31a;
 }
