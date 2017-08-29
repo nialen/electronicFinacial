@@ -3,15 +3,22 @@
  * Date 2016-09-06
  */
 
+// @font-face {
+//     font-family: 'iconfont';  /* project id 144758 */
+//     src: url('../fonts/iconfont.eot');
+//     src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+//     url('../fonts/iconfont.woff') format('woff'),
+//     url('../fonts/iconfont.ttf') format('truetype'),
+//     url('../fonts/iconfont.svg#iconfont') format('svg');
+// }
 @font-face {
-    font-family: 'iconfont';  /* project id 144758 */
-    src: url('../fonts/iconfont.eot');
-    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/iconfont.woff') format('woff'),
-    url('../fonts/iconfont.ttf') format('truetype'),
-    url('../fonts/iconfont.svg#iconfont') format('svg');
+  font-family: 'iconfont';  /* project id 144758 */
+  src: url('http://at.alicdn.com/t/font_144758_b3xne0ikkcgl23xr.eot');
+  src: url('http://at.alicdn.com/t/font_144758_b3xne0ikkcgl23xr.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_144758_b3xne0ikkcgl23xr.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_144758_b3xne0ikkcgl23xr.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_144758_b3xne0ikkcgl23xr.svg#iconfont') format('svg');
 }
-
 .iconfont {
     font-family: "iconfont";
     font-size: 14px;

@@ -33,3 +33,6 @@
 **统计报表(静态页面)**
     * 营销活动成本统计报表 **marketingActivityCostReport**
     * 营销活动成本预警配置 **marketingActivityCostSetup**
+
+**活动名称及描述模板审批管理(静态页面)**
+    * 商户活动审批管理 **activityApproveManage**
