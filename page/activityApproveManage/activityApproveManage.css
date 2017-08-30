@@ -313,7 +313,7 @@
 .form-group-first label {
     position: absolute;
     left: 0;
-    width: 90px !important;
+    width: 120px !important;
     line-height: 25px;
     text-align: right;
 }
@@ -321,6 +321,12 @@
     position: relative;
     width: 100% !important;
     padding-left: 80px;
+}
+.form-group-first.txt{
+    padding-left: 120px;
+}
+.form-group.txt select{
+    text-indent: 16px;
 }
 .modal-header{
     padding: 4px 10px;
