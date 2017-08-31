@@ -89,7 +89,6 @@ define(['angular', 'jquery', 'httpConfig', 'sweetalert', 'lodash', 'mock', 'sele
 
             //商户现金红包申请提交
             httpMethod.apply = function(param) {
-                debugger
                 var defer = $q.defer();
                 $http({
                     url: httpConfig.siteUrl + '/efmp-activity-web/activity/apply',
