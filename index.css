@@ -1,324 +1,374 @@
 /* 头部 */
+
 .header {
-    min-width: 1200px;
-	height: 45px;
-	background-color: #ff8c19;
+  min-width: 1200px;
+  height: 45px;
+  background-color: #ff8c19;
 }
+
 .header-logo {
-    height: 45px;
-    padding-right: 10px;
-	background: url(../images/line.png) no-repeat right bottom;
+  height: 45px;
+  padding-right: 10px;
+  background: url(../images/line.png) no-repeat right bottom;
 }
+
 .logo {
-	display: block;
-	height: 35px;
-	margin-top: 5px;
-	margin-left: 10px;
+  display: block;
+  height: 35px;
+  margin-top: 5px;
+  margin-left: 10px;
 }
+
 .header-topbar {
-	position: relative;
-	height: 45px;
+  position: relative;
+  height: 45px;
 }
+
 .header-topbar .remind {
-	height: 20px;
-    margin-top: 12px;
-    margin-left: 10px;
-    padding: 0 10px;
-    border-left: 1px solid #fc6d00;
-    border-right: 1px solid #fc6d00;
-	line-height: 20px;
+  height: 20px;
+  margin-top: 12px;
+  margin-left: 10px;
+  padding: 0 10px;
+  border-left: 1px solid #fc6d00;
+  border-right: 1px solid #fc6d00;
+  line-height: 20px;
 }
+
 .header-topbar .remind .remind-item {
-	position: relative;
-	display: inline-block;
-	width: 20px;
-    height: 20px;
-	margin-right: 15px;
-	cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  cursor: pointer;
 }
+
 .header-topbar .remind .remind-item:last-of-type {
-    margin-right: 0;
+  margin-right: 0;
 }
+
 .header-topbar .remind .remind-item .drogue {
-	position: absolute;
-	top: -8px;
-	left: 12px;
-	max-width: 24px;
-	height: 16px;
-	padding: 0 5px;
-	background-color: #ff403d;
-	border-radius: 8px;
-	line-height: 16px;
-	color: #fff;
-	font-size: 12px;
-	overflow: hidden;
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  max-width: 24px;
+  height: 16px;
+  padding: 0 5px;
+  background-color: #ff403d;
+  border-radius: 8px;
+  line-height: 16px;
+  color: #fff;
+  font-size: 12px;
+  overflow: hidden;
 }
+
 .header-topbar .search {
-	width: 200px;
-	height: 28px;
-	margin-top: 8px;
+  width: 200px;
+  height: 28px;
+  margin-top: 8px;
 }
+
 .header-topbar .search-input {
-	width: 200px;
-	height: 30px;
-	padding-left: 26px;
-	border: 1px solid #fff;
-	border-radius: 16px;
+  width: 200px;
+  height: 30px;
+  padding-left: 26px;
+  border: 1px solid #fff;
+  border-radius: 16px;
 }
+
 .header-topbar .search-icon {
-	position: absolute;
-	left: 10px;
-	top: 8px;
-	color: #99b3c2;
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  color: #99b3c2;
 }
+
 .header-topbar .user {
-	height: 34px;
-	margin-top: 5px;
-    margin-left: 10px;
-    padding-right: 10px;
-	line-height: 34px;
+  height: 34px;
+  margin-top: 5px;
+  margin-left: 10px;
+  padding-right: 10px;
+  line-height: 34px;
 }
+
 .header-topbar .user .photo {
-	display: block;
-	width: 33px;
-	height: 33px;
-	margin-right: 6px;
-	border: 1px solid #da730b;
-	border-radius: 20px;
+  display: block;
+  width: 33px;
+  height: 33px;
+  margin-right: 6px;
+  border: 1px solid #da730b;
+  border-radius: 20px;
 }
+
 .header-topbar .user .name {
-	color: #ac4a00;
-	font-size: 14px;
-    white-space: nowrap;
+  color: #ac4a00;
+  font-size: 14px;
+  white-space: nowrap;
 }
+
 .header-topbar .login-out {
-    height: 20px;
-    margin-top: 12px;
-    padding-left: 35px;
-    padding-right: 30px;
-    background: url("../images/icon-14.png") no-repeat 10px 0;
-    border-left: 1px solid #fc6d00;
-    line-height: 20px;
-    color: #ac4a00;
-    font-size: 14px;
-    cursor: pointer;
+  height: 20px;
+  margin-top: 12px;
+  padding-left: 35px;
+  padding-right: 30px;
+  background: url("../images/icon-14.png") no-repeat 10px 0;
+  border-left: 1px solid #fc6d00;
+  line-height: 20px;
+  color: #ac4a00;
+  font-size: 14px;
+  cursor: pointer;
 }
+
 .index-content {
-    position: relative;
-    min-width: 1200px;
+  position: relative;
+  min-width: 1200px;
 }
+
 /* 手风琴 */
+
 .accordion-list {
-    position: absolute;
-    left: 0;
-    top: 0;
-	width: 180px;
-	min-height: 520px;
-	background-color: #353130;
-	color: #fff;
-    overflow: hidden;
-    transition: all linear 0.5s;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 180px;
+  min-height: 520px;
+  background-color: #353130;
+  color: #fff;
+  overflow: hidden;
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
 }
+
 .accordion-list .accordion-title {
-	height: 40px;
-	padding-left: 20px;
-	line-height: 40px;
-	color: #ccc7c6;
-	font-size: 14px;
-	font-weight: 800;
-    overflow: hidden;
+  height: 40px;
+  padding-left: 20px;
+  line-height: 40px;
+  color: #ccc7c6;
+  font-size: 14px;
+  font-weight: 800;
+  overflow: hidden;
 }
+
 .accordion-list .iconfont {
-	margin-right: 8px;
+  margin-right: 8px;
 }
+
 .icon-601:before {
-	content: "\e601";
+  content: "\e601";
 }
+
 .icon-602:before {
-	content: "\e602";
+  content: "\e602";
 }
+
 .icon-603:before {
-	content: "\e603";
+  content: "\e603";
 }
+
 .icon-604:before {
-	content: "\e604";
+  content: "\e604";
 }
+
 .icon-605:before {
-	content: "\e605";
+  content: "\e605";
 }
+
 .icon-606:before {
-	content: "\e606";
+  content: "\e606";
 }
+
 .accordion-tabs {
-    width: 180px;
-	line-height: 30px;
-    overflow: hidden;
+  width: 180px;
+  line-height: 30px;
+  overflow: hidden;
 }
+
 .accordion-tabs label .iconfont {
-	color: #ccc7c6;
+  color: #ccc7c6;
 }
-.accordion-tabs input[type=checkbox]:checked + label .iconfont {
-	color: #ffac55;
+
+.accordion-tabs input[type=checkbox]:checked+label .iconfont {
+  color: #ffac55;
 }
+
 .accordion-tabs .icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-    margin-right: 2px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 2px;
 }
+
 .accordion-tabs input[type=checkbox] {
-	display: none;
+  display: none;
 }
+
 .accordion-tabs label {
-	width: 100%;
-	height: 40px;
-	padding: 0 15px 0 20px;
-	background-color: #302c2b;
-	line-height: 40px;
-	color: #ccc7c6;
-	font-size: 14px;
-	cursor: pointer;
+  width: 100%;
+  height: 40px;
+  padding: 0 15px 0 20px;
+  background-color: #302c2b;
+  line-height: 40px;
+  color: #ccc7c6;
+  font-size: 14px;
+  cursor: pointer;
 }
-.accordion-tabs input[type=checkbox]:checked + label {
-	border-bottom: 1px solid #262322;
+
+.accordion-tabs input[type=checkbox]:checked+label {
+  border-bottom: 1px solid #262322;
 }
+
 .accordion-tabs label::after {
-	font-family: 'iconfont';
-	content: '\e608';
-	float: right;
-	width: 14px;
-	height: 40px;
-	line-height: 40px;
-	color: #ddd;
-	text-align: center;
+  font-family: 'iconfont';
+  content: '\e608';
+  float: right;
+  width: 14px;
+  height: 40px;
+  line-height: 40px;
+  color: #ddd;
+  text-align: center;
 }
-.accordion-tabs input[type=checkbox]:checked + label::after {
-	content: '\e607';
+
+.accordion-tabs input[type=checkbox]:checked+label::after {
+  content: '\e607';
 }
+
 .accordion-tabs label.link::after {
-    display: none;
+  display: none;
 }
+
 .accordion-tabs-list {
-	height: 28px;
-	margin-left: 26px;
-	/*padding-left: 20px;*/
-	/*background: url(../images/icon1.png) no-repeat 0 0;*/
-	line-height: 46px;
-	cursor: pointer;
+  height: 28px;
+  margin-left: 26px;
+  /*padding-left: 20px;*/
+  /*background: url(../images/icon1.png) no-repeat 0 0;*/
+  line-height: 46px;
+  cursor: pointer;
 }
+
 .accordion-tabs-list:hover {
-	color: #ff8c19;
+  color: #ff8c19;
 }
+
 .accordion-tabs-list.hover {
-	color: #ff8c19;
+  color: #ff8c19;
 }
+
 .accordion-tabs-list:last-of-type {
-	margin-bottom: 16px;
+  margin-bottom: 16px;
 }
+
 /* tab主体 */
+
 .tab-container {
-    padding-left: 180px;
-    width: 100%;
-    min-height: 520px;
-    transition: all linear 0.5s;
+  padding-left: 180px;
+  width: 100%;
+  min-height: 520px;
+  -webkit-transition: all linear 0.5s;
+  transition: all linear 0.5s;
 }
+
 .full {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .slide-toggle {
-    position: absolute;
-    top: 200px;
-    width: 20px;
-    height: 135px;
-    padding: 58px 0;
-    color: #d9d4d3;
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, .5);
-}
-.slide-toggle::after {
-    font-family: 'iconfont';
-    content: '\e622';
+  position: absolute;
+  top: 200px;
+  width: 20px;
+  height: 135px;
+  padding: 58px 0;
+  color: #d9d4d3;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .5);
 }
 
-.full .slide-toggle::after{
-    font-family: 'iconfont';
-    content: '\e621';
+.slide-toggle::after {
+  font-family: 'iconfont';
+  content: '\e622';
+}
+
+.full .slide-toggle::after {
+  font-family: 'iconfont';
+  content: '\e621';
 }
 
 .slide-toggle input {
-    display: none;
+  display: none;
 }
 
 .nothing {
-    width: 0;
+  width: 0;
 }
+
 .tabs-title {
-	height: 32px;
-	padding-left: 1px;
-	background-color: #f7f5f0;
-	// border-bottom: 1px solid #ddd;
-	overflow: hidden;
-	position: relative;
+  height: 32px;
+  padding-left: 1px;
+  background-color: #f7f5f0; // border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  position: relative;
 }
+
 .tabs-title ul {
-	width: 9999px;
+  width: 9999px;
 }
+
 .tabs-title .title {
-	position: relative;
-	display: inline-block;
-	height: 32px;
-	padding: 0 26px 0 8px;
-	border-right: 1px solid #ddd;
-	line-height: 32px;
-	color: #666;
-	font-size: 14px;
+  position: relative;
+  display: inline-block;
+  height: 32px;
+  padding: 0 26px 0 8px;
+  border-right: 1px solid #ddd;
+  line-height: 32px;
+  color: #666;
+  font-size: 14px;
 }
+
 .tabs-title .title.current {
-	color: #4795e7;
-	background: #fff;
-	z-index:1;
+  color: #4795e7;
+  background: #fff;
+  z-index: 1;
 }
+
 .tabs-title .title-line {
-	position: absolute;
-	left: -1px;
-	top: 0;
-	display: block;
-	width: calc(100% + 2px);
-	height: 3px;
-	background-color: #65aefc;
+  position: absolute;
+  left: -1px;
+  top: 0;
+  display: block;
+  width: calc(100% + 2px);
+  height: 3px;
+  background-color: #65aefc;
 }
+
 .tabs-title .title .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	color: #ccc;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #ccc;
 }
+
 .tabs-title .title.current .close {
-	color: #4795e7;
+  color: #4795e7;
 }
+
 .tabs-content {
-    min-height: 488px;
+  min-height: 488px;
 }
+
 .iframe-box {
-	width: 100%;
-    min-height: 488px;
+  width: 100%;
+  min-height: 488px;
 }
 
 .sweet-alert {
-    top: 50%;
-}
-.tabs-title .line{
-	position: absolute;
-	width:100%;
-	height:1px;
-	background: #ddd;
-	bottom:0px;
-	left: 0;
+  top: 50%;
 }
 
-
-
-
-
+.tabs-title .line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+  bottom: 0px;
+  left: 0;
+}

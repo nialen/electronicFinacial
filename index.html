@@ -2,28 +2,28 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>电子金融平台营销子系统</title>
-    <link rel="stylesheet" href="/resources/css/sweetalert.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <link rel="stylesheet" href="/resources/css/reset.css">
-    <link rel="stylesheet" href="/resources/css/common.css">
-    <link rel="stylesheet" href="/index.css">
+  <meta charset="UTF-8">
+  <title>电子金融平台营销子系统</title>
+  <link rel="stylesheet" href="/resources/css/sweetalert.css">
+  <link rel="stylesheet" href="/resources/css/bootstrap.css">
+  <link rel="stylesheet" href="/resources/css/reset.css">
+  <link rel="stylesheet" href="/resources/css/common.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
 
 <body ng-controller="indexCtrl">
-    <div class="index-content" id="tabs" ng-controller="tabsCtrl">
-        <div class="accordion-list" ng-class="{nothing: checked}" ng-controller="accordionCtrl">
-            <accordion-list-directive lists="lists" value="value" add-tab="addTab()"></accordion-list-directive>
-        </div>
-        <div class="tab-container" ng-class="{full: checked}">
-            <label for="toggle-btn" class="slide-toggle" ng-model="checked"></label>
-            <input id="toggle-btn" type="checkbox" ng-model="checked" class="hidden">
-            <tabs-title-directive remove-tab="removeTab()"></tabs-title-directive>
-            <tabs-content-directive></tabs-content-directive>
-        </div>
+  <div class="index-content" id="tabs" ng-controller="tabsCtrl">
+    <div class="accordion-list" ng-class="{nothing: checked}" ng-controller="accordionCtrl">
+      <accordion-list-directive lists="lists" value="value" add-tab="addTab()"></accordion-list-directive>
     </div>
-    <script src="/resources/js/require.js" data-main="entry"></script>
+    <div class="tab-container" ng-class="{full: checked}">
+      <label for="toggle-btn" class="slide-toggle" ng-model="checked"></label>
+      <input id="toggle-btn" type="checkbox" ng-model="checked" class="hidden">
+      <tabs-title-directive remove-tab="removeTab()"></tabs-title-directive>
+      <tabs-content-directive></tabs-content-directive>
+    </div>
+  </div>
+  <script src="/resources/js/require.js" data-main="entry"></script>
 </body>
 
 </html>
