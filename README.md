@@ -51,3 +51,9 @@
 ```
 * 商户活动审批管理 **activityApproveManage**
 ```
+
+```
+* 活动报名城市管理 **activitySignupCitiesManage**
+* 活动报名管理 **activitySignupManage**
+* 活动报名商户管理 **activitySignupStoresManage**
+```

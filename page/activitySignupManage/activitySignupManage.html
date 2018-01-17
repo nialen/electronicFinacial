@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>活动报名管理</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css">
+    <link href="../../resources/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../resources/css/reset.css">
+    <link rel="stylesheet" href="../../resources/css/common.css">
+    <link rel="stylesheet" href="../../resources/css/select.css">
+    <link rel="stylesheet" href="activitySignupManage.css">
+</head>
+
+<body ng-app="distributionQueryModule">
+    <div class="operate-spec" ng-controller="queryOperateFormCtrl">
+        <!-- 查询 -->
+        <div class="operate-spec-query" ng-cloak>
+            <form name="queryOperateForm" ng-submit="queryOperateFormSubmit()" class="form-inline" role="form">
+                <div class="row mb10">
+                    <div class="col-xs-4">
+                        <div class="form-group form-group-first">
+                            <label class="control-label">
+                                <div class="select-box">
+                                    <select>
+                                        <option>活动名称</option>
+                                        <option>活动名称2</option>
+                                    </select>
+                                </div>
+                            </label>
+                            <input type="text" class="form-control border-left-none">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="control-label">
+                                <div class="select-box">
+                                    <select>
+                                        <option>活动状态</option>
+                                        <option>活动状态2</option>
+                                    </select>
+                                </div>
+                            </label>
+                            <select class="select-border border-left-none">
+                                <option value="">立减</option>
+                                <option value="">新增</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="control-label">
+                                <div class="select-box time">
+                                    <select>
+                                        <option>活动开展时间</option>
+                                        <option>活动名称2</option>
+                                    </select>
+                                </div>
+                            </label>
+                            <div class="datepicker-input fn-left">
+                                <input type="text" id="createStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createStartDt" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                <span class="icon_time" ng-click="startOpen()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                            <div class="datepicker-text fn-left">至</div>
+                            <div class="datepicker-input fn-left">
+                                <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createEndDt" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                <span class="icon_time" ng-click="endOpen()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>      
+                </div>
+                <div class="row mb10">
+                    <div class="col-xs-4">
+                        <div class="form-group form-group-first">
+                            <label class="control-label">活动开展地区：</label>
+                            <select class="select-border">
+                                <option value="">成都</option>
+                                <option value="">南京</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-8 text-right">
+                        <button type="submit" class="btn btn-sm btn-query"><i class="iconfont">&#xe600;</i> 查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 结果 -->
+        <div class="operate-spec-result" ng-cloak ng-controller="queryOperateResultCtrl">
+            <div class="row result-header">
+                <div class="col-xs-4">
+                    <div class="title">
+                        <img src="../../resources/images/icon_store.png">
+                        <p class="title-cn">活动报名商户列表</p>
+                        <p class="title-en">List of active applicants</p>
+                    </div>
+                </div>
+                <div class="col-xs-8 text-right">
+                    <button class="btn btn-xs btn-set-green" ng-click="signupDetail()"><i class="iconfont">&#xe60b;</i> 报名详情</button>
+                </div>
+            </div>
+            <div class="result-table">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="6%">选择</th>
+                            <th width="15%">活动编码</th>
+                            <th width="20%">活动名称</th>
+                            <th width="15%">活动开展地市</th>
+                            <th width="15%">活动报名日期</th>
+                            <th width="10%">活动报名数量</th>
+                            <th>活动报名状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p><input type="radio"></p>
+                            </td>
+                            <td>
+                                <p><span class="font-orange">201703020123223</span></p>
+                            </td>
+                            <td>
+                                <p>新增</p>
+                            </td>
+                            <td>
+                                <p>活动A</p>
+                            </td>
+                            <td>
+                                <p>成都</p>
+                            </td>
+                            <td>
+                                <p>黎明</p>
+                            </td>
+                            <td>
+                                <p>2017/01/01</p>
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><input type="radio"></p>
+                            </td>
+                            <td>
+                                <p><span class="font-orange" ng-click="serialnumber()">201703020123223</span></p>
+                            </td>
+                            <td>
+                                <p>新增</p>
+                            </td>
+                            <td>
+                                <p>活动A</p>
+                            </td>
+                            <td>
+                                <p>成都</p>
+                            </td>
+                            <td>
+                                <p>黎明</p>
+                            </td>
+                            <td>
+                                <p>2017/01/01</p>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><input type="radio"></p>
+                            </td>
+                            <td>
+                                <p><span class="font-orange" ng-click="serialnumber()">201703020123223</span></p>
+                            </td>
+                            <td>
+                                <p>新增</p>
+                            </td>
+                            <td>
+                                <p>活动A</p>
+                            </td>
+                            <td>
+                                <p>成都</p>
+                            </td>
+                            <td>
+                                <p>黎明</p>
+                            </td>
+                            <td>
+                                <p>2017/01/01</p>
+                            </td>   
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="no-data" ng-if="queryOperateResultList && !queryOperateResultList.length">
+                    没有数据
+                </p>
+            </div>
+            <div ng-controller="paginationCtrl" class="text-center page">
+                <ul uib-pagination total-items="totalNum" items-per-page="rowNumPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()" class="pagination-sm" boundary-links="true" rotate="false" first-text="首页" last-text="尾页" previous-text="<" next-text=">"></ul>
+                <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
+            </div>
+        </div>
+    </div>
+    <!-- 报名详情 -->
+    <script type="text/ng-template" id="costSharingModal.html">
+        <div class="modal-header">
+            <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+            <h3 class="modal-title" id="detail-modal-title"><i class="iconfont">&#xe675;</i> 提示</h3>
+        </div>
+        <div class="coding-box">
+            <p class="remind"><i class="iconfont">&#xe676;</i> 请选择需查询的活动报名信息！</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">关闭</button>
+        </div>
+    </script>
+    <!-- 报名详情 -->
+    
+    <script src="../../resources/js/angular.min.js"></script>
+    <script src="../../resources/js/angular-touch.min.js"></script>
+    <script src="../../resources/js/angular-animate.min.js"></script>
+    <script src="../../resources/js/angular-aria.min.js"></script>
+    <script src="../../resources/js/jquery.min.js"></script>
+    <script src="../../resources/js/bootstrap.min.js"></script>
+    <script src="../../resources/js/ui-bootstrap.js"></script>
+    <script src="../../resources/js/ui-bootstrap-tpls-2.1.3.js"></script>
+    <script src="../../resources/js/angular-locale_zh-cn.js"></script>
+    <script src="../../resources/js/lodash.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../resources/js/mock.js"></script>
+    <script src="../../resources/js/select.js"></script>
+    <script src="../../resources/js/jquery.qrcode.min.js"></script>
+    <script src="activitySignupManage.js"></script>
+</body>
+
+</html>
