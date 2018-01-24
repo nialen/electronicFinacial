@@ -323,6 +323,26 @@ angular
             });
         };
     }])
+    // 活动开展城市
+    .controller('cityCtrl', ['$log', 'httpMethod', 'paramData', function($log, httpMethod, paramData) {
+        var vm = this;
+
+        vm.checkedStateList = [];
+        vm.stateList = [{
+            areaName: '南京'
+        },{
+            areaName: '合肥'
+        },{
+            areaName: '杭州'
+        }];
+
+        vm.changeCallback = function(item, model) {
+            paramData.states = [];
+            _.map(vm.checkedStateList, function(item, index) {
+                _.set(paramData, ['states', index, 'code'], item.code);
+            });
+        };
+    }])
     // 查询控制器
     .controller('queryOperateFormCtrl', ['$scope', '$rootScope', '$filter', '$log', '$timeout', 'httpMethod', 'paramData', function ($scope, $rootScope, $filter, $log, $timeout, httpMethod, paramData) {
         //分页
@@ -408,12 +428,30 @@ angular
         });
     }])
     // 查询结果控制器
-    .controller('queryOperateResultCtrl', ['$scope', '$rootScope', '$log', 'paramData', 'httpConfig', 'httpMethod', function ($scope, $rootScope, $log, paramData, httpConfig, httpMethod) {
+    .controller('queryOperateResultCtrl', ['$scope', '$rootScope', '$log', 'paramData', 'httpConfig', 'httpMethod', '$uibModal', function ($scope, $rootScope, $log, paramData, httpConfig, httpMethod, $uibModal) {
         // 修改
         // $scope.editQueryOperate = function (index) {
         //     $rootScope.modifiedQueryOperate = $rootScope.queryOperateResultList[index];
         //     parent.angular.element(parent.$('#tabs')).scope().addTab('修改权限规格', '/psm/page/modifyOperate/modifyOperate.html', 'modifyOperate', JSON.stringify($rootScope.modifiedQueryOperate));
         // };
+
+        // 活动发布
+        $scope.activityDetail = function(item) {
+            var modalInstance = $uibModal.open({
+                animation: 'true',
+                ariaLabelledBy: 'resources-modal-title',
+                ariaDescribedBy: 'resources-modal-body',
+                templateUrl: 'businessModal.html',
+                controller: 'businessModalCtrl',
+                controllerAs: '$ctrl',
+                size: 'lg',
+                resolve: {
+                    items: function() {
+                        return item;
+                    }
+                }
+            });
+        };
 
         // 详情
         $scope.infoDistribution = function (activitiId) {
@@ -490,6 +528,89 @@ angular
             window.open(httpConfig.siteUrl + '/activity/exportGiveoutActivity?param=' + JSON.stringify(param));
         }
 
+    }])
+    .controller('businessModalCtrl', ['$uibModalInstance', '$scope', '$rootScope', '$log', 'items', '$timeout', 'paramData', '$filter', function($uibModalInstance, $scope, $rootScope, $log, items, $timeout, paramData, $filter) {
+        var $ctrl = this;
+
+        //时间控件
+        $scope.createStartDt = ''; //制单日期开始
+        $scope.createEndDt = ''; //制单日期结束
+        $scope.startDateOptions = {
+            formatYear: 'yy',
+            maxDate: $scope.createEndDt,
+            startingDay: 1,
+            showWeeks: false
+        };
+        $scope.endDateOptions = {
+            formatYear: 'yy',
+            minDate: $scope.createStartDt,
+            startingDay: 1,
+            showWeeks: false
+        };
+        $scope.$watch('createStartDt', function(newValue) {
+            $scope.endDateOptions.minDate = newValue;
+            paramData.activityStartDate = $filter('date')(newValue, 'yyyyMMdd');
+        });
+        $scope.$watch('createEndDt', function(newValue) {
+            $scope.startDateOptions.maxDate = newValue;
+            paramData.activityEndDate = $filter('date')(newValue, 'yyyyMMdd');
+        });
+        $scope.startOpen = function() {
+            $timeout(function() {
+                $scope.startPopupOpened = true;
+            });
+        };
+        $scope.endOpen = function() {
+            $timeout(function() {
+                $scope.endPopupOpened = true;
+            });
+        };
+        $scope.startPopupOpened = false;
+        $scope.endPopupOpened = false;
+
+        //时间控件2
+        $scope.applyCreateStartDt = ''; //制单日期开始
+        $scope.applyCreateEndDt = ''; //制单日期结束
+        $scope.applyStartDateOptions = {
+            formatYear: 'yy',
+            maxDate: $scope.applyCreateEndDt,
+            startingDay: 1,
+            showWeeks: false
+        };
+        $scope.applyEndDateOptions = {
+            formatYear: 'yy',
+            minDate: $scope.applyCreateStartDt,
+            startingDay: 1,
+            showWeeks: false
+        };
+        $scope.$watch('applyCreateStartDt', function(newValue) {
+            $scope.applyEndDateOptions.minDate = newValue;
+            paramData.activityStartDate = $filter('date')(newValue, 'yyyyMMdd');
+        });
+        $scope.$watch('applyCreateEndDt', function(newValue) {
+            $scope.applyStartDateOptions.maxDate = newValue;
+            paramData.activityEndDate = $filter('date')(newValue, 'yyyyMMdd');
+        });
+        $scope.applyStartOpen = function() {
+            $timeout(function() {
+                $scope.applyStartPopupOpened = true;
+            });
+        };
+        $scope.applyEndOpen = function() {
+            $timeout(function() {
+                $scope.applyEndPopupOpened = true;
+            });
+        };
+        $scope.applyStartPopupOpened = false;
+        $scope.applyEndPopupOpened = false;
+
+        $ctrl.ok = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        $ctrl.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
     }])
     // 分页控制器
     .controller('paginationCtrl', ['$scope', '$rootScope', '$log', function ($scope, $rootScope, $log) {

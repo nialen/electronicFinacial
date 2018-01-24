@@ -309,3 +309,58 @@
     width: 100% !important;
     padding-left: 80px;
 }
+
+
+/*弹窗内样式*/
+.activity-box {
+    padding: 15px 30px 15px 0;
+}
+.select-border {
+    border: 1px solid #ccc!important;
+    border-radius: 4px;
+}
+.form-group .select-border {
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+.notice{
+    width: 60px;
+    height: 25px;
+    text-align: right;
+    line-height: 25px;
+    color: #ff0000;
+}
+.form-group-city label, .form-group-img label {
+    position: absolute;
+    left: 0;
+    width: 120px !important;
+    line-height: 25px;
+    text-align: right;
+}
+.form-group-city {
+    position: relative;
+    width: calc(100% - 60px) !important;
+    padding-left: 120px;
+}
+.form-group-img {
+    position: relative;
+    width: calc(100% - 140px) !important;
+    padding-left: 120px;
+}
+.form-group-img input{
+    width: 100% !important;
+    height: 25px;
+    padding: 0 12px;
+    line-height: 25px;
+}
+.ml6{
+    margin-left: 6px;
+}
