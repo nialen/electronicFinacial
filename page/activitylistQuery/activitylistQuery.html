@@ -101,6 +101,9 @@
                     </div>
                 </div>
                 <div class="col-xs-8 text-right">
+
+                    <button ng-click="activityDetail()" class="btn btn-xs btn-set"><i class="iconfont">&#xe651;</i> 活动发布</button>
+
                     <button ng-click="exportDistribution()" class="btn btn-xs btn-set"><i class="iconfont">&#xe627;</i> 导出</button>
                 </div>
             </div>
@@ -207,6 +210,135 @@
                 <div class="page-num">共<span class="number" ng-cloak ng-bind="totalNum || 0"></span>条记录，当前显示第<span class="number" ng-cloak ng-bind="currentPage || 0"></span>页</div>
             </div>
         </div>
+
+        <!-- 活动发布配置 -->
+        <script type="text/ng-template" id="businessModal.html">
+            <div class="modal-header">
+                <button type="button" class="close iconfont" ng-click="$ctrl.cancel()">&#xe611;</button>
+                <h3 class="modal-title" id="detail-modal-title"><img class="icon" src="../../resources/images/approval_icon.png"> 活动发布配置</h3>
+            </div>
+            <div class="coding-box code-tabs"> 
+                <div class="activity-box">
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动名称：</label>
+                                <input type="text" class="form-control" placeholder="不超过10个汉字">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动编码：</label>
+                                <input type="text" class="form-control" placeholder="根据活动名称自动生成">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">活动描述：</label>
+                                <input type="text" class="form-control" placeholder="不超过100个汉字">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-12 fn-clear">
+                            <div class="form-group-city fn-left" ng-controller="cityCtrl as $ctrl">
+                                <label class="control-label">活动开展城市：</label>
+                                <ui-select multiple limit="3" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedStateList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false">
+                                    <ui-select-match>{{$item.areaName}}</ui-select-match>
+                                    <ui-select-choices repeat="item in $ctrl.stateList">
+                                        {{item.areaName}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <p class="notice fn-left">*可多选</p> 
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">活动开展日期：</label>
+                                <div class="datepicker-input fn-left">
+                                    <input type="text" id="applyCreateStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="applyCreateStartDt" is-open="applyStartPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="applyStartDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="applyStartOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                                <div class="datepicker-text fn-left">至</div>
+                                <div class="datepicker-input fn-left">
+                                    <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="applyCreateEndDt" is-open="applyEndPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="applyEndDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="applyEndOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">报名开展日期：</label>
+                                <div class="datepicker-input fn-left">
+                                    <input type="text" id="createStartDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createStartDt" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="startDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="startOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                                <div class="datepicker-text fn-left">至</div>
+                                <div class="datepicker-input fn-left">
+                                    <input type="text" id="createEndDt" class="form-control modify-input" uib-datepicker-popup readonly ng-model="createEndDt" is-open="endPopupOpened" min-date="minEndDate" max-date="maxEndDate" datepicker-options="endDateOptions" show-button-bar='false' />
+                                    <span class="icon_time" ng-click="endOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-controller="selectStateCtrl as $ctrl">
+                                <label class="control-label">活动报名状态：</label>
+                                <ui-select multiple limit="1" on-select="$ctrl.changeCallback($item, $model)" on-remove="$ctrl.changeCallback($item, $model)" ng-model="$ctrl.checkedStateList" theme="bootstrap" ng-disabled="$ctrl.disabled" close-on-select="false">
+                                    <ui-select-match>{{$item.name}}</ui-select-match>
+                                    <ui-select-choices repeat="states in $ctrl.stateList | filter:$select.search">
+                                        {{states.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="control-label">最大报名数量：</label>
+                                <input type="text" class="form-control" placeholder="未填写时默认无报名数量限制">
+                            </div>
+                        </div>   
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-12">
+                            <div class="form-group-img fn-left">
+                                <label class="control-label">活动报名图片：</label>
+                                <input type="text" class="form-control" placeholder="请上传活动宣传图片，未上传则使用默认图片">
+                            </div>
+                            <div class="form-img-btn fn-right">
+                                <button class="btn btn-sm btn-query">上传</button>
+                                <button class="btn btn-sm btn-query ml6">下载</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb10">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">活动报名简介：</label>
+                                <textarea class="form-control" placeholder="请输入活动规则要求，不超过200个汉字"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-submit" type="button" ng-click="$ctrl.ok()">提交</button>
+                <button class="btn btn-cancel" type="button" ng-click="$ctrl.cancel()">取消</button>
+            </div>
+        </script>
     </div>
     <script src="../../resources/js/angular.min.js"></script>
     <script src="../../resources/js/angular-touch.min.js"></script>
