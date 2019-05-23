@@ -24,10 +24,26 @@ define(["angular", "jquery", "httpConfig", "sweetalert", "lodash", "mock", "angu
       "$rootScope",
       "$log",
       function($scope, $rootScope, $log) {
-        $scope.data = {
-          items2: ["1", "2", "3"],
-          items3: ["11", "21", "31"]
-        };
+        $scope.checkArr = [
+          {
+            level: "1星",
+            age: "1年"
+          }
+        ];
+        $scope.optionArr = [
+          {
+            level: "2-4星",
+            age: "2-4年"
+          },
+          {
+            level: "5-6星",
+            age: "5-6年"
+          },
+          {
+            level: "7星",
+            age: "10年以上"
+          }
+        ];
       }
     ]);
 });

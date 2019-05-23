@@ -21,15 +21,33 @@
             <div class="col-xs-4"><span class="name">资源类型：</span><span class="value">CRM可选包</span></div>
           </div>
         </div>
-        <div sv-root class="multi-sortable" sv-on-sort="onSorted($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-on-start="onStarted($index, $item, $helper, $part)">
-          <div class="sortable-container" sv-part="data.items2">
-            <div ng-repeat="item in data.items2" sv-element class="well multi">
-              {{ item }}
+        <div sv-root class="sortable-wrap" sv-on-sort="onSorted($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-on-start="onStarted($index, $item, $helper, $part)">
+          <div class="multi-sortable sortable-check-wrap">
+            <div class="title">
+              <img src="../../resources/images/icon_list_green.png" />
+              已选星级与网龄关系
+            </div>
+            <div class="sortable-container fn-clear" sv-part="checkArr">
+              <div class="item fn-left" ng-repeat="item in checkArr" sv-element class="well multi">
+                <p class="level">{{ item.level }}</p>
+                <p class="age">
+                  网龄：<span>{{ item.age }}</span>
+                </p>
+              </div>
             </div>
           </div>
-          <div class="sortable-container" sv-part="data.items3">
-            <div ng-repeat="item in data.items3" sv-element class="well multi">
-              {{ item }}
+          <div class="sortable-option-wrap">
+            <div class="title">
+              <img src="../../resources/images/icon_list_gray.png" />
+              待选星级与网龄关系<span>（将此区域的内容托拽到已选星级与网龄关系区域）</span>
+            </div>
+            <div class="sortable-container fn-clear" sv-part="optionArr">
+              <div class="item fn-left" ng-repeat="item in optionArr" sv-element class="well multi">
+                <p class="level">{{ item.level }}</p>
+                <p class="age">
+                  网龄：<span>{{ item.age }}</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

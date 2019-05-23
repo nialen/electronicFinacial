@@ -21,9 +21,52 @@
 .form-wrap-title .value {
   color: #000;
 }
-.grab-handle {
-  height: 60px;
-  line-height: 60px;
+.sortable-wrap .title {
+  position: relative;
+  height: 36px;
+  margin-left: 20px;
+  padding-left: 26px;
+  line-height: 36px;
+  color: #000;
+  font-size: 14px;
+}
+.sortable-wrap .title img {
+  position: absolute;
+  top: 8px;
+  left: 0;
+}
+.sortable-wrap .title span {
+  color: #919191;
+  font-size: 12px;
+}
+.sortable-check-wrap {
+  border-bottom: 1px solid #ddd;
+  background-color: #f5fafa;
+}
+.sortable-container {
+  min-height: 70px;
+  margin: 10px 25px;
+}
+.sortable-container .item {
+  width: 110px;
+  height: 50px;
+  margin: 10px 25px;
+  padding: 5px 10px;
+  border: 1px solid #d5d5d5;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #f7f7f7 0%, #e9e9e9 100%);
+  line-height: 20px;
+  color: #000;
+  font-size: 12px;
+}
+.sortable-container .item .level {
+  font-weight: 700;
+}
+.sortable-container .item .age {
+  color: #868686;
+}
+.sortable-container .item .age span {
+  color: #000;
 }
 .step-ctrl {
   margin-bottom: 20px;
