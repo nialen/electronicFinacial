@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>商户代金券红包申请</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css" />
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../resources/css/reset.css" />
+    <link rel="stylesheet" href="../../resources/css/common.css" />
+    <link rel="stylesheet" href="../../resources/css/select.css" />
+    <link rel="stylesheet" href="resourceStarAndNetworkAgeRelationAllocation.css" />
+  </head>
+
+  <body>
+    <div class="wrapper" ng-controller="resourceStarAndNetworkAgeRelationAllocationCtrl" ng-cloak>
+      <div class="form-wrap">
+        <div class="form-wrap-title">
+          <div class="row">
+            <div class="col-xs-4"><span class="name">资源名称：</span><span class="stress">天翼视讯5折</span></div>
+            <div class="col-xs-4"><span class="name">资源编码：</span><span class="value">50009882</span></div>
+            <div class="col-xs-4"><span class="name">资源类型：</span><span class="value">CRM可选包</span></div>
+          </div>
+        </div>
+        <div sv-root class="multi-sortable" sv-on-sort="onSorted($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-on-start="onStarted($index, $item, $helper, $part)">
+          <div class="sortable-container" sv-part="data.items2">
+            <div ng-repeat="item in data.items2" sv-element class="well multi">
+              {{ item }}
+            </div>
+          </div>
+          <div class="sortable-container" sv-part="data.items3">
+            <div ng-repeat="item in data.items3" sv-element class="well multi">
+              {{ item }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-ctrl text-center">
+        <button class="btn btn-submit">提交</button>
+      </div>
+    </div>
+    <script src="../../resources/js/require.js" data-main="entry"></script>
+  </body>
+</html>

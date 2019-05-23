@@ -1,0 +1,30 @@
+.wrapper {
+  margin: 10px 20px 0;
+}
+.form-wrap {
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+}
+.form-wrap-title {
+  height: 36px;
+  border-bottom: 1px solid #ddd;
+  line-height: 36px;
+  font-size: 14px;
+}
+.form-wrap-title .name {
+  margin-left: 20px;
+  color: #7b7b7b;
+}
+.form-wrap-title .stress {
+  color: #ff8c19;
+}
+.form-wrap-title .value {
+  color: #000;
+}
+.grab-handle {
+  height: 60px;
+  line-height: 60px;
+}
+.step-ctrl {
+  margin-bottom: 20px;
+}
