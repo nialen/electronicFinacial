@@ -23,16 +23,16 @@
 }
 .sortable-wrap .title {
   position: relative;
-  height: 36px;
+  height: 30px;
   margin-left: 20px;
   padding-left: 26px;
-  line-height: 36px;
+  line-height: 30px;
   color: #000;
   font-size: 14px;
 }
 .sortable-wrap .title img {
   position: absolute;
-  top: 8px;
+  top: 5px;
   left: 0;
 }
 .sortable-wrap .title span {
@@ -40,17 +40,21 @@
   font-size: 12px;
 }
 .sortable-check-wrap {
-  border-bottom: 1px solid #ddd;
-  background-color: #f5fafa;
+  width: 50%;
+}
+.sortable-option-wrap {
+  width: 50%;
+  border-right: 1px solid #ddd;
 }
 .sortable-container {
-  min-height: 70px;
-  margin: 10px 25px;
+  min-height: 300px;
+  margin: 5px 24px 25px;
+  background-color: #f5fafa;
 }
 .sortable-container .item {
-  width: 110px;
+  width: 114px;
   height: 50px;
-  margin: 10px 25px;
+  margin: 15px 20px;
   padding: 5px 10px;
   border: 1px solid #d5d5d5;
   border-radius: 3px;
@@ -58,6 +62,17 @@
   line-height: 20px;
   color: #000;
   font-size: 12px;
+}
+.placeholder {
+  float: left;
+  width: 114px;
+  height: 50px;
+  margin: 15px 20px;
+  background: whitesmoke;
+  border: 3px dashed gray;
+  box-sizing: border-box;
+  display: table;
+  text-align: center;
 }
 .sortable-container .item .level {
   font-weight: 700;
@@ -69,5 +84,5 @@
   color: #000;
 }
 .step-ctrl {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }

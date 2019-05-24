@@ -42,6 +42,14 @@ define(["angular", "jquery", "httpConfig", "sweetalert", "lodash", "mock", "angu
           {
             level: "7星",
             age: "10年以上"
+          },
+          {
+            level: "7星",
+            age: "10年以上"
+          },
+          {
+            level: "7星",
+            age: "10年以上"
           }
         ];
       }
