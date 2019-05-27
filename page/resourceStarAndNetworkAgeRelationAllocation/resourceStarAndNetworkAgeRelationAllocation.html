@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>商户代金券红包申请</title>
+    <link rel="stylesheet" href="../../resources/css/sweetalert.css" />
+    <link rel="stylesheet" href="../../resources/css/bootstrap.css" />
+    <link rel="stylesheet" href="../../resources/css/reset.css" />
+    <link rel="stylesheet" href="../../resources/css/common.css" />
+    <link rel="stylesheet" href="../../resources/css/select.css" />
+    <link rel="stylesheet" href="resourceStarAndNetworkAgeRelationAllocation.css" />
+  </head>
+
+  <body>
+    <div class="wrapper" ng-controller="resourceStarAndNetworkAgeRelationAllocationCtrl" ng-cloak>
+      <div class="form-wrap">
+        <div class="form-wrap-title">
+          <div class="row">
+            <div class="col-xs-4"><span class="name">资源名称：</span><span class="stress">天翼视讯5折</span></div>
+            <div class="col-xs-4"><span class="name">资源编码：</span><span class="value">50009882</span></div>
+            <div class="col-xs-4"><span class="name">资源类型：</span><span class="value">CRM可选包</span></div>
+          </div>
+        </div>
+        <div sv-root class="sortable-wrap fn-clear" sv-on-sort="onSorted($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-on-start="onStarted($index, $item, $helper, $part)">
+          <div class="sortable-option-wrap fn-left">
+            <div class="title">
+              <img src="../../resources/images/icon_list_gray.png" />
+              待选星级与网龄关系<span>（将此区域的内容托拽到已选星级与网龄关系区域）</span>
+            </div>
+            <div class="sortable-container fn-clear" sv-part="optionArr">
+              <div sv-placeholder class="placeholder"></div>
+              <div class="item fn-left" ng-repeat="item in optionArr" sv-element class="well multi">
+                <p class="level">{{ item.level }}</p>
+                <p class="age">
+                  网龄：<span>{{ item.age }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="sortable-check-wrap fn-left">
+            <div class="title">
+              <img src="../../resources/images/icon_list_green.png" />
+              已选星级与网龄关系
+            </div>
+            <div class="sortable-container fn-clear" sv-part="checkArr">
+              <div sv-placeholder class="placeholder"></div>
+              <div class="item fn-left" ng-repeat="item in checkArr" sv-element class="well multi">
+                <p class="level">{{ item.level }}</p>
+                <p class="age">
+                  网龄：<span>{{ item.age }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-ctrl text-center">
+        <button class="btn btn-submit">提交</button>
+      </div>
+    </div>
+    <script src="../../resources/js/require.js" data-main="entry"></script>
+  </body>
+</html>
